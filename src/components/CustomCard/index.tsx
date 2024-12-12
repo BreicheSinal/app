@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Card, CardContent, Box } from "@mui/material";
 import "./style.css";
 
 // defining props for CustomCard component
@@ -9,13 +9,19 @@ interface CardProps {
 
 const CustomCard: React.FC<CardProps> = ({ width, height }) => {
   return (
-    <Card
-      className="Card white-bg"
-      sx={{
-        width: width,
-        height: height,
-      }}
-    ></Card>
+    <Box className="Box flex justify-center align-center">
+      <Card
+        className="Card white-bg"
+        sx={{
+          width: width,
+          height: height,
+        }}
+      >
+        <CardContent>
+          <Box className="flex space-between align-center"></Box>
+        </CardContent>
+      </Card>
+    </Box>
   );
 };
 
