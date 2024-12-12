@@ -3,10 +3,12 @@ import "./styles/utilities.css";
 import "./styles/colors.css";
 
 import Card from "./components/CustomCard";
+import NavBar from "./components/NavBar";
 
 const App = () => {
   return (
     <div>
+      <NavBar />
       <Card width={250} height={100} />
     </div>
   );
