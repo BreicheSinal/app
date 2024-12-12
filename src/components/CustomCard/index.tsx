@@ -25,7 +25,7 @@ const CustomCard: React.FC<CardProps> = ({ width, height }) => {
               Welcome!
             </Typography>
             <IconButton>
-              <EditIcon className="primary-color" />
+              <EditIcon className="primary-color" fontSize="small" />
             </IconButton>
           </Box>
           <Typography variant="body2">HALA MADRID!</Typography>
