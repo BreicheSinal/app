@@ -1,4 +1,5 @@
 import { Card } from "@mui/material";
+import "./style.css";
 
 // defining props for CustomCard component
 interface CardProps {
@@ -9,13 +10,10 @@ interface CardProps {
 const CustomCard: React.FC<CardProps> = ({ width, height }) => {
   return (
     <Card
+      className="Card white-bg"
       sx={{
         width: width,
         height: height,
-        borderRadius: "10px",
-        boxShadow: 1,
-        padding: 2,
-        backgroundColor: "white",
       }}
     ></Card>
   );
