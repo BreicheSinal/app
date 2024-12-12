@@ -1,6 +1,6 @@
 import "./style.css";
 
-const NavBar = () => {
+const NavBar: React.FC = () => {
   return <></>;
 };
 
