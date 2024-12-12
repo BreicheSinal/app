@@ -1,6 +1,8 @@
 import "./styles/App.css";
+import "./styles/utilities.css";
 
 import Card from "./components/CustomCard";
+
 const App = () => {
   return (
     <div>
