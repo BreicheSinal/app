@@ -7,7 +7,7 @@ import Card from "./components/CustomCard";
 const App = () => {
   return (
     <div>
-      <Card width={105} height={150} />
+      <Card width={250} height={100} />
     </div>
   );
 };

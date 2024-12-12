@@ -1,4 +1,6 @@
-import { Card, CardContent, Box } from "@mui/material";
+import { Card, CardContent, Box, Typography, IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+
 import "./style.css";
 
 // defining props for CustomCard component
@@ -18,7 +20,15 @@ const CustomCard: React.FC<CardProps> = ({ width, height }) => {
         }}
       >
         <CardContent>
-          <Box className="flex space-between align-center"></Box>
+          <Box className="flex space-between align-center">
+            <Typography variant="h6" gutterBottom>
+              Welcome!
+            </Typography>
+            <IconButton>
+              <EditIcon className="primary-color" />
+            </IconButton>
+          </Box>
+          <Typography variant="body2">HALA MADRID!</Typography>
         </CardContent>
       </Card>
     </Box>
