@@ -1,7 +1,12 @@
 import "./styles/App.css";
 
-function App() {
-  return <></>;
-}
+import Card from "./components/CustomCard";
+const App = () => {
+  return (
+    <div>
+      <Card width={105} height={150} />
+    </div>
+  );
+};
 
 export default App;
