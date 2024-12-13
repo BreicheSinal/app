@@ -14,6 +14,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import ChatIcon from "@mui/icons-material/Chat";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import NoteEvent from "@mui/icons-material/EventNote";
+import Typography from "@mui/material/Typography";
 
 import "./style.css";
 
@@ -150,31 +151,45 @@ export default function PrimarySearchAppBar() {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" className="icon-button">
-              <PeopleIcon />
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              className="icon-button"
-            >
-              <Badge badgeContent={17} color="error">
-                <ChatIcon />
-              </Badge>
-            </IconButton>
-            <IconButton size="large" className="icon-button">
-              <NoteEvent />
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              className="icon-button"
-            >
-              <AccountCircle />
-            </IconButton>
+          <Box
+            className="icons-container"
+            sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
+          >
+            <Box className="icon-container">
+              <IconButton size="large" className="icon-button">
+                <PeopleIcon />
+              </IconButton>
+              <Typography className="icon-text">Connections</Typography>
+            </Box>
+            <Box className="icon-container">
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                className="icon-button"
+              >
+                <Badge badgeContent={17} color="error">
+                  <ChatIcon />
+                </Badge>
+              </IconButton>
+              <Typography className="icon-text">Messaging</Typography>
+            </Box>
+            <Box className="icon-container">
+              <IconButton size="large" className="icon-button">
+                <NoteEvent />
+              </IconButton>
+              <Typography className="icon-text">Try-Outs</Typography>
+            </Box>
+            <Box className="icon-container">
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-haspopup="true"
+                className="icon-button"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Typography className="icon-text">Profile</Typography>
+            </Box>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

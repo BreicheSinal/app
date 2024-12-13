@@ -3,6 +3,23 @@
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) !important;
 }
 
+.icons-container {
+  gap: 30px;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-text {
+  text-align: center;
+  font-size: 0.75rem !important;
+  color: gray;
+}
+
 .icon-button {
   margin-right: 16px;
   background-color: transparent !important;
