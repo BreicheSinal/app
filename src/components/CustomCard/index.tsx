@@ -1,3 +1,4 @@
+import {FC} from 'react'
 import { Card, CardContent, Box, Typography, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -9,7 +10,7 @@ interface CardProps {
   height: number;
 }
 
-const CustomCard: React.FC<CardProps> = ({ width, height }) => {
+const CustomCard: FC<CardProps> = ({ width, height }) => {
   return (
     <Box className="Box flex justify-center align-center">
       <Card

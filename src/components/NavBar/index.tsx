@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, useState, MouseEvent } from "react";
 import {
   Box,
   AppBar,
@@ -19,7 +19,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 
 import "./style.css";
 
-const NavBar: React.FC = () => {
+const NavBar: FC = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
 
@@ -29,7 +29,7 @@ const NavBar: React.FC = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  const handleMobileMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
