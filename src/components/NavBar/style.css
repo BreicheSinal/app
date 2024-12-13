@@ -1,0 +1,36 @@
+.app-bar {
+  background-color: #ffffff !important;
+}
+
+.icon-button {
+  margin-right: 16px;
+  background-color: transparent !important;
+}
+
+.icon-button:hover {
+  background-color: transparent !important;
+}
+
+.icon-button:active {
+  background-color: transparent !important;
+}
+
+.logo {
+  width: 65px;
+}
+
+.search-icon {
+  color: #2684ff;
+}
+
+.search-input {
+  color: #1d2125 !important;
+}
+
+.search-input .MuiInputBase-input {
+  padding-left: calc(1em + 32px);
+}
+
+.search-input .MuiInputBase-input:focus {
+  width: 20ch;
+}
