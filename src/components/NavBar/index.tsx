@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import PeopleIcon from "@mui/icons-material/People";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import ChatIcon from "@mui/icons-material/Chat";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
 import "./style.css";
@@ -96,10 +96,10 @@ export default function PrimarySearchAppBar() {
           color="inherit"
         >
           <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
+            <ChatIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>Messaging</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -153,7 +153,7 @@ export default function PrimarySearchAppBar() {
               className="icon-button"
             >
               <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+                <ChatIcon />
               </Badge>
             </IconButton>
             <IconButton
