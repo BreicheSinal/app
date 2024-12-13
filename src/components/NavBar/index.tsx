@@ -13,6 +13,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import PeopleIcon from "@mui/icons-material/People";
 import ChatIcon from "@mui/icons-material/Chat";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import NoteEvent from "@mui/icons-material/EventNote";
 
 import "./style.css";
 
@@ -102,6 +103,12 @@ export default function PrimarySearchAppBar() {
         <p>Messaging</p>
       </MenuItem>
       <MenuItem>
+        <IconButton size="large" color="inherit">
+          <NoteEvent />
+        </IconButton>
+        <p>Try-Outs</p>
+      </MenuItem>
+      <MenuItem>
         <IconButton
           size="large"
           aria-label="account of current user"
@@ -155,6 +162,9 @@ export default function PrimarySearchAppBar() {
               <Badge badgeContent={17} color="error">
                 <ChatIcon />
               </Badge>
+            </IconButton>
+            <IconButton size="large" className="icon-button">
+              <NoteEvent />
             </IconButton>
             <IconButton
               size="large"
