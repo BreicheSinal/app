@@ -1,5 +1,5 @@
 .app-bar {
-  background-color: #ffffff !important;
+  background-color: #1d2125 !important;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) !important;
 }
 
@@ -12,12 +12,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 .icon-text {
   text-align: center;
   font-size: 0.75rem !important;
-  color: gray;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.button:hover {
+  background-color: transparent !important;
+}
+
+.button:active {
+  background-color: transparent !important;
+}
+
+.icon-text:hover {
+  color: #9ac6ff;
 }
 
 .icon-button {
@@ -39,11 +53,13 @@
 
 .search {
   position: relative;
+  border: 1px solid white;
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.1);
   margin-right: 16px;
   margin-left: 0;
   width: 350px;
+  height: 40px;
 }
 
 .search-icon-wrapper {
@@ -57,11 +73,11 @@
 }
 
 .search-icon {
-  color: #2684ff;
+  color: white;
 }
 
 .search-input {
-  color: #1d2125 !important;
+  color: white !important;
   padding: 8px 8px 8px 32px;
   transition: width 0.3s ease;
   width: 100%;

@@ -9,6 +9,7 @@ import {
   Badge,
   Typography,
   InputBase,
+  Button,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import PeopleIcon from "@mui/icons-material/People";
@@ -100,7 +101,7 @@ const NavBar: FC = () => {
             className="icon-button"
           >
             <img
-              src="src/assets/icons/AthLink_NoText.png"
+              src="src/assets/icons/AthLink_noBG.png"
               alt="Logo"
               className="logo"
             />
@@ -115,34 +116,26 @@ const NavBar: FC = () => {
               inputProps={{ "aria-label": "search" }}
             />
           </div>
+
           <Box sx={{ flexGrow: 1 }} />
           <Box
             className="icons-container"
             sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
           >
             <Box className="icon-container">
-              <IconButton size="large" className="icon-button">
-                <PeopleIcon />
-              </IconButton>
-              <Typography className="icon-text">Connections</Typography>
+              <Button className="button">
+                <Typography className="icon-text">Connections</Typography>
+              </Button>
             </Box>
             <Box className="icon-container">
-              <IconButton
-                size="large"
-                aria-label="show 17 new notifications"
-                className="icon-button"
-              >
-                <Badge badgeContent={17} color="error">
-                  <ChatIcon />
-                </Badge>
-              </IconButton>
-              <Typography className="icon-text">Messaging</Typography>
+              <Button className="button">
+                <Typography className="icon-text">Messaging</Typography>
+              </Button>
             </Box>
             <Box className="icon-container">
-              <IconButton size="large" className="icon-button">
-                <NoteEvent />
-              </IconButton>
-              <Typography className="icon-text">Try-Outs</Typography>
+              <Button className="button">
+                <Typography className="icon-text">Try-Outs</Typography>
+              </Button>
             </Box>
             <Box className="icon-container">
               <IconButton
@@ -150,10 +143,10 @@ const NavBar: FC = () => {
                 aria-label="account of current user"
                 aria-haspopup="true"
                 className="icon-button"
+                sx={{ color: "white" }}
               >
-                <AccountCircle />
+                <AccountCircle sx={{ fontSize: 35 }} />
               </IconButton>
-              <Typography className="icon-text">Profile</Typography>
             </Box>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
