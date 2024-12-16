@@ -1,15 +1,19 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import "./styles/App.css";
 import "./styles/utilities.css";
 import "./styles/colors.css";
 
-import Card from "./components/CustomCard";
-import NavBar from "./components/NavBar";
+import SignUp from "./pages/SignUp";
 
 const App = () => {
   return (
-    <div>
-      <NavBar />
-      <Card width={250} height={100} />
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignUp />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
