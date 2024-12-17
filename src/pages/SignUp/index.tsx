@@ -1,8 +1,31 @@
-import { FC } from "react";
-import { Grid, Box, Typography, TextField } from "@mui/material";
+import { FC, useState, MouseEvent } from "react";
+import {
+  Grid,
+  Box,
+  Typography,
+  TextField,
+  InputAdornment,
+  IconButton,
+  InputLabel,
+} from "@mui/material";
+
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 import "./style.css";
 
 const SignUp: FC = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const handleMouseUpPassword = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <Grid
       container
@@ -91,6 +114,47 @@ const SignUp: FC = () => {
                   borderColor: "#ffffff",
                 },
               },
+            }}
+          />
+
+          <InputLabel sx={{ color: "#2684ff" }}>Password</InputLabel>
+          <TextField
+            sx={{
+              input: { color: "#ffffff" },
+              backgroundColor: "#393939",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "white",
+                },
+                "&:hover fieldset": {
+                  borderColor: "white",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "white",
+                },
+              },
+            }}
+            fullWidth
+            type={showPassword ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label={
+                      showPassword
+                        ? "hide the password"
+                        : "display the password"
+                    }
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    onMouseUp={handleMouseUpPassword}
+                    edge="end"
+                    sx={{ color: "white" }}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
         </Box>
