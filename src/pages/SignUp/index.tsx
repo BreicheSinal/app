@@ -40,15 +40,11 @@ const SignUp: FC = () => {
       sx={{ height: "100vh", backgroundColor: "#1d2125" }}
     >
       <Grid
+        className="flex justify-center align-center"
         item
         xs={12}
         sm={6}
         md={6}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
       >
         <Box
           sx={{
@@ -56,7 +52,12 @@ const SignUp: FC = () => {
             maxWidth: 400,
           }}
         >
-          <Box sx={{ mb: 1 }}>
+          <Box
+            className="flex justify-center align-center"
+            sx={{
+              mb: 1,
+            }}
+          >
             <img
               src="./src/assets/icons/AthLink_noBG.png"
               alt="Logo"
@@ -65,12 +66,12 @@ const SignUp: FC = () => {
           </Box>
 
           <Typography
+            className="bold text-center"
             component="h1"
             variant="h5"
             sx={{
               mb: 2,
               color: "#ffffff",
-              fontWeight: "bold",
             }}
           >
             SIGN UP
@@ -78,7 +79,7 @@ const SignUp: FC = () => {
 
           <InputLabel sx={{ color: "#2684ff" }}>Username</InputLabel>
           <TextField
-            className="text-fields"
+            className="input-fields"
             fullWidth
             name="name"
             autoFocus
@@ -103,7 +104,7 @@ const SignUp: FC = () => {
 
           <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
           <TextField
-            className="text-fields"
+            className="input-fields"
             fullWidth
             name="email"
             sx={{
@@ -126,7 +127,7 @@ const SignUp: FC = () => {
 
           <InputLabel sx={{ color: "#2684ff" }}>Password</InputLabel>
           <TextField
-            className="text-fields"
+            className="input-fields"
             sx={{
               input: { color: "#ffffff" },
               backgroundColor: "#393939",
@@ -148,6 +149,7 @@ const SignUp: FC = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
+                    disableRipple
                     aria-label={
                       showPassword
                         ? "hide the password"
@@ -201,9 +203,8 @@ const SignUp: FC = () => {
           </TextField>
 
           <Box
+            className="flex justify-center"
             sx={{
-              display: "flex",
-              justifyContent: "center",
               mt: 3,
             }}
           >
