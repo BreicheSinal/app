@@ -5,6 +5,7 @@ import "./styles/utilities.css";
 import "./styles/colors.css";
 
 import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignUp />} />
+          <Route path="/login" element={<LogIn />} />
         </Routes>
       </BrowserRouter>
     </div>
