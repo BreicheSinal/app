@@ -8,6 +8,7 @@ import {
   IconButton,
   InputLabel,
   MenuItem,
+  Button,
 } from "@mui/material";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -198,6 +199,26 @@ const SignUp: FC = () => {
             <MenuItem value="club">Club</MenuItem>
             <MenuItem value="federation">Federation</MenuItem>
           </TextField>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mt: 3,
+            }}
+          >
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                px: 4,
+                backgroundColor: "#2684FF",
+                "&:hover": { backgroundColor: "#1565c0" },
+              }}
+            >
+              Sign Up
+            </Button>
+          </Box>
         </Box>
       </Grid>
 
