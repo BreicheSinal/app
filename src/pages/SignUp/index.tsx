@@ -19,7 +19,22 @@ const SignUp: FC = () => {
           justifyContent: "center",
           alignItems: "center",
         }}
-      ></Grid>
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: 400,
+          }}
+        >
+          <Box sx={{ mb: 1 }}>
+            <img
+              src="./src/assets/icons/AthLink_noBG.png"
+              alt="Logo"
+              width={100}
+            />
+          </Box>
+        </Box>
+      </Grid>
 
       <Grid
         item
