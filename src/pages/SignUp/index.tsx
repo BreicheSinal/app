@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Box, Typography, TextField } from "@mui/material";
 import "./style.css";
 
 const SignUp: FC = () => {
@@ -45,6 +45,31 @@ const SignUp: FC = () => {
           >
             SIGN UP
           </Typography>
+
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Name"
+            name="name"
+            autoFocus
+            variant="outlined"
+            sx={{
+              input: { color: "#ffffff" },
+              label: { color: "#ffffff" },
+              backgroundColor: "#393939",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#ffffff",
+                },
+              },
+            }}
+          />
         </Box>
       </Grid>
 
