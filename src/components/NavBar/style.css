@@ -1,0 +1,93 @@
+.app-bar {
+  background-color: #1d2125 !important;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.icons-container {
+  gap: 30px;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-text {
+  text-align: center;
+  font-size: 0.75rem !important;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.button:hover {
+  background-color: transparent !important;
+}
+
+.button:active {
+  background-color: transparent !important;
+}
+
+.icon-text:hover {
+  color: #9ac6ff;
+}
+
+.icon-button {
+  margin-right: 16px;
+  background-color: transparent !important;
+}
+
+.icon-button:hover {
+  background-color: transparent !important;
+}
+
+.icon-button:active {
+  background-color: transparent !important;
+}
+
+.logo {
+  width: 85px;
+}
+
+.search {
+  position: relative;
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-right: 16px;
+  margin-left: 0;
+  width: 350px;
+  height: 40px;
+}
+
+.search-icon-wrapper {
+  padding: 0 16px;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon {
+  color: white;
+}
+
+.search-input {
+  color: white !important;
+  padding: 8px 8px 8px 32px;
+  transition: width 0.3s ease;
+  width: 100%;
+}
+
+.search-input .MuiInputBase-input {
+  padding-left: calc(1em + 1px);
+  padding-right: 10px;
+}
+
+.search-input:focus {
+  width: 20ch;
+}

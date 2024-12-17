@@ -1,12 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+import "./styles/App.css";
+import "./styles/utilities.css";
+import "./styles/colors.css";
 
+import SignUp from "./pages/SignUp";
+
+const App = () => {
   return (
+<<<<<<< HEAD
     <>
       <div>
         <a href="https://vite.dev" target="_blank">
@@ -31,5 +33,16 @@ function App() {
     </>
   )
 }
+=======
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignUp />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
+>>>>>>> 6844d7673b11f1c06a9dad64317c9b6a217b4616
 
-export default App
+export default App;

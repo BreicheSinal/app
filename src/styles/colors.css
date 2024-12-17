@@ -1,0 +1,23 @@
+.primary-color {
+  color: #2684ff;
+}
+
+.secondary-color {
+  color: #1d2125;
+}
+
+.primary-bg-color {
+  background-color: #2684ff;
+}
+
+.secondary-bg-color {
+  background-color: #1d2125;
+}
+
+.off-white-bg {
+  background-color: #f7f3f3;
+}
+
+.white-bg {
+  background-color: #ffffff !important;
+}
