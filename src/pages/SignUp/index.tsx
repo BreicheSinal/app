@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import "./style.css";
 
 const SignUp: FC = () => {
@@ -33,6 +33,18 @@ const SignUp: FC = () => {
               width={100}
             />
           </Box>
+
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
+              mb: 2,
+              color: "#ffffff",
+              fontWeight: "bold",
+            }}
+          >
+            SIGN UP
+          </Typography>
         </Box>
       </Grid>
 
