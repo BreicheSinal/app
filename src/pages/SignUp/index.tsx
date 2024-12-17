@@ -70,6 +70,29 @@ const SignUp: FC = () => {
               },
             }}
           />
+
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Email Address"
+            name="email"
+            sx={{
+              input: { color: "#ffffff" },
+              label: { color: "#ffffff" },
+              backgroundColor: "#393939",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#ffffff",
+                },
+              },
+            }}
+          />
         </Box>
       </Grid>
 
