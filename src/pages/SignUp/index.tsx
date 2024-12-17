@@ -219,6 +219,23 @@ const SignUp: FC = () => {
               Sign Up
             </Button>
           </Box>
+
+          <Box sx={{ textAlign: "center" }}>
+            <Button
+              variant="text"
+              disableRipple
+              sx={{
+                color: "#ffffff",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              Already have an account? Log in
+            </Button>
+          </Box>
         </Box>
       </Grid>
 
