@@ -69,10 +69,10 @@ const SignUp: FC = () => {
             SIGN UP
           </Typography>
 
+          <InputLabel sx={{ color: "#2684ff" }}>Username</InputLabel>
           <TextField
-            margin="normal"
+            className="text-fields"
             fullWidth
-            label="Name"
             name="name"
             autoFocus
             variant="outlined"
@@ -94,10 +94,10 @@ const SignUp: FC = () => {
             }}
           />
 
+          <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
           <TextField
-            margin="normal"
+            className="text-fields"
             fullWidth
-            label="Email Address"
             name="email"
             sx={{
               input: { color: "#ffffff" },
@@ -119,6 +119,7 @@ const SignUp: FC = () => {
 
           <InputLabel sx={{ color: "#2684ff" }}>Password</InputLabel>
           <TextField
+            className="text-fields"
             sx={{
               input: { color: "#ffffff" },
               backgroundColor: "#393939",
