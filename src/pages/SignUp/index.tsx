@@ -7,6 +7,7 @@ import {
   InputAdornment,
   IconButton,
   InputLabel,
+  MenuItem,
 } from "@mui/material";
 
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -15,6 +16,11 @@ import "./style.css";
 
 const SignUp: FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState("");
+
+  const roleChange = (event: any) => {
+    setRole(event.target.value);
+  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -158,6 +164,40 @@ const SignUp: FC = () => {
               ),
             }}
           />
+
+          <InputLabel sx={{ color: "#2684ff" }}>Role</InputLabel>
+          <TextField
+            select
+            fullWidth
+            value={role}
+            onChange={roleChange}
+            sx={{
+              input: { color: "#ffffff" },
+              label: { color: "#ffffff" },
+              backgroundColor: "#393939",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#ffffff",
+                },
+                "& .MuiSelect-icon": {
+                  color: "#ffffff",
+                },
+                "& .MuiInputBase-input": {
+                  color: "#ffffff",
+                },
+              },
+            }}
+          >
+            <MenuItem value="athlete">Athlete</MenuItem>
+            <MenuItem value="club">Club</MenuItem>
+            <MenuItem value="federation">Federation</MenuItem>
+          </TextField>
         </Box>
       </Grid>
 
