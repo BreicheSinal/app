@@ -13,9 +13,16 @@ import "./style.css";
 interface PasswordFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
-const PasswordField: FC<PasswordFieldProps> = ({ value, onChange }) => {
+const PasswordField: FC<PasswordFieldProps> = ({
+  value,
+  onChange,
+  error,
+  helperText,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -29,6 +36,8 @@ const PasswordField: FC<PasswordFieldProps> = ({ value, onChange }) => {
         type={showPassword ? "text" : "password"}
         value={value}
         onChange={onChange}
+        error={error}
+        helperText={helperText}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">

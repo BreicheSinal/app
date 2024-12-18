@@ -20,6 +20,7 @@ const SignUp = () => {
 
   const [usernameError, setUsernameError] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
   const validation = () => {
     let isValid: boolean = true;
@@ -42,6 +43,16 @@ const SignUp = () => {
       isValid = false;
     } else {
       setEmailError("");
+    }
+
+    if (!password.trim()) {
+      setPasswordError("Password is required");
+      isValid = false;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      isValid = false;
+    } else {
+      setPasswordError("");
     }
 
     return isValid;
@@ -95,6 +106,8 @@ const SignUp = () => {
         <PasswordField
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          error={!!passwordError}
+          helperText={passwordError}
         />
 
         <RoleField value={role} onChange={(e) => setRole(e.target.value)} />
