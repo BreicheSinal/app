@@ -5,7 +5,10 @@ import {
   InputLabel,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+
 import { FC, useState, ChangeEvent } from "react";
+
+import "./style.css";
 
 interface PasswordFieldProps {
   value: string;
@@ -21,6 +24,7 @@ const PasswordField: FC<PasswordFieldProps> = ({ value, onChange }) => {
     <>
       <InputLabel sx={{ color: "#2684ff" }}>Password</InputLabel>
       <TextField
+        className="input-fields"
         fullWidth
         type={showPassword ? "text" : "password"}
         value={value}

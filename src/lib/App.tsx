@@ -4,8 +4,8 @@ import "../ui/styles/App.css";
 import "../ui/styles/utilities.css";
 import "../ui/styles/colors.css";
 
-import SignUp from "../pages/SignUp";
-import LogIn from "../pages/LogIn";
+import SignUp from "../ui/pages/SignUp";
+import LogIn from "../ui/pages/LogIn";
 
 const App = () => {
   return (

@@ -1,16 +1,19 @@
 import { TextField, InputLabel } from "@mui/material";
 import { FC, ChangeEvent } from "react";
 
-interface UsernameFieldProps {
+import "./style.css";
+
+interface EmailFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const UsernameField: FC<UsernameFieldProps> = ({ value, onChange }) => {
+const EmailField: FC<EmailFieldProps> = ({ value, onChange }) => {
   return (
     <>
-      <InputLabel sx={{ color: "#2684ff" }}>Username</InputLabel>
+      <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
       <TextField
+        className="input-fields"
         fullWidth
         value={value}
         onChange={onChange}
@@ -29,4 +32,4 @@ const UsernameField: FC<UsernameFieldProps> = ({ value, onChange }) => {
   );
 };
 
-export default UsernameField;
+export default EmailField;
