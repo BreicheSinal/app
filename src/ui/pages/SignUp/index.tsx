@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import { Typography, Button, Box } from "@mui/material";
+import { Typography } from "@mui/material";
 import axios from "axios";
 
 import SignUpLayout from "../../Layout/SignUpLayout";
@@ -19,14 +19,22 @@ const SignUp = () => {
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
+
+    const roles = role ? [parseInt(role)] : 1;
+
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/register",
+        "http://localhost:8080/register",
         {
-          username,
+          name: username,
           email,
           password,
-          role,
+          roles,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       console.log("User registered:", response.data);
