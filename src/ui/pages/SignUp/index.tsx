@@ -134,7 +134,7 @@ const SignUp = () => {
 
         <SubmitButton />
 
-        <ButtonLink />
+        <ButtonLink text="Already have an account? Log in" />
       </form>
     </SignUpLayout>
   );

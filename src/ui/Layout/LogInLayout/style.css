@@ -1,0 +1,9 @@
+.container {
+  height: 100vh;
+  background-color: #1d2125 !important;
+}
+
+.form-container {
+  width: 400px !important;
+  max-width: 400px !important;
+}

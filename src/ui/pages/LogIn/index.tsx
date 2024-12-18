@@ -1,194 +1,102 @@
-import { FC, useState, MouseEvent } from "react";
-import {
-  Grid,
-  Box,
-  Typography,
-  TextField,
-  InputAdornment,
-  IconButton,
-  InputLabel,
-  Button,
-} from "@mui/material";
+import { useState, FormEvent } from "react";
+import { Typography } from "@mui/material";
 
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { postRequest } from "../../../core/utils/api";
 
-import "./style.css";
+import SignUpLayout from "../../Layout/SignUpLayout";
+import EmailField from "../../components/Form/EmailField";
+import PasswordField from "../../components/Form/PasswordField";
+import Logo from "../../components/Form/Logo";
+import ButtonLink from "../../components/Form/ButtonLink";
+import SubmitButton from "../../components/Form/SubmitButton";
 
-const SignUp: FC = () => {
-  const [showPassword, setShowPassword] = useState(false);
+const LogIn = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [emailError, setEmailError] = useState<string>("");
+  const [passwordError, setPasswordError] = useState<string>("");
 
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const validation = () => {
+    let isValid: boolean = true;
+
+    if (!email.trim()) {
+      setEmailError("Email is required");
+      isValid = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailError("Invalid email format");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+
+    if (!password.trim()) {
+      setPasswordError("Password is required");
+      isValid = false;
+    } else if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      isValid = false;
+    } else if (
+      !/(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~])/g.test(password)
+    ) {
+      setPasswordError(
+        "Password must contain at least 1 number && 1 special character"
+      );
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    return isValid;
   };
 
-  const handleMouseUpPassword = (event: MouseEvent<HTMLButtonElement>) => {
+  const submit = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (!validation()) return;
+
+    try {
+      const response = await postRequest("/register", {
+        email,
+        password,
+      });
+      console.log("User Logged In Successfully!:", response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
-    <Grid
-      container
-      component="main"
-      sx={{ height: "100vh", backgroundColor: "#1d2125" }}
-    >
-      <Grid
-        className="flex justify-center align-center"
-        item
-        xs={12}
-        sm={6}
-        md={6}
+    <SignUpLayout>
+      <Logo />
+      <Typography
+        variant="h5"
+        sx={{ color: "#ffffff", textAlign: "center", mb: 2 }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: 400,
-          }}
-        >
-          <Box
-            className="flex justify-center align-center"
-            sx={{
-              mb: 1,
-            }}
-          >
-            <img
-              src="./src/assets/icons/AthLink_noBG.png"
-              alt="Logo"
-              width={100}
-            />
-          </Box>
+        LOG IN
+      </Typography>
 
-          <Typography
-            className="bold text-center"
-            component="h1"
-            variant="h5"
-            sx={{
-              mb: 2,
-              color: "#ffffff",
-            }}
-          >
-            LOG IN
-          </Typography>
+      <form onSubmit={submit}>
+        <EmailField
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={!!emailError}
+          helperText={emailError}
+        />
 
-          <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
-          <TextField
-            className="input-fields"
-            fullWidth
-            name="email"
-            sx={{
-              input: { color: "#ffffff" },
-              label: { color: "#ffffff" },
-              backgroundColor: "#393939",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#ffffff",
-                },
-              },
-            }}
-          />
+        <PasswordField
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          error={!!passwordError}
+          helperText={passwordError}
+        />
 
-          <InputLabel sx={{ color: "#2684ff" }}>Password</InputLabel>
-          <TextField
-            className="input-fields"
-            sx={{
-              input: { color: "#ffffff" },
-              backgroundColor: "#393939",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "white",
-                },
-                "&:hover fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "white",
-                },
-              },
-            }}
-            fullWidth
-            type={showPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    disableRipple
-                    aria-label={
-                      showPassword
-                        ? "hide the password"
-                        : "display the password"
-                    }
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                    sx={{ color: "white" }}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
+        <SubmitButton />
 
-          <Box
-            className="flex justify-center"
-            sx={{
-              mt: 3,
-            }}
-          >
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                px: 4,
-                backgroundColor: "#2684FF",
-                "&:hover": { backgroundColor: "#1565c0" },
-              }}
-            >
-              Log In
-            </Button>
-          </Box>
-
-          <Box sx={{ textAlign: "center" }}>
-            <Button
-              variant="text"
-              disableRipple
-              sx={{
-                color: "#ffffff",
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: "transparent",
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              Don't have an account? Sign up
-            </Button>
-          </Box>
-        </Box>
-      </Grid>
-
-      <Grid
-        item
-        xs={false}
-        sm={6}
-        md={6}
-        sx={{
-          backgroundImage: "url('src/assets/images/sports.webp')",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-    </Grid>
+        <ButtonLink text="Don't have an account? Sign up" />
+      </form>
+    </SignUpLayout>
   );
 };
 
-export default SignUp;
+export default LogIn;

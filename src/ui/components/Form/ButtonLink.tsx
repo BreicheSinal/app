@@ -1,7 +1,11 @@
 import { Box, Button } from "@mui/material";
 import { FC } from "react";
 
-const ButtonLink: FC = () => {
+interface ButtonLinkProps {
+  text: string;
+}
+
+const ButtonLink: FC<ButtonLinkProps> = ({ text }) => {
   return (
     <>
       <Box sx={{ textAlign: "center" }}>
@@ -17,7 +21,7 @@ const ButtonLink: FC = () => {
             },
           }}
         >
-          Already have an account? Log in
+          {text}
         </Button>
       </Box>
     </>
