@@ -28,8 +28,8 @@ const SignUp = () => {
     if (!username.trim()) {
       setUsernameError("Username is required");
       isValid = false;
-    } else if (!/^[a-zA-Z]+$/.test(username.trim())) {
-      setUsernameError("Username must contain only letters");
+    } else if (!/^[a-zA-Z\s]+$/.test(username.trim())) {
+      setUsernameError("Username must contain only letters and spaces");
       isValid = false;
     } else {
       setUsernameError("");
