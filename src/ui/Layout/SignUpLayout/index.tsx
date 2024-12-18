@@ -1,13 +1,13 @@
 import { Grid, Box } from "@mui/material";
-import React from "react";
+import { FC, ReactNode } from "react";
 
 import "./style.css";
 
 interface AuthLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const SignUpLayout: React.FC<AuthLayoutProps> = ({ children }) => {
+const SignUpLayout: FC<AuthLayoutProps> = ({ children }) => {
   return (
     <Grid container component="main" className="container">
       <Grid
