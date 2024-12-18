@@ -6,9 +6,16 @@ import "./style.css";
 interface UsernameFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
-const UsernameField: FC<UsernameFieldProps> = ({ value, onChange }) => {
+const UsernameField: FC<UsernameFieldProps> = ({
+  value,
+  onChange,
+  error,
+  helperText,
+}) => {
   return (
     <>
       <InputLabel sx={{ color: "#2684ff" }}>Username</InputLabel>
@@ -18,6 +25,8 @@ const UsernameField: FC<UsernameFieldProps> = ({ value, onChange }) => {
         value={value}
         onChange={onChange}
         variant="outlined"
+        error={error}
+        helperText={helperText}
         sx={{
           input: { color: "#ffffff" },
           backgroundColor: "#393939",

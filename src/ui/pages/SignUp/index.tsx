@@ -13,13 +13,33 @@ import ButtonLink from "../../components/Form/ButtonLink";
 import SubmitButton from "../../components/Form/SubmitButton";
 
 const SignUp = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [role, setRole] = useState<string>("");
+
+  const [usernameError, setUsernameError] = useState("");
+
+  const validation = () => {
+    let isValid: boolean = true;
+
+    if (!username.trim()) {
+      setUsernameError("Username is required");
+      isValid = false;
+    } else if (!/^[a-zA-Z]+$/.test(username.trim())) {
+      setUsernameError("Username must contain only letters");
+      isValid = false;
+    } else {
+      setUsernameError("");
+    }
+
+    return isValid;
+  };
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
+
+    if (!validation()) return;
 
     const roles = role ? [parseInt(role)] : 1;
 
@@ -50,6 +70,8 @@ const SignUp = () => {
         <UsernameField
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          error={!!usernameError}
+          helperText={usernameError}
         />
 
         <EmailField value={email} onChange={(e) => setEmail(e.target.value)} />
