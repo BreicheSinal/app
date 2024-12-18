@@ -7,7 +7,7 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
-const SignUpLayout: FC<AuthLayoutProps> = ({ children }) => {
+const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
   return (
     <Grid container component="main" className="container">
       <Grid
@@ -36,4 +36,4 @@ const SignUpLayout: FC<AuthLayoutProps> = ({ children }) => {
   );
 };
 
-export default SignUpLayout;
+export default AuthLayout;

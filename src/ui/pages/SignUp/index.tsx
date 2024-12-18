@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 
 import { postRequest } from "../../../core/utils/api";
 
-import SignUpLayout from "../../Layout/SignUpLayout";
+import SignUpLayout from "../../Layout/AuthLayout";
 import UsernameField from "../../components/Form/UsernameField";
 import EmailField from "../../components/Form/EmailField";
 import PasswordField from "../../components/Form/PasswordField";
