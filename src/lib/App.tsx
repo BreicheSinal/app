@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import "./styles/App.css";
-import "./styles/utilities.css";
-import "./styles/colors.css";
+import "../styles/App.css";
+import "../styles/utilities.css";
+import "../styles/colors.css";
 
-import SignUp from "./pages/SignUp";
-import LogIn from "./pages/LogIn";
+import SignUp from "../pages/SignUp";
+import LogIn from "../pages/LogIn";
 
 const App = () => {
   return (
