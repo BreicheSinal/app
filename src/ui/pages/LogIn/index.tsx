@@ -1,5 +1,6 @@
 import { useState, FormEvent } from "react";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { postRequest } from "../../../core/utils/api";
 
@@ -16,6 +17,9 @@ const LogIn = () => {
 
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+  const [generalError, setGeneralError] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const validation = () => {
     let isValid: boolean = true;
@@ -56,13 +60,26 @@ const LogIn = () => {
     if (!validation()) return;
 
     try {
-      const response = await postRequest("/register", {
+      const response = await postRequest("/login", {
         email,
         password,
       });
       console.log("User Logged In Successfully!:", response);
-    } catch (error) {
+
+      if (response.token) {
+        localStorage.setItem("authToken", response.token);
+        navigate("/");
+      }
+    } catch (error: any) {
+      const { message } = error;
+
       console.error("Error:", error);
+
+      setGeneralError(
+        message === "Invalid email or password"
+          ? "Invalid email or password"
+          : ""
+      );
     }
   };
 
@@ -90,6 +107,10 @@ const LogIn = () => {
           error={!!passwordError}
           helperText={passwordError}
         />
+
+        {generalError && (
+          <Typography sx={{ color: "red", mt: 1 }}>{generalError}</Typography>
+        )}
 
         <SubmitButton />
 
