@@ -15,8 +15,6 @@ const LogIn = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [emailError, setEmailError] = useState<string>("");
-  const [passwordError, setPasswordError] = useState<string>("");
   const [generalError, setGeneralError] = useState<string>("");
 
   const navigate = useNavigate();
@@ -25,30 +23,30 @@ const LogIn = () => {
     let isValid: boolean = true;
 
     if (!email.trim()) {
-      setEmailError("Email is required");
+      setGeneralError("Email is required");
       isValid = false;
     } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setEmailError("Invalid email format");
+      setGeneralError("Invalid email format");
       isValid = false;
     } else {
-      setEmailError("");
+      setGeneralError("");
     }
 
     if (!password.trim()) {
-      setPasswordError("Password is required");
+      setGeneralError("Password is required");
       isValid = false;
     } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+      setGeneralError("Password must be at least 6 characters");
       isValid = false;
     } else if (
       !/(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~])/g.test(password)
     ) {
-      setPasswordError(
+      setGeneralError(
         "Password must contain at least 1 number && 1 special character"
       );
       isValid = false;
     } else {
-      setPasswordError("");
+      setGeneralError("");
     }
 
     return isValid;
@@ -64,7 +62,7 @@ const LogIn = () => {
         email,
         password,
       });
-      
+
       console.log("User Logged In Successfully!:", response);
 
       if (response.token) {
@@ -103,15 +101,15 @@ const LogIn = () => {
         <EmailField
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={!!emailError}
-          helperText={emailError}
+          error={!!generalError}
+          helperText={generalError}
         />
 
         <PasswordField
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={!!passwordError}
-          helperText={passwordError}
+          error={!!generalError}
+          helperText={generalError}
         />
 
         {generalError && (
