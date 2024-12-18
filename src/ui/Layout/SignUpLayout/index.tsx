@@ -20,7 +20,18 @@ const SignUpLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         <Box className="form-container">{children}</Box>
       </Grid>
 
-      <Grid className="img-container" item xs={false} sm={6} md={6} />
+      <Grid
+        item
+        xs={false}
+        sm={6}
+        md={6}
+        sx={{
+          backgroundImage: "url('src/assets/images/sports.webp')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
     </Grid>
   );
 };

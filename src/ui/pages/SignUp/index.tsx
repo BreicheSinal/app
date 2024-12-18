@@ -1,258 +1,73 @@
-import { FC, useState, MouseEvent } from "react";
-import {
-  Grid,
-  Box,
-  Typography,
-  TextField,
-  InputAdornment,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Button,
-} from "@mui/material";
+import { useState, FormEvent } from "react";
+import { Typography, Button, Box } from "@mui/material";
+import axios from "axios";
 
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import AuthLayout from "../../Layout/SignUpLayout";
+import UsernameField from "../../components/Form/UsernameField";
+import EmailField from "../../components/Form/EmailField";
+import PasswordField from "../../components/Form/PasswordField";
+import RoleField from "../../components/Form/RoleField";
+import Logo from "../../components/Form/Logo";
+import ButtonLink from "../../components/Form/ButtonLink";
 
-import "./style.css";
-
-const SignUp: FC = () => {
-  const [showPassword, setShowPassword] = useState(false);
+const SignUp = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const roleChange = (event: any) => {
-    setRole(event.target.value);
-  };
-
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
+  const submit = async (event: FormEvent) => {
     event.preventDefault();
-  };
-
-  const handleMouseUpPassword = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/register",
+        {
+          username,
+          email,
+          password,
+          role,
+        }
+      );
+      console.log("User registered:", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
-    <Grid
-      container
-      component="main"
-      sx={{ height: "100vh", backgroundColor: "#1d2125" }}
-    >
-      <Grid
-        className="flex justify-center align-center"
-        item
-        xs={12}
-        sm={6}
-        md={6}
+    <AuthLayout>
+      <Logo />
+      <Typography
+        variant="h5"
+        sx={{ color: "#ffffff", textAlign: "center", mb: 2 }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: 400,
-          }}
-        >
-          <Box
-            className="flex justify-center align-center"
-            sx={{
-              mb: 1,
-            }}
+        SIGN UP
+      </Typography>
+
+      <form onSubmit={submit}>
+        <UsernameField
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <EmailField value={email} onChange={(e) => setEmail(e.target.value)} />
+        <PasswordField
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <RoleField value={role} onChange={(e) => setRole(e.target.value)} />
+
+        <Box className="flex justify-center" sx={{ mt: 3 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ backgroundColor: "#2684FF" }}
           >
-            <img
-              src="./src/assets/icons/AthLink_noBG.png"
-              alt="Logo"
-              width={100}
-            />
-          </Box>
-
-          <Typography
-            className="bold text-center"
-            component="h1"
-            variant="h5"
-            sx={{
-              mb: 2,
-              color: "#ffffff",
-            }}
-          >
-            SIGN UP
-          </Typography>
-
-          <InputLabel sx={{ color: "#2684ff" }}>Username</InputLabel>
-          <TextField
-            className="input-fields"
-            fullWidth
-            name="name"
-            autoFocus
-            variant="outlined"
-            sx={{
-              input: { color: "#ffffff" },
-              label: { color: "#ffffff" },
-              backgroundColor: "#393939",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#ffffff",
-                },
-              },
-            }}
-          />
-
-          <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
-          <TextField
-            className="input-fields"
-            fullWidth
-            name="email"
-            sx={{
-              input: { color: "#ffffff" },
-              label: { color: "#ffffff" },
-              backgroundColor: "#393939",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#ffffff",
-                },
-              },
-            }}
-          />
-
-          <InputLabel sx={{ color: "#2684ff" }}>Password</InputLabel>
-          <TextField
-            className="input-fields"
-            sx={{
-              input: { color: "#ffffff" },
-              backgroundColor: "#393939",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "white",
-                },
-                "&:hover fieldset": {
-                  borderColor: "white",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "white",
-                },
-              },
-            }}
-            fullWidth
-            type={showPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    disableRipple
-                    aria-label={
-                      showPassword
-                        ? "hide the password"
-                        : "display the password"
-                    }
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    onMouseUp={handleMouseUpPassword}
-                    edge="end"
-                    sx={{ color: "white" }}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-
-          <InputLabel sx={{ color: "#2684ff" }}>Role</InputLabel>
-          <TextField
-            select
-            fullWidth
-            value={role}
-            onChange={roleChange}
-            sx={{
-              input: { color: "#ffffff" },
-              label: { color: "#ffffff" },
-              backgroundColor: "#393939",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&:hover fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#ffffff",
-                },
-                "& .MuiSelect-icon": {
-                  color: "#ffffff",
-                },
-                "& .MuiInputBase-input": {
-                  color: "#ffffff",
-                },
-              },
-            }}
-          >
-            <MenuItem value="athlete">Athlete</MenuItem>
-            <MenuItem value="club">Club</MenuItem>
-            <MenuItem value="federation">Federation</MenuItem>
-          </TextField>
-
-          <Box
-            className="flex justify-center"
-            sx={{
-              mt: 3,
-            }}
-          >
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                px: 4,
-                backgroundColor: "#2684FF",
-                "&:hover": { backgroundColor: "#1565c0" },
-              }}
-            >
-              Sign Up
-            </Button>
-          </Box>
-
-          <Box sx={{ textAlign: "center" }}>
-            <Button
-              variant="text"
-              disableRipple
-              sx={{
-                color: "#ffffff",
-                textTransform: "none",
-                "&:hover": {
-                  backgroundColor: "transparent",
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              Already have an account? Log in
-            </Button>
-          </Box>
+            Sign Up
+          </Button>
         </Box>
-      </Grid>
-
-      <Grid
-        item
-        xs={false}
-        sm={6}
-        md={6}
-        sx={{
-          backgroundImage: "url('src/assets/images/sports.webp')",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-    </Grid>
+        <ButtonLink />
+      </form>
+    </AuthLayout>
   );
 };
 
