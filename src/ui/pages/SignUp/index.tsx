@@ -2,13 +2,14 @@ import { useState, FormEvent } from "react";
 import { Typography, Button, Box } from "@mui/material";
 import axios from "axios";
 
-import AuthLayout from "../../Layout/SignUpLayout";
+import SignUpLayout from "../../Layout/SignUpLayout";
 import UsernameField from "../../components/Form/UsernameField";
 import EmailField from "../../components/Form/EmailField";
 import PasswordField from "../../components/Form/PasswordField";
 import RoleField from "../../components/Form/RoleField";
 import Logo from "../../components/Form/Logo";
 import ButtonLink from "../../components/Form/ButtonLink";
+import SubmitButton from "../../components/Form/SubmitButton";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -35,7 +36,7 @@ const SignUp = () => {
   };
 
   return (
-    <AuthLayout>
+    <SignUpLayout>
       <Logo />
       <Typography
         variant="h5"
@@ -49,25 +50,21 @@ const SignUp = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+
         <EmailField value={email} onChange={(e) => setEmail(e.target.value)} />
+
         <PasswordField
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
         <RoleField value={role} onChange={(e) => setRole(e.target.value)} />
 
-        <Box className="flex justify-center" sx={{ mt: 3 }}>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ backgroundColor: "#2684FF" }}
-          >
-            Sign Up
-          </Button>
-        </Box>
+        <SubmitButton />
+
         <ButtonLink />
       </form>
-    </AuthLayout>
+    </SignUpLayout>
   );
 };
 
