@@ -6,9 +6,16 @@ import "./style.css";
 interface EmailFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
-const EmailField: FC<EmailFieldProps> = ({ value, onChange }) => {
+const EmailField: FC<EmailFieldProps> = ({
+  value,
+  onChange,
+  error,
+  helperText,
+}) => {
   return (
     <>
       <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
@@ -18,6 +25,8 @@ const EmailField: FC<EmailFieldProps> = ({ value, onChange }) => {
         value={value}
         onChange={onChange}
         variant="outlined"
+        error={error}
+        helperText={helperText}
         sx={{
           input: { color: "#ffffff" },
           backgroundColor: "#393939",

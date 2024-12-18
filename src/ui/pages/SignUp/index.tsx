@@ -18,7 +18,8 @@ const SignUp = () => {
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("");
 
-  const [usernameError, setUsernameError] = useState("");
+  const [usernameError, setUsernameError] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
 
   const validation = () => {
     let isValid: boolean = true;
@@ -31,6 +32,16 @@ const SignUp = () => {
       isValid = false;
     } else {
       setUsernameError("");
+    }
+
+    if (!email.trim()) {
+      setEmailError("Email is required");
+      isValid = false;
+    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailError("Invalid email format");
+      isValid = false;
+    } else {
+      setEmailError("");
     }
 
     return isValid;
@@ -74,7 +85,12 @@ const SignUp = () => {
           helperText={usernameError}
         />
 
-        <EmailField value={email} onChange={(e) => setEmail(e.target.value)} />
+        <EmailField
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={!!emailError}
+          helperText={emailError}
+        />
 
         <PasswordField
           value={password}
