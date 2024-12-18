@@ -22,6 +22,8 @@ const RoleField: FC<RoleFieldProps> = ({ value, onChange }) => {
             "& fieldset": { borderColor: "white" },
             "&:hover fieldset": { borderColor: "white" },
             "&.Mui-focused fieldset": { borderColor: "white" },
+            "& .MuiSelect-icon": { color: "#ffffff" },
+            "& .MuiInputBase-input": { color: "#ffffff" },
           },
         }}
       >
