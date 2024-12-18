@@ -1,7 +1,11 @@
 import { Box, Button } from "@mui/material";
 import { FC } from "react";
 
-const SubmitButton: FC = () => {
+interface SubmitButtonProps {
+  text: string;
+}
+
+const SubmitButton: FC<SubmitButtonProps> = ({ text }) => {
   return (
     <>
       <Box className="flex justify-center" sx={{ mt: 3 }}>
@@ -10,7 +14,7 @@ const SubmitButton: FC = () => {
           variant="contained"
           sx={{ backgroundColor: "#2684FF" }}
         >
-          Sign Up
+          {text}
         </Button>
       </Box>
     </>

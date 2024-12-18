@@ -132,7 +132,7 @@ const SignUp = () => {
           helperText={roleError}
         />
 
-        <SubmitButton />
+        <SubmitButton text="Sign Up" />
 
         <ButtonLink text="Already have an account? Log in" />
       </form>

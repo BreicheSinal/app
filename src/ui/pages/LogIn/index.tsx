@@ -112,7 +112,7 @@ const LogIn = () => {
           <Typography sx={{ color: "red", mt: 1 }}>{generalError}</Typography>
         )}
 
-        <SubmitButton />
+        <SubmitButton text="Log In"/>
 
         <ButtonLink text="Don't have an account? Sign up" />
       </form>
