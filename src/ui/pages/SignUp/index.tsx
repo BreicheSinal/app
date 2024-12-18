@@ -52,6 +52,13 @@ const SignUp = () => {
     } else if (password.length < 6) {
       setPasswordError("Password must be at least 6 characters");
       isValid = false;
+    } else if (
+      !/(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~])/g.test(password)
+    ) {
+      setPasswordError(
+        "Password must contain at least 1 number && 1 special character"
+      );
+      isValid = false;
     } else {
       setPasswordError("");
     }
