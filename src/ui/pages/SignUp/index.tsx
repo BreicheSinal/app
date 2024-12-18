@@ -1,5 +1,6 @@
 import { useState, FormEvent } from "react";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { postRequest } from "../../../core/utils/api";
 
@@ -22,6 +23,9 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
   const [roleError, setRoleError] = useState<string>("");
+  const [generalError, setGeneralError] = useState<string>("");
+
+  const navigate = useNavigate();
 
   const validation = () => {
     let isValid: boolean = true;
@@ -87,9 +91,21 @@ const SignUp = () => {
         password,
         roles,
       });
+
       console.log("User registered:", response);
-    } catch (error) {
+
+      if (response.token) {
+        localStorage.setItem("authToken", response.token);
+        navigate("/login");
+      }
+    } catch (error: any) {
+      const { message } = error;
+
       console.error("Error:", error);
+
+      setGeneralError(
+        message === "User already exists" ? "User already exists" : ""
+      );
     }
   };
 
@@ -98,7 +114,12 @@ const SignUp = () => {
       <Logo />
       <Typography
         variant="h5"
-        sx={{ color: "#ffffff", textAlign: "center", mb: 2 }}
+        sx={{
+          color: "#ffffff",
+          textAlign: "center",
+          mb: 2,
+          fontWeight: "bold",
+        }}
       >
         SIGN UP
       </Typography>
@@ -131,6 +152,10 @@ const SignUp = () => {
           error={!!roleError}
           helperText={roleError}
         />
+
+        {generalError && (
+          <Typography sx={{ color: "red", mt: 1 }}>{generalError}</Typography>
+        )}
 
         <SubmitButton text="Sign Up" />
 

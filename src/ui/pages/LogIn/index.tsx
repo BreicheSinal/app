@@ -64,6 +64,7 @@ const LogIn = () => {
         email,
         password,
       });
+      
       console.log("User Logged In Successfully!:", response);
 
       if (response.token) {
@@ -88,7 +89,12 @@ const LogIn = () => {
       <Logo />
       <Typography
         variant="h5"
-        sx={{ color: "#ffffff", textAlign: "center", mb: 2 }}
+        sx={{
+          color: "#ffffff",
+          textAlign: "center",
+          mb: 2,
+          fontWeight: "bold",
+        }}
       >
         LOG IN
       </Typography>
@@ -112,7 +118,7 @@ const LogIn = () => {
           <Typography sx={{ color: "red", mt: 1 }}>{generalError}</Typography>
         )}
 
-        <SubmitButton text="Log In"/>
+        <SubmitButton text="Log In" />
 
         <ButtonLink text="Don't have an account? Sign up" />
       </form>
