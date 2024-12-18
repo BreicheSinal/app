@@ -4,9 +4,16 @@ import { FC, ChangeEvent } from "react";
 interface RoleFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  helperText?: string;
 }
 
-const RoleField: FC<RoleFieldProps> = ({ value, onChange }) => {
+const RoleField: FC<RoleFieldProps> = ({
+  value,
+  onChange,
+  error,
+  helperText,
+}) => {
   return (
     <>
       <InputLabel sx={{ color: "#2684ff" }}>Role</InputLabel>
@@ -15,6 +22,8 @@ const RoleField: FC<RoleFieldProps> = ({ value, onChange }) => {
         fullWidth
         value={value}
         onChange={onChange}
+        error={error}
+        helperText={helperText}
         sx={{
           input: { color: "#ffffff" },
           backgroundColor: "#393939",

@@ -21,6 +21,7 @@ const SignUp = () => {
   const [usernameError, setUsernameError] = useState<string>("");
   const [emailError, setEmailError] = useState<string>("");
   const [passwordError, setPasswordError] = useState<string>("");
+  const [roleError, setRoleError] = useState<string>("");
 
   const validation = () => {
     let isValid: boolean = true;
@@ -53,6 +54,13 @@ const SignUp = () => {
       isValid = false;
     } else {
       setPasswordError("");
+    }
+
+    if (!role.trim()) {
+      setRoleError("Role is required");
+      isValid = false;
+    } else {
+      setRoleError("");
     }
 
     return isValid;
@@ -110,7 +118,12 @@ const SignUp = () => {
           helperText={passwordError}
         />
 
-        <RoleField value={role} onChange={(e) => setRole(e.target.value)} />
+        <RoleField
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          error={!!roleError}
+          helperText={roleError}
+        />
 
         <SubmitButton />
 
