@@ -1,0 +1,16 @@
+.container {
+  height: 100vh;
+  background-color: #1d2125 !important;
+}
+
+.form-container {
+  width: 100% !important;
+  max-width: 400 !important;
+}
+
+.img-container {
+  background-image: "url('src/assets/images/sports.webp')";
+  background-repeat: "no-repeat";
+  background-size: "cover";
+  background-position: "center";
+}
