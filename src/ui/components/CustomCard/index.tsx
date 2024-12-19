@@ -7,6 +7,7 @@ import "./style.css";
 interface List {
   name: string;
   role: string;
+  content?: string;
 }
 
 // defining interfaces for content
@@ -70,27 +71,51 @@ const CustomCard: FC<CardDataProps> = ({
             key={index}
             sx={{ display: "flex", flexDirection: "column", gap: 2 }}
           >
-            {(section.content as List[]).map((member, idx) => (
+            {(section.content as List[]).map((member, idx, arr) => (
               <Box
                 key={idx}
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  flexDirection: "column",
+                  gap: 1,
+                  pb: 1,
+                  borderBottom:
+                    idx === arr.length - 1
+                      ? "none"
+                      : "1px solid rgba(255, 255, 255, 0.2)",
                 }}
               >
-                <Typography variant="body1" sx={{ color: "#fff" }}>
-                  {member.name}
-                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="body1" sx={{ color: "#fff" }}>
+                    {member.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: "#fff",
+                      opacity: 0.7,
+                      textAlign: "right",
+                    }}
+                  >
+                    {member.role}
+                  </Typography>
+                </Box>
                 <Typography
                   variant="body2"
                   sx={{
                     color: "#fff",
-                    opacity: 0.7,
-                    textAlign: "right",
+                    opacity: 0.8,
+                    lineHeight: 1.5,
+                    mt: 1,
                   }}
                 >
-                  {member.role}
+                  {member.content}
                 </Typography>
               </Box>
             ))}

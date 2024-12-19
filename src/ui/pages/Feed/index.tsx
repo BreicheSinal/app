@@ -43,7 +43,11 @@ const Feed = () => {
       {
         type: "list",
         content: [
-          { name: "NAME", role: "ROLE" },
+          {
+            name: "NAME",
+            role: "ROLE",
+            content: "Alice is responsible for implementing the backend APIs.",
+          },
           { name: "NAME", role: "ROLE" },
           { name: "NAME", role: "ROLE" },
         ],
