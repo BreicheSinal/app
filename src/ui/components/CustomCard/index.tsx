@@ -11,7 +11,7 @@ interface CardProps {
 
 const CustomCard: FC<CardProps> = ({ width }) => {
   return (
-    <Box className="Box flex justify-center align-center">
+    <Box className="Box flex align-start">
       <Card
         className="Card white-bg"
         sx={{
