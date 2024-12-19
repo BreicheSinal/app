@@ -1,0 +1,20 @@
+.Box {
+  padding: 10px;
+  border: none;
+  overflow: "visible";
+  position: "relative";
+}
+
+.Card {
+  box-shadow: none !important;
+  border: none;
+  overflow: "visible";
+  position: "relative";
+}
+
+.banner {
+  height: 80px;
+  margin-bottom: 8px;
+}
+
+
