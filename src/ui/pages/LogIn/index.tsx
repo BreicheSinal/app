@@ -62,6 +62,10 @@ const LogIn = () => {
     }
   };
 
+  const navigateToSignUp = async () => {
+    navigate("/");
+  };
+
   return (
     <SignUpLayout>
       <Logo />
@@ -96,7 +100,10 @@ const LogIn = () => {
 
         <SubmitButton text="Log In" />
 
-        <ButtonLink text="Don't have an account? Sign up" />
+        <ButtonLink
+          onClick={navigateToSignUp}
+          text="Don't have an account? Sign up"
+        />
       </form>
     </SignUpLayout>
   );
