@@ -37,6 +37,20 @@ const Feed = () => {
     ],
   };
 
+  const staffData: CardData = {
+    title: "STAFF",
+    sections: [
+      {
+        type: "list",
+        content: [
+          { name: "NAME", role: "ROLE" },
+          { name: "NAME", role: "ROLE" },
+          { name: "NAME", role: "ROLE" },
+        ],
+      },
+    ],
+  };
+
   const handleEdit = (field: string) => {};
   const middleEdit = () => {};
 
@@ -69,7 +83,7 @@ const Feed = () => {
 
             <CustomCard
               width={250}
-              data={bio}
+              data={staffData}
               showEdit={false}
               onEdit={middleEdit}
             />

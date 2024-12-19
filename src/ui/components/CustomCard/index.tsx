@@ -4,12 +4,17 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import "./style.css";
 
+interface List {
+  name: string;
+  role: string;
+}
+
 // defining interfaces for content
 interface ContentSection {
-  type: "text";
+  type: "text" | "list";
   title?: string;
   subtitle?: string;
-  content?: string | string[] | number | ReactNode;
+  content?: string | string[] | number | ReactNode | List[];
 }
 
 export interface CardData {
@@ -56,6 +61,39 @@ const CustomCard: FC<CardDataProps> = ({
             >
               {section.content as string}
             </Typography>
+          </Box>
+        );
+
+      case "list":
+        return (
+          <Box
+            key={index}
+            sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+          >
+            {(section.content as List[]).map((member, idx) => (
+              <Box
+                key={idx}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="body1" sx={{ color: "#fff" }}>
+                  {member.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "#fff",
+                    opacity: 0.7,
+                    textAlign: "right",
+                  }}
+                >
+                  {member.role}
+                </Typography>
+              </Box>
+            ))}
           </Box>
         );
 
