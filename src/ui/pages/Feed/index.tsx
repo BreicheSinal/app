@@ -2,6 +2,7 @@ import FeedLayout from "../../Layout/FeedLayout";
 
 import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
+import { CardData } from "../../components/CustomCard";
 
 import "./style.css";
 
@@ -21,7 +22,23 @@ const Feed = () => {
     ],
   };
 
+  // mock custom cards data
+  const bio: CardData = {
+    title: "BIO",
+    sections: [
+      {
+        type: "text",
+        content: "Qorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      },
+      {
+        type: "text",
+        content: "Qorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      },
+    ],
+  };
+
   const handleEdit = (field: string) => {};
+  const middleEdit = () => {};
 
   return (
     <div className="feed-container">
@@ -38,23 +55,23 @@ const Feed = () => {
             <div className="flex column">
               <CustomCard
                 width={600}
-                title="Card 1"
-                content="HALA MADRID!"
-                showButtons={false}
+                data={bio}
+                showEdit={false}
+                onEdit={middleEdit}
               />
               <CustomCard
                 width={600}
-                title="Card 2"
-                content="HALA MADRID!"
-                showButtons={false}
+                data={bio}
+                showEdit={false}
+                onEdit={middleEdit}
               />
             </div>
 
             <CustomCard
               width={250}
-              title="Card 1"
-              content="HALA MADRID!"
-              showButtons={false}
+              data={bio}
+              showEdit={false}
+              onEdit={middleEdit}
             />
           </div>
         </div>
