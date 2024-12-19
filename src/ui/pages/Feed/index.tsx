@@ -8,14 +8,38 @@ const Feed = () => {
   return (
     <div className="feed-container">
       <FeedLayout>
-        <CustomCard width={350} />
+        <div className="cards-container flex">
+          <CustomCard
+            width={350}
+            title="Card"
+            content="HALA MADRID!"
+            showButtons={false}
+          />
 
-        <div className="flex column">
-          <CustomCard width={600} />
-          <CustomCard width={600} />
+          <div className="sub-cards-container flex">
+            <div className="flex column">
+              <CustomCard
+                width={500}
+                title="Card 1"
+                content="HALA MADRID!"
+                showButtons={false}
+              />
+              <CustomCard
+                width={500}
+                title="Card 2"
+                content="HALA MADRID!"
+                showButtons={false}
+              />
+            </div>
+
+            <CustomCard
+              width={350}
+              title="Card 1"
+              content="HALA MADRID!"
+              showButtons={false}
+            />
+          </div>
         </div>
-
-        <CustomCard width={350} />
       </FeedLayout>
     </div>
   );
