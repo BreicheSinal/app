@@ -16,17 +16,18 @@ const CustomCard: FC<CardProps> = ({ width, title, content, showButtons }) => {
   return (
     <Box className="Box flex align-start">
       <Card
-        className="Card white-bg"
+        className="Card secondary-bg-color"
         sx={{
           width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",
           maxWidth: "600px",
           height: "auto",
+          border: "none",
         }}
       >
         <CardContent>
           <Box className="flex space-between align-center">
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" gutterBottom className="tertiary-color">
               {title}
             </Typography>
             {showButtons && (
@@ -35,7 +36,9 @@ const CustomCard: FC<CardProps> = ({ width, title, content, showButtons }) => {
               </IconButton>
             )}
           </Box>
-          <Typography variant="body2">{content}</Typography>
+          <Typography variant="body2" className="white-color">
+            {content}
+          </Typography>
         </CardContent>
       </Card>
     </Box>

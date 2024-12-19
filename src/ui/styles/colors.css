@@ -6,12 +6,20 @@
   color: #1d2125;
 }
 
+.tertiary-color {
+  color: #9ac6ff;
+}
+
+.white-color {
+  color: #ffffff;
+}
+
 .primary-bg-color {
   background-color: #2684ff;
 }
 
 .secondary-bg-color {
-  background-color: #1d2125;
+  background-color: #1d2125 !important;
 }
 
 .off-white-bg {
