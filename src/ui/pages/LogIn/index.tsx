@@ -54,11 +54,11 @@ const LogIn = () => {
 
       console.error("Error:", error);
 
-      setGeneralError(
-        message === "Invalid email or password"
-          ? "Invalid email or password"
-          : ""
-      );
+      if (error === "Too many login attempts. Please try again later")
+        setGeneralError(error);
+      else if (message === "Invalid email or password")
+        setGeneralError(message);
+      else setGeneralError("");
     }
   };
 
