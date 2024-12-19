@@ -12,7 +12,7 @@ interface UsernameFieldProps {
 const UsernameField: FC<UsernameFieldProps> = ({ value, onChange, error }) => {
   return (
     <>
-      <InputLabel sx={{ color: "#2684ff" }}>Username</InputLabel>
+      <InputLabel sx={{ color: "#2684ff" }}>Full Name</InputLabel>
       <TextField
         className="input-fields"
         fullWidth

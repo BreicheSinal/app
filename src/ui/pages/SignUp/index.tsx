@@ -87,9 +87,10 @@ const SignUp = () => {
 
       console.error("Error:", error);
 
-      setGeneralError(
-        message === "User already exists" ? "User already exists" : ""
-      );
+      if (error === "Too many registration attempts. Please try again later")
+        setGeneralError(error);
+      else if (message === "User already exists") setGeneralError(message);
+      else setGeneralError("");
     }
   };
 
