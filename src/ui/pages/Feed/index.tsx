@@ -28,7 +28,7 @@ const Feed = () => {
       <FeedLayout>
         <div className="cards-container flex">
           <ProfileCard
-            width={350}
+            width={300}
             data={profileData}
             showEdit={false}
             onEdit={handleEdit}
@@ -37,13 +37,13 @@ const Feed = () => {
           <div className="sub-cards-container flex">
             <div className="flex column">
               <CustomCard
-                width={500}
+                width={600}
                 title="Card 1"
                 content="HALA MADRID!"
                 showButtons={false}
               />
               <CustomCard
-                width={500}
+                width={600}
                 title="Card 2"
                 content="HALA MADRID!"
                 showButtons={false}
@@ -51,7 +51,7 @@ const Feed = () => {
             </div>
 
             <CustomCard
-              width={350}
+              width={250}
               title="Card 1"
               content="HALA MADRID!"
               showButtons={false}
