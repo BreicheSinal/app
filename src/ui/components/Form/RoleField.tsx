@@ -5,15 +5,9 @@ interface RoleFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
-  helperText?: string;
 }
 
-const RoleField: FC<RoleFieldProps> = ({
-  value,
-  onChange,
-  error,
-  helperText,
-}) => {
+const RoleField: FC<RoleFieldProps> = ({ value, onChange, error }) => {
   return (
     <>
       <InputLabel sx={{ color: "#2684ff" }}>Role</InputLabel>
@@ -23,7 +17,6 @@ const RoleField: FC<RoleFieldProps> = ({
         value={value}
         onChange={onChange}
         error={error}
-        helperText={helperText}
         sx={{
           input: { color: "#ffffff" },
           backgroundColor: "#393939",

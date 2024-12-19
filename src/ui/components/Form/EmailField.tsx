@@ -7,15 +7,9 @@ interface EmailFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
-  helperText?: string;
 }
 
-const EmailField: FC<EmailFieldProps> = ({
-  value,
-  onChange,
-  error,
-  helperText,
-}) => {
+const EmailField: FC<EmailFieldProps> = ({ value, onChange, error }) => {
   return (
     <>
       <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
@@ -26,7 +20,6 @@ const EmailField: FC<EmailFieldProps> = ({
         onChange={onChange}
         variant="outlined"
         error={error}
-        helperText={helperText}
         sx={{
           input: { color: "#ffffff" },
           backgroundColor: "#393939",

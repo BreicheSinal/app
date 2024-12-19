@@ -20,33 +20,13 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   const validation = () => {
-    let isValid: boolean = true;
+    let isValid = true;
+    setGeneralError("");
 
-    if (!email.trim()) {
-      setGeneralError("Email is required");
+    // checking for missing fields
+    if (!email.trim() || !password.trim()) {
+      setGeneralError("Missing Fields!");
       isValid = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-      setGeneralError("Invalid email format");
-      isValid = false;
-    } else {
-      setGeneralError("");
-    }
-
-    if (!password.trim()) {
-      setGeneralError("Password is required");
-      isValid = false;
-    } else if (password.length < 6) {
-      setGeneralError("Password must be at least 6 characters");
-      isValid = false;
-    } else if (
-      !/(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~])/g.test(password)
-    ) {
-      setGeneralError(
-        "Password must contain at least 1 number && 1 special character"
-      );
-      isValid = false;
-    } else {
-      setGeneralError("");
     }
 
     return isValid;
@@ -101,15 +81,13 @@ const LogIn = () => {
         <EmailField
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={!!generalError}
-          helperText={generalError}
+          error={!!generalError && !email.trim()}
         />
 
         <PasswordField
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={!!generalError}
-          helperText={generalError}
+          error={!!generalError && !password.trim()}
         />
 
         {generalError && (

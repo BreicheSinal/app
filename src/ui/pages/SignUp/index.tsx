@@ -24,50 +24,38 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const validation = () => {
-    let isValid: boolean = true;
+    let isValid = true;
+    setGeneralError("");
 
-    if (!username.trim()) {
-      setGeneralError("Username is required");
+    // checking for missing fields
+    if (!username.trim() || !email.trim() || !password.trim() || !role.trim()) {
+      setGeneralError("Missing Fields!");
       isValid = false;
-    } else if (!/^[a-zA-Z\s]+$/.test(username.trim())) {
+    }
+
+    // additional validations for all fields
+    if (username.trim() && !/^[a-zA-Z\s]+$/.test(username.trim())) {
       setGeneralError("Username must contain only letters and spaces");
       isValid = false;
-    } else {
-      setGeneralError("");
     }
 
-    if (!email.trim()) {
-      setGeneralError("Email is required");
-      isValid = false;
-    } else if (!/^\S+@\S+\.\S+$/.test(email)) {
+    if (email.trim() && !/^\S+@\S+\.\S+$/.test(email)) {
       setGeneralError("Invalid email format");
       isValid = false;
-    } else {
-      setGeneralError("");
     }
 
-    if (!password.trim()) {
-      setGeneralError("Password is required");
-      isValid = false;
-    } else if (password.length < 6) {
-      setGeneralError("Password must be at least 6 characters");
-      isValid = false;
-    } else if (
-      !/(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~])/g.test(password)
-    ) {
-      setGeneralError(
-        "Password must contain at least 1 number && 1 special character"
-      );
-      isValid = false;
-    } else {
-      setGeneralError("");
-    }
-
-    if (!role.trim()) {
-      setGeneralError("Role is required");
-      isValid = false;
-    } else {
-      setGeneralError("");
+    if (password.trim()) {
+      if (password.length < 6) {
+        setGeneralError("Password must be at least 6 characters");
+        isValid = false;
+      } else if (
+        !/(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~])/g.test(password)
+      ) {
+        setGeneralError(
+          "Password must contain at least 1 number & 1 special character"
+        );
+        isValid = false;
+      }
     }
 
     return isValid;
@@ -124,29 +112,25 @@ const SignUp = () => {
         <UsernameField
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          error={!!generalError}
-          helperText={generalError}
+          error={!!generalError && !username.trim()}
         />
 
         <EmailField
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={!!generalError}
-          helperText={generalError}
+          error={!!generalError && !email.trim()}
         />
 
         <PasswordField
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          error={!!generalError}
-          helperText={generalError}
+          error={!!generalError && !password.trim()}
         />
 
         <RoleField
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          error={!!generalError}
-          helperText={generalError}
+          error={!!generalError && !role.trim()}
         />
 
         {generalError && (

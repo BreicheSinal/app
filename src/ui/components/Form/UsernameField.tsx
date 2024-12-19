@@ -7,15 +7,9 @@ interface UsernameFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
-  helperText?: string;
 }
 
-const UsernameField: FC<UsernameFieldProps> = ({
-  value,
-  onChange,
-  error,
-  helperText,
-}) => {
+const UsernameField: FC<UsernameFieldProps> = ({ value, onChange, error }) => {
   return (
     <>
       <InputLabel sx={{ color: "#2684ff" }}>Username</InputLabel>
@@ -26,7 +20,6 @@ const UsernameField: FC<UsernameFieldProps> = ({
         onChange={onChange}
         variant="outlined"
         error={error}
-        helperText={helperText}
         sx={{
           input: { color: "#ffffff" },
           backgroundColor: "#393939",

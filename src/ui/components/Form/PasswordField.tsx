@@ -14,15 +14,9 @@ interface PasswordFieldProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
-  helperText?: string;
 }
 
-const PasswordField: FC<PasswordFieldProps> = ({
-  value,
-  onChange,
-  error,
-  helperText,
-}) => {
+const PasswordField: FC<PasswordFieldProps> = ({ value, onChange, error }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -37,7 +31,6 @@ const PasswordField: FC<PasswordFieldProps> = ({
         value={value}
         onChange={onChange}
         error={error}
-        helperText={helperText}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
