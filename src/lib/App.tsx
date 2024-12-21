@@ -6,15 +6,16 @@ import "../ui/styles/colors.css";
 
 import SignUp from "../ui/pages/SignUp";
 import LogIn from "../ui/pages/LogIn";
-import Feed from "../ui/pages/Feed";
+import Feed from "../ui/pages/Profile";
 
 const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Feed />} />
+          <Route path="/" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
+          <Route path="/feed" element={<Feed />} />
         </Routes>
       </BrowserRouter>
     </div>

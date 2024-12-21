@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-useless-escape */
 import { useState, FormEvent } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
