@@ -48,7 +48,7 @@ const LogIn = () => {
 
       if (response.token) {
         localStorage.setItem("authToken", response.token);
-        navigate("/");
+        navigate("/feed");
       }
     } catch (error: any) {
       const { message } = error;

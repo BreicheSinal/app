@@ -23,7 +23,12 @@ const initialState: AthleteSate = {
 const athleteSlice = createSlice({
   name: "athlete",
   initialState,
-  reducers: {},
+  reducers: {
+    setAthleteDetails: (state, action) => {
+      state.details = action.payload;
+    },
+  },
 });
 
+export const { setAthleteDetails } = athleteSlice.actions;
 export default athleteSlice.reducer;
