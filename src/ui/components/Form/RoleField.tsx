@@ -30,8 +30,9 @@ const RoleField: FC<RoleFieldProps> = ({ value, onChange, error }) => {
         }}
       >
         <MenuItem value="1">Athlete</MenuItem>
-        <MenuItem value="2">Club</MenuItem>
-        <MenuItem value="3">Federation</MenuItem>
+        <MenuItem value="2">Coach</MenuItem>
+        <MenuItem value="3">Club</MenuItem>
+        <MenuItem value="4">Federation</MenuItem>
       </TextField>
     </>
   );
