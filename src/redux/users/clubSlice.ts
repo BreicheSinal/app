@@ -9,3 +9,11 @@ interface ClubDetails {
   location: string;
   founded_year: number;
 }
+
+interface ClubState {
+  details: ClubDetails | null;
+}
+
+const initialState: ClubState = {
+  details: null,
+};

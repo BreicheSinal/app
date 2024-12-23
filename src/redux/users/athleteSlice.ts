@@ -13,11 +13,11 @@ interface AthleteDetails {
   weight: number;
 }
 
-interface AthleteSate {
+interface AthleteState {
   details: AthleteDetails | null;
 }
 
-const initialState: AthleteSate = {
+const initialState: AthleteState = {
   details: null,
 };
 
