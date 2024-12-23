@@ -11,4 +11,10 @@ interface FederationDetails {
   founded_year: number;
 }
 
+interface FederationState {
+  details: FederationDetails | null;
+}
 
+const initialState: FederationState = {
+  details: null,
+};
