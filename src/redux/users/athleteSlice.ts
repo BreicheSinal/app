@@ -11,3 +11,11 @@ interface AthleteDetails {
   height: number;
   weight: number;
 }
+
+interface AthleteSate {
+  details: AthleteDetails | null;
+}
+
+const initialState: AthleteSate = {
+  details: null,
+};
