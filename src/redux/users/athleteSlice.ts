@@ -19,3 +19,11 @@ interface AthleteSate {
 const initialState: AthleteSate = {
   details: null,
 };
+
+const athleteSlice = createSlice({
+  name: "athlete",
+  initialState,
+  reducers: {},
+});
+
+export default athleteSlice.reducer;
