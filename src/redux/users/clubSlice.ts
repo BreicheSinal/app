@@ -17,3 +17,16 @@ interface ClubState {
 const initialState: ClubState = {
   details: null,
 };
+
+const clubSlice = createSlice({
+  name: "club",
+  initialState,
+  reducers: {
+    setClubDetails: (state, action) => {
+      state.details = action.payload;
+    },
+  },
+});
+
+export const { setClubDetails } = clubSlice.actions;
+export default clubSlice.reducer;
