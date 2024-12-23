@@ -4,6 +4,7 @@ interface AthleteDetails {
   id: number;
   user_id: number;
   name: string;
+  bio: string;
   role: string;
   club_id: number;
   position: string;
