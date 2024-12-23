@@ -18,3 +18,16 @@ interface FederationState {
 const initialState: FederationState = {
   details: null,
 };
+
+const federationSlice = createSlice({
+  name: "federation",
+  initialState,
+  reducers: {
+    setFederationDetails: (state, action) => {
+      state.details = action.payload;
+    },
+  },
+});
+
+export const { setFederationDetails } = federationSlice.actions;
+export default federationSlice.reducer;
