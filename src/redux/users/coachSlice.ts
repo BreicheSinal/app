@@ -8,3 +8,11 @@ interface CoachDetails {
   bio: string;
   specialty: string;
 }
+
+interface CoachState {
+    details: CoachDetails | null;
+  }
+  
+  const initialState: CoachState = {
+    details: null,
+  };
