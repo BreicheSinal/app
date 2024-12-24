@@ -1,3 +1,8 @@
+import { useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { requestApi } from "../../../core/utils/request";
+
 import FeedLayout from "../../Layout/FeedLayout";
 
 import CustomCard from "../../components/CustomCard";
@@ -7,6 +12,51 @@ import { CardData } from "../../components/CustomCard";
 import "./style.css";
 
 const Feed = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+      const role = localStorage.getItem("role");
+      const specificRoleId = localStorage.getItem("specificRoleId");
+
+      if (!role || !specificRoleId) {
+        navigate("/login");
+        return;
+      }
+
+      try {
+        let endpoint = "";
+        switch (role) {
+          case "Athlete":
+            endpoint = `/athlete/${specificRoleId}`;
+            break;
+          case "Coach":
+            endpoint = `/coach/${specificRoleId}`;
+            break;
+          case "Club":
+            endpoint = `/club/${specificRoleId}`;
+            break;
+          case "Federation":
+            endpoint = `/federation/${specificRoleId}`;
+            break;
+          default:
+            throw new Error("Invalid role");
+        }
+
+        console.log("Fetching from endpoint:", endpoint);
+
+        const userDetails = await requestApi(endpoint, "GET");
+
+        console.log("im here", userDetails);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+        navigate("/login");
+      }
+    };
+
+    fetchUserDetails();
+  }, [navigate]);
+
   // mock data
   const profileData = {
     title: "Lebanese Football Federation",

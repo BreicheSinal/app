@@ -48,6 +48,14 @@ const LogIn = () => {
 
       if (response.token) {
         localStorage.setItem("authToken", response.token);
+
+        const role = response.user.userRoles[0].role.role_name;
+        localStorage.setItem("role", role);
+
+        const specificRoleId = response.user.specificRoleId;
+        localStorage.setItem("specificRoleId", specificRoleId);
+
+        console.log(role + " " + specificRoleId);
         navigate("/feed");
       }
     } catch (error: any) {

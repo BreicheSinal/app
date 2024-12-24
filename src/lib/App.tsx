@@ -6,7 +6,7 @@ import "../ui/styles/colors.css";
 
 import SignUp from "../ui/pages/SignUp";
 import LogIn from "../ui/pages/LogIn";
-import Feed from "../ui/pages/Profile";
+import Feed from "../ui/pages/Feed";
 
 const App = () => {
   return (
