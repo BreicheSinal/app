@@ -4,7 +4,7 @@ import { useState, FormEvent } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import { postRequest } from "../../../core/utils/api";
+import { requestApi } from "../../../core/utils/request";
 
 import SignUpLayout from "../../Layout/AuthLayout";
 import UsernameField from "../../components/Form/UsernameField";
@@ -71,7 +71,7 @@ const SignUp = () => {
     const roles = role ? [parseInt(role)] : 1;
 
     try {
-      const response = await postRequest("/register", {
+      const response = await requestApi("/register", "POST", {
         name: username,
         email,
         password,

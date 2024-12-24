@@ -3,7 +3,7 @@ import { useState, FormEvent } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import { postRequest } from "../../../core/utils/api";
+import { requestApi } from "../../../core/utils/request";
 
 import SignUpLayout from "../../Layout/AuthLayout";
 import EmailField from "../../components/Form/EmailField";
@@ -39,7 +39,7 @@ const LogIn = () => {
     if (!validation()) return;
 
     try {
-      const response = await postRequest("/login", {
+      const response = await requestApi("/login", "POST", {
         email,
         password,
       });
@@ -50,12 +50,6 @@ const LogIn = () => {
         localStorage.setItem("authToken", response.token);
         navigate("/feed");
       }
-
-      const { roles } = response.user;
-
-      const specificID = response.user.userRoles[0].id;
-
-        console.log(response.user.userRoles[0].id);
     } catch (error: any) {
       const { message } = error;
 
