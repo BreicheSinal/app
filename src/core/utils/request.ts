@@ -17,7 +17,7 @@ export const requestApi = async (
     const response: AxiosResponse = await api.request({
       url,
       method,
-      data, 
+      data,
     });
     return response.data;
   } catch (error: any) {
@@ -25,5 +25,3 @@ export const requestApi = async (
     throw error.response?.data || error.message;
   }
 };
-
-export default api;
