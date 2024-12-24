@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { requestApi } from "../../../core/utils/request";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
@@ -9,55 +8,55 @@ import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
+import { fetchAthleteDetails } from "../../../core/utils/fetchDetails";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../../redux/store";
+
 import "./style.css";
 
 const Feed = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const role = localStorage.getItem("role");
-      const specificRoleId = localStorage.getItem("specificRoleId");
+    const role = localStorage.getItem("role");
+    const specificRoleId = localStorage.getItem("specificRoleId");
 
-      if (!role || !specificRoleId) {
-        navigate("/login");
-        return;
+    const athleteDetails = useSelector(
+      (state: RootState) => state.athlete.details
+    );
+
+    if (!role || !specificRoleId) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const id = parseInt(specificRoleId);
+
+      switch (role) {
+        case "Athlete":
+          dispatch(fetchAthleteDetails(id));
+          break;
+        case "Coach":
+          dispatch(fetchCoachDetails(id));
+          break;
+        case "Club":
+          dispatch(fetchClubDetails(id));
+          break;
+        case "Federation":
+          dispatch(fetchFederationDetails(id));
+          break;
+        default:
+          throw new Error("Invalid role");
       }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      navigate("/login");
+    }
+  }, [navigate, dispatch]);
 
-      try {
-        let endpoint = "";
-        switch (role) {
-          case "Athlete":
-            endpoint = `/athlete/${specificRoleId}`;
-            break;
-          case "Coach":
-            endpoint = `/coach/${specificRoleId}`;
-            break;
-          case "Club":
-            endpoint = `/club/${specificRoleId}`;
-            break;
-          case "Federation":
-            endpoint = `/federation/${specificRoleId}`;
-            break;
-          default:
-            throw new Error("Invalid role");
-        }
-
-        console.log("Fetching from endpoint:", endpoint);
-
-        const userDetails = await requestApi(endpoint, "GET");
-
-        console.log("im here", userDetails);
-      } catch (error) {
-        console.error("Error fetching user details:", error);
-        navigate("/login");
-      }
-    };
-
-    fetchUserDetails();
-  }, [navigate]);
-
-  // mock data
+  /*// mock data
   const profileData = {
     title: "Lebanese Football Federation",
     fields: [
@@ -70,7 +69,7 @@ const Feed = () => {
         value: 1933,
       },
     ],
-  };
+  };*/
 
   // mock custom cards data
   const bio: CardData = {
