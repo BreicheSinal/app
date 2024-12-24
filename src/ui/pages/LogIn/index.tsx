@@ -50,6 +50,12 @@ const LogIn = () => {
         localStorage.setItem("authToken", response.token);
         navigate("/feed");
       }
+
+      const { roles } = response.user;
+
+      const specificID = response.user.userRoles[0].id;
+
+        console.log(response.user.userRoles[0].id);
     } catch (error: any) {
       const { message } = error;
 

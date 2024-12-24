@@ -4,13 +4,13 @@ interface AthleteDetails {
   id: number;
   user_id: number;
   name: string;
-  bio: string;
+  bio: string | null;
   role: string;
-  club_id: number;
-  position: string;
-  age: number;
-  height: number;
-  weight: number;
+  club_id: number | null;
+  position: string | null;
+  age: number | null;
+  height: number | null;
+  weight: number | null;
 }
 
 interface AthleteState {
