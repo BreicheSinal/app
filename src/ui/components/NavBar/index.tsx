@@ -18,9 +18,13 @@ import NoteEvent from "@mui/icons-material/EventNote";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
+import { useNavigate } from "react-router-dom";
+
 import "./style.css";
 
 const NavBar: FC = () => {
+  const navigate = useNavigate();
+
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
 
@@ -33,6 +37,14 @@ const NavBar: FC = () => {
   const handleMobileMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const goTo = (path: string) => navigate(path);
+
+  const goToConnections = () => goTo("/");
+  const goToMessaging = () => goTo("/");
+  const goToTryOuts = () => goTo("/");
+  const goToProfile = () => goTo("/profile");
+  const goToFeed = () => goTo("/feed");
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -51,17 +63,36 @@ const NavBar: FC = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+      <MenuItem onClick={goToProfile}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+          onClick={goToProfile}
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+      <MenuItem onClick={goToConnections}>
+        <IconButton
+          size="large"
+          aria-label="show 4 new mails"
+          color="inherit"
+          onClick={goToConnections}
+        >
           <PeopleIcon />
         </IconButton>
         <p>Connections</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem onClick={goToMessaging}>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
+          onClick={goToMessaging}
         >
           <Badge badgeContent={17} color="error">
             <ChatIcon />
@@ -69,23 +100,11 @@ const NavBar: FC = () => {
         </IconButton>
         <p>Messaging</p>
       </MenuItem>
-      <MenuItem>
-        <IconButton size="large" color="inherit">
+      <MenuItem onClick={goToTryOuts}>
+        <IconButton size="large" color="inherit" onClick={goToTryOuts}>
           <NoteEvent />
         </IconButton>
         <p>Try-Outs</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
       </MenuItem>
     </Menu>
   );
@@ -99,6 +118,7 @@ const NavBar: FC = () => {
             edge="start"
             aria-label="open drawer"
             className="icon-button"
+            onClick={goToFeed}
           >
             <img
               src="src/assets/icons/AthLink_noBG.png"
@@ -123,17 +143,17 @@ const NavBar: FC = () => {
             sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
           >
             <Box className="icon-container">
-              <Button className="button">
+              <Button className="button" onClick={goToConnections}>
                 <Typography className="icon-text">Connections</Typography>
               </Button>
             </Box>
             <Box className="icon-container">
-              <Button className="button">
+              <Button className="button" onClick={goToMessaging}>
                 <Typography className="icon-text">Messaging</Typography>
               </Button>
             </Box>
             <Box className="icon-container">
-              <Button className="button">
+              <Button className="button" onClick={goToTryOuts}>
                 <Typography className="icon-text">Try-Outs</Typography>
               </Button>
             </Box>
@@ -144,6 +164,7 @@ const NavBar: FC = () => {
                 aria-haspopup="true"
                 className="icon-button"
                 sx={{ color: "white" }}
+                onClick={goToProfile}
               >
                 <AccountCircle sx={{ fontSize: 35 }} />
               </IconButton>
