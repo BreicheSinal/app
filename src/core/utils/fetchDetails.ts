@@ -1,6 +1,8 @@
 import { requestApi } from "./request";
 
 import { setAthleteDetails } from "../../redux/users/athleteSlice";
+import { setCoachDetails } from "../../redux/users/coachSlice";
+
 import { AppDispatch } from "../../redux/store";
 
 export const fetchAthleteDetails =
@@ -34,19 +36,20 @@ export const fetchCoachDetails =
   (id: number) => async (dispatch: AppDispatch) => {
     try {
       const response = await requestApi(`/coach/${id}`);
-      const coachData = response.data.coach[0];
+      const coachData = response.coach[0];
 
-      const parsedAthleteDetails = {
+      const parsedCoachDetails = {
         id: parseInt(coachData.id, 10),
         user_id: parseInt(coachData.user.id, 10),
         name: coachData.user.name,
         bio: coachData.user.bio,
         role: "Coach",
         club_id: coachData.club,
+        club: coachData.club.user.name,
         specialty: coachData.specialty,
       };
 
-      dispatch(setAthleteDetails(parsedAthleteDetails));
+      dispatch(setCoachDetails(parsedCoachDetails));
     } catch (error) {
       console.error("Error fetching coach details:", error);
       throw error;

@@ -108,7 +108,10 @@ const Feed = () => {
       ? {
           title: coachDetails.name,
           avatar: coachDetails.name.charAt(0),
-          fields: [{ label: "Specialty", value: `${coachDetails.specialty}` }],
+          fields: [
+            { label: "Club", value: coachDetails.club || "N/A" },
+            { label: "Specialty", value: coachDetails.specialty || "N/A" },
+          ],
         }
       : { title: "Loading...", fields: [] };
 

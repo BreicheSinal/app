@@ -3,10 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 interface CoachDetails {
   id: number;
   user_id: number;
-  club_id: number;
+  club_id: number | null;
+  club: string | null;
   name: string;
-  bio: string;
-  specialty: string;
+  bio: string | null;
+  specialty: string | null;
 }
 
 interface CoachState {
