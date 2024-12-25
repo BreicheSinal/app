@@ -144,7 +144,7 @@ const CustomCard: FC<CardDataProps> = ({
           <Box className="flex space-between align-center" sx={{ mb: 1 }}>
             <Typography
               variant="h6"
-              className="primary-color"
+              className="tertiary-color"
               sx={{ fontWeight: "bold", letterSpacing: "0.5px" }}
             >
               {data.title}

@@ -131,13 +131,13 @@ const Profile = () => {
                 data={bio}
                 showEdit={true}
                 onEdit={() => {}}
-                />
+              />
               <CustomCard
                 width={600}
                 data={bio}
                 showEdit={true}
                 onEdit={() => {}}
-                />
+              />
             </div>
 
             <CustomCard
@@ -145,7 +145,7 @@ const Profile = () => {
               data={staffData}
               showEdit={true}
               onEdit={() => {}}
-              />
+            />
           </div>
         </div>
       </FeedLayout>

@@ -12,7 +12,7 @@ interface EmailFieldProps {
 const EmailField: FC<EmailFieldProps> = ({ value, onChange, error }) => {
   return (
     <>
-      <InputLabel sx={{ color: "#2684ff" }}>Email</InputLabel>
+      <InputLabel sx={{ color: "#9ac6ff" }}>Email</InputLabel>
       <TextField
         className="input-fields"
         fullWidth

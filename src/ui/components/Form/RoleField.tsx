@@ -10,7 +10,7 @@ interface RoleFieldProps {
 const RoleField: FC<RoleFieldProps> = ({ value, onChange, error }) => {
   return (
     <>
-      <InputLabel sx={{ color: "#2684ff" }}>Role</InputLabel>
+      <InputLabel sx={{ color: "#9ac6ff" }}>Role</InputLabel>
       <TextField
         select
         fullWidth

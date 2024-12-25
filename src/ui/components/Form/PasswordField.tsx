@@ -23,7 +23,7 @@ const PasswordField: FC<PasswordFieldProps> = ({ value, onChange, error }) => {
 
   return (
     <>
-      <InputLabel sx={{ color: "#2684ff" }}>Password</InputLabel>
+      <InputLabel sx={{ color: "#9ac6ff" }}>Password</InputLabel>
       <TextField
         className="input-fields"
         fullWidth
