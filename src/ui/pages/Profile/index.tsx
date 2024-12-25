@@ -1,41 +1,99 @@
+import { useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+
 import FeedLayout from "../../Layout/FeedLayout";
 
 import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
+import {
+  fetchAthleteDetails,
+  fetchCoachDetails,
+  fetchClubDetails,
+  fetchFederationDetails,
+  getBioData,
+  getProfileData,
+} from "../../../core/utils/fetchDetails";
+
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../../redux/store";
+
 import "./style.css";
 
 const Profile = () => {
-  // mock data
-  const profileData = {
-    title: "Lebanese Football Federation",
-    fields: [
-      {
-        label: "Country",
-        value: "Lebanon",
-      },
-      {
-        label: "Founded Year",
-        value: 1933,
-      },
-    ],
-  };
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  // mock custom cards data
-  const bio: CardData = {
-    title: "BIO",
-    sections: [
-      {
-        type: "text",
-        content: "Qorem ipsum dolor sit amet, consectetur adipiscing elit...",
-      },
-      {
-        type: "text",
-        content: "Qorem ipsum dolor sit amet, consectetur adipiscing elit...",
-      },
-    ],
-  };
+  const athleteDetails = useSelector(
+    (state: RootState) => state.athlete.details
+  );
+
+  const coachDetails = useSelector((state: RootState) => state.coach.details);
+
+  const clubDetails = useSelector((state: RootState) => state.club.details);
+  const federationDetails = useSelector(
+    (state: RootState) => state.federation.details
+  );
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    const specificRoleId = localStorage.getItem("specificRoleId");
+
+    if (!role || !specificRoleId) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const id = parseInt(specificRoleId);
+
+      switch (role) {
+        case "Athlete":
+          dispatch(fetchAthleteDetails(id));
+          break;
+        case "Coach":
+          dispatch(fetchCoachDetails(id));
+          break;
+        case "Club":
+          dispatch(fetchClubDetails(id));
+          break;
+        case "Federation":
+          dispatch(fetchFederationDetails(id));
+          break;
+        default:
+          throw new Error("Invalid role");
+      }
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      navigate("/login");
+    }
+  }, [navigate, dispatch]);
+
+  const role = localStorage.getItem("role");
+
+  const profileData = getProfileData(
+    role,
+    role === "Athlete"
+      ? athleteDetails
+      : role === "Coach"
+      ? coachDetails
+      : role === "Club"
+      ? clubDetails
+      : federationDetails
+  );
+
+  const bio = getBioData(
+    role,
+    role === "Athlete"
+      ? athleteDetails
+      : role === "Coach"
+      ? coachDetails
+      : role === "Club"
+      ? clubDetails
+      : federationDetails
+  );
 
   const staffData: CardData = {
     title: "STAFF",
@@ -55,9 +113,6 @@ const Profile = () => {
     ],
   };
 
-  const handleEdit = (field: string) => {};
-  const middleEdit = () => {};
-
   return (
     <div className="feed-container">
       <FeedLayout>
@@ -66,7 +121,7 @@ const Profile = () => {
             width={300}
             data={profileData}
             showEdit={true}
-            onEdit={handleEdit}
+            onEdit={() => {}}
           />
 
           <div className="sub-cards-container flex">
@@ -75,22 +130,22 @@ const Profile = () => {
                 width={600}
                 data={bio}
                 showEdit={true}
-                onEdit={middleEdit}
-              />
+                onEdit={() => {}}
+                />
               <CustomCard
                 width={600}
                 data={bio}
                 showEdit={true}
-                onEdit={middleEdit}
-              />
+                onEdit={() => {}}
+                />
             </div>
 
             <CustomCard
               width={250}
               data={staffData}
               showEdit={true}
-              onEdit={middleEdit}
-            />
+              onEdit={() => {}}
+              />
           </div>
         </div>
       </FeedLayout>
