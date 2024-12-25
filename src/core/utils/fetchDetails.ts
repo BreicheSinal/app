@@ -2,6 +2,7 @@ import { requestApi } from "./request";
 
 import { setAthleteDetails } from "../../redux/users/athleteSlice";
 import { setCoachDetails } from "../../redux/users/coachSlice";
+import { setClubDetails } from "../../redux/users/clubSlice";
 
 import { AppDispatch } from "../../redux/store";
 
@@ -52,6 +53,31 @@ export const fetchCoachDetails =
       dispatch(setCoachDetails(parsedCoachDetails));
     } catch (error) {
       console.error("Error fetching coach details:", error);
+      throw error;
+    }
+  };
+
+export const fetchClubDetails =
+  (id: number) => async (dispatch: AppDispatch) => {
+    try {
+      const response = await requestApi(`/club/${id}`);
+      const clubData = response.club[0];
+
+      const parsedClubDetails = {
+        id: parseInt(clubData.id, 10),
+        user_id: parseInt(clubData.user.id, 10),
+        name: clubData.user.name,
+        bio: clubData.user.bio,
+        role: "Club",
+        federation_id: clubData.federation,
+        federation: clubData.club.user.name,
+        location: clubData.location,
+        founded_year: clubData.founded_year,
+      };
+
+      dispatch(setClubDetails(parsedClubDetails));
+    } catch (error) {
+      console.error("Error fetching club details:", error);
       throw error;
     }
   };
