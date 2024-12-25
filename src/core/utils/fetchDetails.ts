@@ -21,7 +21,7 @@ export const fetchAthleteDetails =
         bio: athleteData.user.bio,
         role: "Athlete",
         club_id: athleteData.club.id,
-        club: athleteData.club.user.name,
+        club: athleteData.club?.user?.name || null,
         position: athleteData.position,
         age: athleteData.age,
         height: parseFloat(athleteData.height),
@@ -48,7 +48,7 @@ export const fetchCoachDetails =
         bio: coachData.user.bio,
         role: "Coach",
         club_id: coachData.club,
-        club: coachData.club.user.name,
+        club: coachData.club?.user?.name || null,
         specialty: coachData.specialty,
       };
 
@@ -72,7 +72,7 @@ export const fetchClubDetails =
         bio: clubData.user.bio,
         role: "Club",
         federation_id: clubData.federation,
-        federation: clubData.club.user.name,
+        federation: clubData.club?.user?.name || null,
         location: clubData.location,
         founded_year: clubData.founded_year,
       };
