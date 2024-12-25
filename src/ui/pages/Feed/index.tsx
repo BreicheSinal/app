@@ -13,7 +13,10 @@ import {
   fetchCoachDetails,
   fetchClubDetails,
   fetchFederationDetails,
+  getBioData,
+  getProfileData,
 } from "../../../core/utils/fetchDetails";
+
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
 
@@ -68,48 +71,29 @@ const Feed = () => {
     }
   }, [navigate, dispatch]);
 
-  const bio =
-    localStorage.getItem("role") === "Athlete" && athleteDetails
-      ? {
-          title: "BIO",
-          sections: [
-            {
-              type: "text",
-              content: athleteDetails.bio || "N/A",
-            },
-          ],
-        }
-      : localStorage.getItem("role") === "Coach" && coachDetails
-      ? {
-          title: "BIO",
-          sections: [
-            {
-              type: "text",
-              content: coachDetails.bio || "N/A",
-            },
-          ],
-        }
-      : localStorage.getItem("role") === "Club" && clubDetails
-      ? {
-          title: "BIO",
-          sections: [
-            {
-              type: "text",
-              content: clubDetails.bio || "N/A",
-            },
-          ],
-        }
-      : localStorage.getItem("role") === "Federation" && federationDetails
-      ? {
-          title: "BIO",
-          sections: [
-            {
-              type: "text",
-              content: federationDetails.bio || "N/A",
-            },
-          ],
-        }
-      : { title: "Loading...", sections: [] };
+  const role = localStorage.getItem("role");
+
+  const profileData = getProfileData(
+    role,
+    role === "Athlete"
+      ? athleteDetails
+      : role === "Coach"
+      ? coachDetails
+      : role === "Club"
+      ? clubDetails
+      : federationDetails
+  );
+
+  const bio = getBioData(
+    role,
+    role === "Athlete"
+      ? athleteDetails
+      : role === "Coach"
+      ? coachDetails
+      : role === "Club"
+      ? clubDetails
+      : federationDetails
+  );
 
   const staffData: CardData = {
     title: "STAFF",
@@ -129,55 +113,6 @@ const Feed = () => {
     ],
   };
 
-  const handleEdit = (field: string) => {};
-  const middleEdit = () => {};
-
-  const profileData =
-    localStorage.getItem("role") === "Athlete" && athleteDetails
-      ? {
-          title: athleteDetails.name,
-          avatar: athleteDetails.name.charAt(0),
-          fields: [
-            { label: "Club", value: athleteDetails.club || "N/A" },
-            { label: "Position", value: athleteDetails.position || "N/A" },
-            { label: "Age", value: athleteDetails.age },
-            { label: "Height", value: `${athleteDetails.height} cm` },
-            { label: "Weight", value: `${athleteDetails.weight} kg` },
-          ],
-        }
-      : localStorage.getItem("role") === "Coach" && coachDetails
-      ? {
-          title: coachDetails.name,
-          avatar: coachDetails.name.charAt(0),
-          fields: [
-            { label: "Club", value: coachDetails.club || "N/A" },
-            { label: "Specialty", value: coachDetails.specialty || "N/A" },
-          ],
-        }
-      : localStorage.getItem("role") === "Club" && clubDetails
-      ? {
-          title: clubDetails.name,
-          avatar: clubDetails.name.charAt(0),
-          fields: [
-            { label: "Location", value: clubDetails.location || "N/A" },
-            { label: "Founded Year", value: clubDetails.founded_year || "N/A" },
-          ],
-        }
-      : localStorage.getItem("role") === "Federation" && federationDetails
-      ? {
-          title: federationDetails.name,
-          avatar: federationDetails.name.charAt(0),
-          fields: [
-            { label: "Country", value: federationDetails.country || "N/A" },
-            { label: "Location", value: federationDetails.location || "N/A" },
-            {
-              label: "Founded Year",
-              value: federationDetails.founded_year || "N/A",
-            },
-          ],
-        }
-      : { title: "Loading...", fields: [] };
-
   return (
     <div className="feed-container">
       <FeedLayout>
@@ -186,7 +121,7 @@ const Feed = () => {
             width={300}
             data={profileData}
             showEdit={false}
-            onEdit={handleEdit}
+            onEdit={() => {}}
           />
 
           <div className="sub-cards-container flex">
@@ -195,13 +130,13 @@ const Feed = () => {
                 width={600}
                 data={bio}
                 showEdit={false}
-                onEdit={middleEdit}
+                onEdit={() => {}}
               />
               <CustomCard
                 width={600}
                 data={bio}
                 showEdit={false}
-                onEdit={middleEdit}
+                onEdit={() => {}}
               />
             </div>
 
@@ -209,7 +144,7 @@ const Feed = () => {
               width={250}
               data={staffData}
               showEdit={false}
-              onEdit={middleEdit}
+              onEdit={() => {}}
             />
           </div>
         </div>

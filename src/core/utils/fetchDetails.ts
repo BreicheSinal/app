@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { requestApi } from "./request";
 
 import { setAthleteDetails } from "../../redux/users/athleteSlice";
@@ -106,3 +107,65 @@ export const fetchFederationDetails =
       throw error;
     }
   };
+
+export const getProfileData = (role: string | null, details: any) => {
+  if (role === "Athlete" && details) {
+    return {
+      title: details.name,
+      avatar: details.name.charAt(0),
+      fields: [
+        { label: "Club", value: details.club || "N/A" },
+        { label: "Position", value: details.position || "N/A" },
+        { label: "Age", value: details.age },
+        { label: "Height", value: `${details.height} cm` },
+        { label: "Weight", value: `${details.weight} kg` },
+      ],
+    };
+  } else if (role === "Coach" && details) {
+    return {
+      title: details.name,
+      avatar: details.name.charAt(0),
+      fields: [
+        { label: "Club", value: details.club || "N/A" },
+        { label: "Specialty", value: details.specialty || "N/A" },
+      ],
+    };
+  } else if (role === "Club" && details) {
+    return {
+      title: details.name,
+      avatar: details.name.charAt(0),
+      fields: [
+        { label: "Location", value: details.location || "N/A" },
+        { label: "Founded Year", value: details.founded_year || "N/A" },
+      ],
+    };
+  } else if (role === "Federation" && details) {
+    return {
+      title: details.name,
+      avatar: details.name.charAt(0),
+      fields: [
+        { label: "Country", value: details.country || "N/A" },
+        { label: "Location", value: details.location || "N/A" },
+        { label: "Founded Year", value: details.founded_year || "N/A" },
+      ],
+    };
+  } else {
+    return { title: "Loading...", fields: [] };
+  }
+};
+
+export const getBioData = (role: string | null, details: any) => {
+  if (details) {
+    return {
+      title: "BIO",
+      sections: [
+        {
+          type: "text",
+          content: details.bio || "N/A",
+        },
+      ],
+    };
+  } else {
+    return { title: "Loading...", sections: [] };
+  }
+};
