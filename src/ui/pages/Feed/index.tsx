@@ -8,7 +8,10 @@ import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
-import { fetchAthleteDetails } from "../../../core/utils/fetchDetails";
+import {
+  fetchAthleteDetails,
+  fetchCoachDetails,
+} from "../../../core/utils/fetchDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
 
@@ -18,13 +21,15 @@ const Feed = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
+  const athleteDetails = useSelector(
+    (state: RootState) => state.athlete.details
+  );
+
+  const coachDetails = useSelector((state: RootState) => state.coach.details);
+
   useEffect(() => {
     const role = localStorage.getItem("role");
     const specificRoleId = localStorage.getItem("specificRoleId");
-
-    const athleteDetails = useSelector(
-      (state: RootState) => state.athlete.details
-    );
 
     if (!role || !specificRoleId) {
       navigate("/login");
@@ -41,12 +46,6 @@ const Feed = () => {
         case "Coach":
           dispatch(fetchCoachDetails(id));
           break;
-        case "Club":
-          dispatch(fetchClubDetails(id));
-          break;
-        case "Federation":
-          dispatch(fetchFederationDetails(id));
-          break;
         default:
           throw new Error("Invalid role");
       }
@@ -55,21 +54,6 @@ const Feed = () => {
       navigate("/login");
     }
   }, [navigate, dispatch]);
-
-  /*// mock data
-  const profileData = {
-    title: "Lebanese Football Federation",
-    fields: [
-      {
-        label: "Country",
-        value: "Lebanon",
-      },
-      {
-        label: "Founded Year",
-        value: 1933,
-      },
-    ],
-  };*/
 
   // mock custom cards data
   const bio: CardData = {
@@ -106,6 +90,27 @@ const Feed = () => {
 
   const handleEdit = (field: string) => {};
   const middleEdit = () => {};
+
+  const profileData =
+    localStorage.getItem("role") === "Athlete" && athleteDetails
+      ? {
+          title: athleteDetails.name,
+          avatar: athleteDetails.name.charAt(0),
+          fields: [
+            { label: "Club", value: athleteDetails.club || "N/A" },
+            { label: "Position", value: athleteDetails.position || "N/A" },
+            { label: "Age", value: athleteDetails.age },
+            { label: "Height", value: `${athleteDetails.height} cm` },
+            { label: "Weight", value: `${athleteDetails.weight} kg` },
+          ],
+        }
+      : localStorage.getItem("role") === "Coach" && coachDetails
+      ? {
+          title: coachDetails.name,
+          avatar: coachDetails.name.charAt(0),
+          fields: [{ label: "Specialty", value: `${coachDetails.specialty}` }],
+        }
+      : { title: "Loading...", fields: [] };
 
   return (
     <div className="feed-container">

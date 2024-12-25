@@ -7,6 +7,7 @@ interface AthleteDetails {
   bio: string | null;
   role: string;
   club_id: number | null;
+  club: string | null;
   position: string | null;
   age: number | null;
   height: number | null;

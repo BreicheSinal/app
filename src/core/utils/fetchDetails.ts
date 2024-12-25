@@ -7,7 +7,7 @@ export const fetchAthleteDetails =
   (id: number) => async (dispatch: AppDispatch) => {
     try {
       const response = await requestApi(`/athlete/${id}`);
-      const athleteData = response.data.athlete[0];
+      const athleteData = response.athlete[0];
 
       const parsedAthleteDetails = {
         id: parseInt(athleteData.id, 10),
@@ -15,7 +15,8 @@ export const fetchAthleteDetails =
         name: athleteData.user.name,
         bio: athleteData.user.bio,
         role: "Athlete",
-        club_id: athleteData.club,
+        club_id: athleteData.club.id,
+        club: athleteData.club.user.name,
         position: athleteData.position,
         age: athleteData.age,
         height: parseFloat(athleteData.height),

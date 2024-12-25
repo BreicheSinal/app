@@ -13,7 +13,7 @@ import "./style.css";
 
 interface ProfileField {
   label: string;
-  value: string | number;
+  value: string | number | null;
 }
 
 interface ProfileData {
