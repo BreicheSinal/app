@@ -12,10 +12,10 @@ interface List {
 
 // defining interfaces for content
 interface ContentSection {
-  type: "text" | "list";
-  title?: string;
-  subtitle?: string;
-  content?: string | string[] | number | ReactNode | List[];
+  type: "text" | "list" | string;
+  title?: string | null;
+  subtitle?: string | null;
+  content?: string | string[] | number | ReactNode | List[] | null;
 }
 
 export interface CardData {

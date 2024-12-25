@@ -55,20 +55,28 @@ const Feed = () => {
     }
   }, [navigate, dispatch]);
 
-  // mock custom cards data
-  const bio: CardData = {
-    title: "BIO",
-    sections: [
-      {
-        type: "text",
-        content: "Qorem ipsum dolor sit amet, consectetur adipiscing elit...",
-      },
-      {
-        type: "text",
-        content: "Qorem ipsum dolor sit amet, consectetur adipiscing elit...",
-      },
-    ],
-  };
+  const bio =
+    localStorage.getItem("role") === "Athlete" && athleteDetails
+      ? {
+          title: "BIO",
+          sections: [
+            {
+              type: "text",
+              content: athleteDetails.bio || "N/A",
+            },
+          ],
+        }
+      : localStorage.getItem("role") === "Coach" && coachDetails
+      ? {
+          title: "BIO",
+          sections: [
+            {
+              type: "text",
+              content: coachDetails.bio || "N/A",
+            },
+          ],
+        }
+      : { title: "Loading...", sections: [] };
 
   const staffData: CardData = {
     title: "STAFF",
