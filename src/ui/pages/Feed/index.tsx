@@ -27,6 +27,8 @@ const Feed = () => {
 
   const coachDetails = useSelector((state: RootState) => state.coach.details);
 
+  const clubDetails = useSelector((state: RootState) => state.club.details);
+
   useEffect(() => {
     const role = localStorage.getItem("role");
     const specificRoleId = localStorage.getItem("specificRoleId");
@@ -76,6 +78,16 @@ const Feed = () => {
             },
           ],
         }
+      : localStorage.getItem("role") === "Club" && clubDetails
+      ? {
+          title: "BIO",
+          sections: [
+            {
+              type: "text",
+              content: clubDetails.bio || "N/A",
+            },
+          ],
+        }
       : { title: "Loading...", sections: [] };
 
   const staffData: CardData = {
@@ -119,6 +131,15 @@ const Feed = () => {
           fields: [
             { label: "Club", value: coachDetails.club || "N/A" },
             { label: "Specialty", value: coachDetails.specialty || "N/A" },
+          ],
+        }
+      : localStorage.getItem("role") === "Club" && clubDetails
+      ? {
+          title: clubDetails.name,
+          avatar: clubDetails.name.charAt(0),
+          fields: [
+            { label: "Location", value: clubDetails.location || "N/A" },
+            { label: "Founded Year", value: clubDetails.founded_year || "N/A" },
           ],
         }
       : { title: "Loading...", fields: [] };
