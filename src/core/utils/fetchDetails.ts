@@ -3,6 +3,7 @@ import { requestApi } from "./request";
 import { setAthleteDetails } from "../../redux/users/athleteSlice";
 import { setCoachDetails } from "../../redux/users/coachSlice";
 import { setClubDetails } from "../../redux/users/clubSlice";
+import { setFederationDetails } from "../../redux/users/federationSlice";
 
 import { AppDispatch } from "../../redux/store";
 
@@ -78,6 +79,30 @@ export const fetchClubDetails =
       dispatch(setClubDetails(parsedClubDetails));
     } catch (error) {
       console.error("Error fetching club details:", error);
+      throw error;
+    }
+  };
+
+export const fetchFederationDetails =
+  (id: number) => async (dispatch: AppDispatch) => {
+    try {
+      const response = await requestApi(`/federation/${id}`);
+      const federationData = response.federation[0];
+
+      const parsedFederationDetails = {
+        id: parseInt(federationData.id, 10),
+        user_id: parseInt(federationData.user.id, 10),
+        name: federationData.user.name,
+        bio: federationData.user.bio,
+        role: "Federation",
+        location: federationData.location,
+        country: federationData.country,
+        founded_year: federationData.founded_year,
+      };
+
+      dispatch(setFederationDetails(parsedFederationDetails));
+    } catch (error) {
+      console.error("Error fetching federation details:", error);
       throw error;
     }
   };
