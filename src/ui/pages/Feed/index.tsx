@@ -11,6 +11,8 @@ import { CardData } from "../../components/CustomCard";
 import {
   fetchAthleteDetails,
   fetchCoachDetails,
+  fetchClubDetails,
+  fetchFederationDetails,
 } from "../../../core/utils/fetchDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
@@ -28,6 +30,9 @@ const Feed = () => {
   const coachDetails = useSelector((state: RootState) => state.coach.details);
 
   const clubDetails = useSelector((state: RootState) => state.club.details);
+  const federationDetails = useSelector(
+    (state: RootState) => state.federation.details
+  );
 
   useEffect(() => {
     const role = localStorage.getItem("role");
@@ -47,6 +52,12 @@ const Feed = () => {
           break;
         case "Coach":
           dispatch(fetchCoachDetails(id));
+          break;
+        case "Club":
+          dispatch(fetchClubDetails(id));
+          break;
+        case "Federation":
+          dispatch(fetchFederationDetails(id));
           break;
         default:
           throw new Error("Invalid role");
@@ -85,6 +96,16 @@ const Feed = () => {
             {
               type: "text",
               content: clubDetails.bio || "N/A",
+            },
+          ],
+        }
+      : localStorage.getItem("role") === "Federation" && federationDetails
+      ? {
+          title: "BIO",
+          sections: [
+            {
+              type: "text",
+              content: federationDetails.bio || "N/A",
             },
           ],
         }
@@ -140,6 +161,19 @@ const Feed = () => {
           fields: [
             { label: "Location", value: clubDetails.location || "N/A" },
             { label: "Founded Year", value: clubDetails.founded_year || "N/A" },
+          ],
+        }
+      : localStorage.getItem("role") === "Federation" && federationDetails
+      ? {
+          title: federationDetails.name,
+          avatar: federationDetails.name.charAt(0),
+          fields: [
+            { label: "Country", value: federationDetails.country || "N/A" },
+            { label: "Location", value: federationDetails.location || "N/A" },
+            {
+              label: "Founded Year",
+              value: federationDetails.founded_year || "N/A",
+            },
           ],
         }
       : { title: "Loading...", fields: [] };
