@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -19,6 +19,10 @@ const LogIn = () => {
   const [generalError, setGeneralError] = useState<string>("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.removeItem("authToken");
+  }, []);
 
   const validation = () => {
     let isValid = true;
