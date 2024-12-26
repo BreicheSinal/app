@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
+import BioCard from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
@@ -20,6 +21,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
 
+import { requestApi } from "../../../core/utils/request";
+
 import "./style.css";
 
 const Profile = () => {
@@ -35,6 +38,18 @@ const Profile = () => {
   const clubDetails = useSelector((state: RootState) => state.club.details);
   const federationDetails = useSelector(
     (state: RootState) => state.federation.details
+  );
+
+  const role = localStorage.getItem("role") || "";
+
+  const isLoading = useSelector((state: RootState) =>
+    role === "Athlete"
+      ? state.athlete.loading
+      : role === "Coach"
+      ? state.coach.loading
+      : role === "Club"
+      ? state.club.loading
+      : state.federation.loading
   );
 
   useEffect(() => {
@@ -71,7 +86,6 @@ const Profile = () => {
     }
   }, [navigate, dispatch]);
 
-  const role = localStorage.getItem("role");
 
   const profileData = getProfileData(
     role,
@@ -84,16 +98,61 @@ const Profile = () => {
       : federationDetails
   );
 
-  const bio = getBioData(
-    role,
-    role === "Athlete"
-      ? athleteDetails
-      : role === "Coach"
-      ? coachDetails
-      : role === "Club"
-      ? clubDetails
-      : federationDetails
+  const bioData = useMemo(
+    () =>
+      getBioData(
+        role,
+        role === "Athlete"
+          ? athleteDetails?.bio || ""
+          : role === "Coach"
+          ? coachDetails?.bio || ""
+          : role === "Club"
+          ? clubDetails?.bio || ""
+          : federationDetails?.bio || ""
+      ),
+    [role, athleteDetails, coachDetails, clubDetails, federationDetails]
   );
+
+  const editBio = async (updatedBio: string) => {
+    try {
+      const specificRoleId = localStorage.getItem("specificRoleId");
+      if (!role || !specificRoleId) throw new Error("User role or ID missing");
+
+      const id = parseInt(specificRoleId);
+
+      // updating bio based on role
+      const endpoint =
+        role === "Athlete"
+          ? `/athlete/editBio/${id}`
+          : role === "Coach"
+          ? `/coach/editBio/${id}`
+          : role === "Club"
+          ? `/club/editBio/${id}`
+          : `/federation/editBio/${id}`;
+
+      await requestApi(endpoint, "PUT", { bio: updatedBio });
+
+      // refetching updated details for the user
+      switch (role) {
+        case "Athlete":
+          dispatch(fetchAthleteDetails(id));
+          break;
+        case "Coach":
+          dispatch(fetchCoachDetails(id));
+          break;
+        case "Club":
+          dispatch(fetchClubDetails(id));
+          break;
+        case "Federation":
+          dispatch(fetchFederationDetails(id));
+          break;
+        default:
+          throw new Error("Invalid role");
+      }
+    } catch (error) {
+      console.error("Error updating bio:", error);
+    }
+  };
 
   const staffData: CardData = {
     title: "STAFF",
@@ -126,17 +185,12 @@ const Profile = () => {
 
           <div className="sub-cards-container flex">
             <div className="flex column">
-              <CustomCard
+              <BioCard
                 width={600}
-                data={bio}
+                bioText={bioData.bioText}
                 showEdit={true}
-                onEdit={() => {}}
-              />
-              <CustomCard
-                width={600}
-                data={bio}
-                showEdit={true}
-                onEdit={() => {}}
+                onEdit={editBio}
+                isLoading={isLoading}
               />
             </div>
 
