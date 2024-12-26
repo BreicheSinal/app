@@ -22,6 +22,8 @@ const LogIn = () => {
 
   useEffect(() => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("role");
+    localStorage.removeItem("specificRoleId");
   }, []);
 
   const validation = () => {
