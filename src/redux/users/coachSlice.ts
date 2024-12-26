@@ -12,10 +12,14 @@ interface CoachDetails {
 
 interface CoachState {
   details: CoachDetails | null;
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: CoachState = {
   details: null,
+  loading: false,
+  error: null,
 };
 
 const coachSlice = createSlice({
@@ -25,8 +29,16 @@ const coachSlice = createSlice({
     setCoachDetails: (state, action) => {
       state.details = action.payload;
     },
+    setCoachLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setCoachError: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
   },
 });
 
-export const { setCoachDetails } = coachSlice.actions;
+export const { setCoachDetails, setCoachLoading, setCoachError } =
+  coachSlice.actions;
 export default coachSlice.reducer;
