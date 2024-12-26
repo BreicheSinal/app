@@ -6,7 +6,11 @@ import {
   setAthleteLoading,
   setAthleteError,
 } from "../../redux/users/athleteSlice";
-import { setCoachDetails } from "../../redux/users/coachSlice";
+import {
+  setCoachDetails,
+  setCoachLoading,
+  setCoachError,
+} from "../../redux/users/coachSlice";
 import {
   setClubDetails,
   setClubLoading,
@@ -50,6 +54,8 @@ export const fetchAthleteDetails =
 export const fetchCoachDetails =
   (id: number) => async (dispatch: AppDispatch) => {
     try {
+      dispatch(setCoachLoading(true));
+
       const response = await requestApi(`/coach/${id}`);
       const coachData = response.coach[0];
 
@@ -65,9 +71,11 @@ export const fetchCoachDetails =
       };
 
       dispatch(setCoachDetails(parsedCoachDetails));
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching coach details:", error);
-      throw error;
+      dispatch(
+        setCoachError(error.message || "Failed to fetch athlete details")
+      );
     }
   };
 
