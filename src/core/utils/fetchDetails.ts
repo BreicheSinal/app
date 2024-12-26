@@ -73,9 +73,7 @@ export const fetchCoachDetails =
       dispatch(setCoachDetails(parsedCoachDetails));
     } catch (error: any) {
       console.error("Error fetching coach details:", error);
-      dispatch(
-        setCoachError(error.message || "Failed to fetch athlete details")
-      );
+      dispatch(setCoachError(error.message || "Failed to fetch coach details"));
     }
   };
 
@@ -102,9 +100,7 @@ export const fetchClubDetails =
       dispatch(setClubDetails(parsedClubDetails));
     } catch (error: any) {
       console.error("Error fetching club details:", error);
-      dispatch(
-        setClubError(error.message || "Failed to fetch athlete details")
-      );
+      dispatch(setClubError(error.message || "Failed to fetch club details"));
     }
   };
 
