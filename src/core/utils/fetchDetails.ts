@@ -16,7 +16,11 @@ import {
   setClubLoading,
   setClubError,
 } from "../../redux/users/clubSlice";
-import { setFederationDetails } from "../../redux/users/federationSlice";
+import {
+  setFederationDetails,
+  setFederationLoading,
+  setFederationError,
+} from "../../redux/users/federationSlice";
 
 import { AppDispatch } from "../../redux/store";
 
@@ -107,6 +111,8 @@ export const fetchClubDetails =
 export const fetchFederationDetails =
   (id: number) => async (dispatch: AppDispatch) => {
     try {
+      dispatch(setFederationLoading(true));
+
       const response = await requestApi(`/federation/${id}`);
       const federationData = response.federation[0];
 
@@ -122,9 +128,13 @@ export const fetchFederationDetails =
       };
 
       dispatch(setFederationDetails(parsedFederationDetails));
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching federation details:", error);
-      throw error;
+      dispatch(
+        setFederationError(
+          error.message || "Failed to fetch federation details"
+        )
+      );
     }
   };
 
