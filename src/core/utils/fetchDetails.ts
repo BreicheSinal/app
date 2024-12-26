@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { requestApi } from "./request";
 
-import { setAthleteDetails } from "../../redux/users/athleteSlice";
+import {
+  setAthleteDetails,
+  setAthleteLoading,
+  setAthleteError,
+} from "../../redux/users/athleteSlice";
 import { setCoachDetails } from "../../redux/users/coachSlice";
 import { setClubDetails } from "../../redux/users/clubSlice";
 import { setFederationDetails } from "../../redux/users/federationSlice";
@@ -11,6 +15,8 @@ import { AppDispatch } from "../../redux/store";
 export const fetchAthleteDetails =
   (id: number) => async (dispatch: AppDispatch) => {
     try {
+      dispatch(setAthleteLoading(true));
+
       const response = await requestApi(`/athlete/${id}`);
       const athleteData = response.athlete[0];
 
@@ -29,9 +35,11 @@ export const fetchAthleteDetails =
       };
 
       dispatch(setAthleteDetails(parsedAthleteDetails));
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching athlete details:", error);
-      throw error;
+      dispatch(
+        setAthleteError(error.message || "Failed to fetch athlete details")
+      );
     }
   };
 
@@ -154,18 +162,13 @@ export const getProfileData = (role: string | null, details: any) => {
   }
 };
 
-export const getBioData = (role: string | null, details: any) => {
-  if (details) {
+export const getBioData = (role: string | null, bio: string) => {
+  if (bio) {
     return {
       title: "BIO",
-      sections: [
-        {
-          type: "text",
-          content: details.bio || "N/A",
-        },
-      ],
+      bioText: bio || "N/A",
     };
   } else {
-    return { title: "Loading...", sections: [] };
+    return { title: "Loading...", bioText: "Loading bio data..." };
   }
 };
