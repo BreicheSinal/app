@@ -29,6 +29,8 @@ const federationSlice = createSlice({
   reducers: {
     setFederationDetails: (state, action) => {
       state.details = action.payload;
+      state.loading = false;
+      state.error = null;
     },
     setFederationLoading: (state, action) => {
       state.loading = action.payload;
