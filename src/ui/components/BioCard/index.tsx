@@ -15,7 +15,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 interface BioCardProps {
   width?: number;
-  bioText: string;
+  bioText: string | null;
   showEdit?: boolean;
   onEdit: (updatedBio: string) => Promise<void>;
   isLoading?: boolean;
@@ -49,7 +49,7 @@ const BioCard: FC<BioCardProps> = ({
   const handleSave = async () => {
     try {
       setIsSaving(true);
-      await onEdit(editedBio);
+      await onEdit(editedBio || "");
       setOpen(false);
     } catch (error) {
       console.error("Error saving bio:", error);
