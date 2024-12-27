@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,9 @@ import {
   getProfileData,
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
+
+import { addExperience } from "../../../core/utils/addDetails";
+import { Experience } from "../../../redux/users/athleteSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
@@ -53,7 +57,18 @@ const Profile = () => {
     (state: RootState) => state.federation.details
   );
 
-  const addExperience = async (newExp: Experience) => {};
+  const addUserExperience = async (newExperience: Experience) => {
+    console.log(newExperience);
+    if (!athleteDetails?.user_id && !athleteDetails?.id) {
+      throw new Error("Athlete details not found");
+    }
+    await addExperience(
+      newExperience,
+      dispatch,
+      athleteDetails.user_id,
+      athleteDetails.id
+    );
+  };
 
   const editExperience = async (updatedExp: Experience) => {};
 
@@ -154,13 +169,9 @@ const Profile = () => {
         role,
         role === "Athlete"
           ? athleteDetails?.experiences || []
-          : role === "Coach"
-          ? coachDetails?.experiences || []
-          : role === "Club"
-          ? clubDetails?.experiences || []
-          : federationDetails?.experiences || []
+          : coachDetails?.experiences || []
       ),
-    [role, athleteDetails, coachDetails, clubDetails, federationDetails]
+    [role, athleteDetails, coachDetails]
   );
 
   /* editing data */
@@ -315,7 +326,7 @@ const Profile = () => {
 
               <ExperienceCard
                 experiences={experienceData.experiences}
-                addition={addExperience}
+                addition={addUserExperience}
                 edit={editExperience}
               />
             </div>
