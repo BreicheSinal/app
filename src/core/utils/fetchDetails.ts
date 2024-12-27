@@ -24,6 +24,8 @@ import {
 
 import { AppDispatch } from "../../redux/store";
 
+import { Experience } from "../../ui/components/ExpCard";
+
 export const fetchAthleteDetails =
   (id: number) => async (dispatch: AppDispatch) => {
     try {
@@ -208,5 +210,20 @@ export const getBioData = (role: string | null, bio: string) => {
     };
   } else {
     return { title: "Loading...", bioText: null };
+  }
+};
+
+export const getExperienceData = (
+  role: string | null,
+  experiences: Experience[]
+) => {
+  if (experiences && experiences.length > 0) {
+    return {
+      experiences: experiences,
+    };
+  } else {
+    return {
+      experiences: [],
+    };
   }
 };

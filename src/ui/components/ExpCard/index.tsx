@@ -14,7 +14,7 @@ import {
 import { Add as AddIcon, Edit as EditIcon } from "@mui/icons-material";
 
 // Types
-interface Experience {
+export interface Experience {
   id?: string;
   name: string;
   year: string;

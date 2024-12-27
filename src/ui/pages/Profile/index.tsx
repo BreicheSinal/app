@@ -17,6 +17,7 @@ import {
   fetchFederationDetails,
   getBioData,
   getProfileData,
+  getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -31,13 +32,6 @@ type Club = {
   user: {
     name: string;
   };
-};
-
-type Experience = {
-  id?: string;
-  name: string;
-  year: string;
-  description: string;
 };
 
 const Profile = () => {
@@ -150,6 +144,21 @@ const Profile = () => {
           : role === "Club"
           ? clubDetails?.bio || ""
           : federationDetails?.bio || ""
+      ),
+    [role, athleteDetails, coachDetails, clubDetails, federationDetails]
+  );
+
+  const experienceData = useMemo(
+    () =>
+      getExperienceData(
+        role,
+        role === "Athlete"
+          ? athleteDetails?.experiences || []
+          : role === "Coach"
+          ? coachDetails?.experiences || []
+          : role === "Club"
+          ? clubDetails?.experiences || []
+          : federationDetails?.experiences || []
       ),
     [role, athleteDetails, coachDetails, clubDetails, federationDetails]
   );
@@ -304,7 +313,7 @@ const Profile = () => {
               />
 
               <ExperienceCard
-                experiences={experiences}
+                experiences={experienceData.experiences}
                 addition={addExperience}
                 edit={editExperience}
               />
