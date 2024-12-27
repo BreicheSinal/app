@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface Experience {
-  id: string;
+  id: number;
   name: string;
   year: string;
   description: string;
@@ -19,7 +19,7 @@ interface AthleteDetails {
   age: number | null;
   height: number | null;
   weight: number | null;
-  experiences?: Experience[];
+  experiences: Experience[] | null;
 }
 
 interface AthleteState {
@@ -70,11 +70,6 @@ const athleteSlice = createSlice({
         );
       }
     },
-    setExperiences: (state, action) => {
-      if (state.details) {
-        state.details.experiences = action.payload;
-      }
-    },
   },
 });
 
@@ -85,7 +80,6 @@ export const {
   addExperience,
   updateExperience,
   deleteExperience,
-  setExperiences,
 } = athleteSlice.actions;
 
 export default athleteSlice.reducer;

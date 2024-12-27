@@ -38,6 +38,10 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
+  const role = localStorage.getItem("role") || "";
+
+  const [clubs, setClubs] = useState<{ id: number; name: string }[]>([]);
+
   const athleteDetails = useSelector(
     (state: RootState) => state.athlete.details
   );
@@ -49,13 +53,9 @@ const Profile = () => {
     (state: RootState) => state.federation.details
   );
 
-  const [experiences, setExperiences] = useState<Experience[]>([]);
-
   const addExperience = async (newExp: Experience) => {};
 
   const editExperience = async (updatedExp: Experience) => {};
-
-  const [clubs, setClubs] = useState<{ id: number; name: string }[]>([]);
 
   const fetchClubs = async () => {
     try {
@@ -71,8 +71,6 @@ const Profile = () => {
     }
   };
 
-  const role = localStorage.getItem("role") || "";
-
   const isLoading = useSelector((state: RootState) =>
     role === "Athlete"
       ? state.athlete.loading
@@ -83,6 +81,7 @@ const Profile = () => {
       : state.federation.loading
   );
 
+  /* use effects */
   useEffect(() => {
     const role = localStorage.getItem("role");
     const specificRoleId = localStorage.getItem("specificRoleId");
@@ -121,6 +120,7 @@ const Profile = () => {
     fetchClubs();
   }, []);
 
+  /* getting data */
   const profileData = getProfileData(
     role,
     role === "Athlete"
@@ -163,6 +163,7 @@ const Profile = () => {
     [role, athleteDetails, coachDetails, clubDetails, federationDetails]
   );
 
+  /* editing data */
   const editBio = async (updatedBio: string) => {
     try {
       const specificRoleId = localStorage.getItem("specificRoleId");

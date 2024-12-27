@@ -46,7 +46,16 @@ export const fetchAthleteDetails =
         age: athleteData.age,
         height: parseFloat(athleteData.height),
         weight: parseFloat(athleteData.weight),
+        experiences:
+          response.experience?.map((exp: Experience) => ({
+            id: exp.id,
+            name: exp.name,
+            date: exp.year,
+            description: exp.description,
+          })) || null,
       };
+
+      console.log(parsedAthleteDetails);
 
       dispatch(setAthleteDetails(parsedAthleteDetails));
     } catch (error: any) {
