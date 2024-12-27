@@ -16,6 +16,7 @@ import {
   fetchCoachDetails,
   fetchClubDetails,
   fetchFederationDetails,
+  fetchClubOptions,
   getBioData,
   getProfileData,
   getExperienceData,
@@ -28,12 +29,10 @@ import {
 } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 
-import { Experience, Club } from "../../../core/utils/interfaces";
+import { Experience, ClubOption } from "../../../core/utils/interfaces";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
-
-import { requestApi } from "../../../core/utils/request";
 
 import "./style.css";
 
@@ -43,7 +42,7 @@ const Profile = () => {
 
   const role = localStorage.getItem("role") || "";
 
-  const [clubs, setClubs] = useState<{ id: number; name: string }[]>([]);
+  const [clubs, setClubs] = useState<ClubOption[]>([]);
 
   const athleteDetails = useSelector(
     (state: RootState) => state.athlete.details
@@ -56,17 +55,12 @@ const Profile = () => {
     (state: RootState) => state.federation.details
   );
 
-  const fetchClubs = async () => {
+  const loadClubs = async () => {
     try {
-      const response = await requestApi("/club", "GET");
-
-      const clubs = response.clubs.map((club: Club) => ({
-        id: Number(club.id),
-        name: club.user.name,
-      }));
-      setClubs(clubs);
+      const clubOptions = await fetchClubOptions();
+      setClubs(clubOptions);
     } catch (error) {
-      console.error("Error fetching clubs:", error);
+      console.error("Error loading clubs:", error);
     }
   };
 
@@ -116,7 +110,7 @@ const Profile = () => {
   }, [navigate, dispatch]);
 
   useEffect(() => {
-    fetchClubs();
+    loadClubs();
   }, []);
 
   /* getting data */

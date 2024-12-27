@@ -12,3 +12,8 @@ export interface Club {
     name: string;
   };
 }
+
+export interface ClubOption {
+  id: number;
+  name: string;
+}

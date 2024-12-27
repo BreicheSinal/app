@@ -24,7 +24,7 @@ import {
 
 import { AppDispatch } from "../../redux/store";
 
-import { Experience } from "./interfaces";
+import { Experience, Club } from "./interfaces";
 
 export const fetchAthleteDetails =
   (id: number) => async (dispatch: AppDispatch) => {
@@ -148,6 +148,19 @@ export const fetchFederationDetails =
       );
     }
   };
+
+export const fetchClubOptions = async () => {
+  try {
+    const response = await requestApi("/club", "GET");
+    return response.clubs.map((club: Club) => ({
+      id: Number(club.id),
+      name: club.user.name,
+    }));
+  } catch (error) {
+    console.error("Error fetching clubs:", error);
+    throw error;
+  }
+};
 
 export const getProfileData = (
   role: string | null,
