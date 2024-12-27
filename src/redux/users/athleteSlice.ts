@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface Experience {
+export interface Experience {
   id: number;
   name: string;
-  year: string;
+  date: string;
+  type: string;
   description: string;
 }
 
