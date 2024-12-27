@@ -21,7 +21,7 @@ import {
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
-import { editExperience } from "../../../core/utils/editDetails";
+import { editExperience, editBio } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 import { Experience } from "../../../redux/users/athleteSlice";
 
@@ -57,30 +57,6 @@ const Profile = () => {
   const federationDetails = useSelector(
     (state: RootState) => state.federation.details
   );
-
-  const addUserExperience = async (newExperience: Experience) => {
-    if (!athleteDetails?.user_id && !athleteDetails?.id) {
-      throw new Error("Athlete details not found");
-    }
-    await addExperience(
-      newExperience,
-      dispatch,
-      athleteDetails.user_id,
-      athleteDetails.id
-    );
-  };
-
-  const editUserExperience = async (updatedExp: Experience) => {
-    if (!athleteDetails?.id) {
-      throw new Error("Athlete details not found");
-    }
-    await editExperience(
-      updatedExp,
-      dispatch,
-      updatedExp.id,
-      athleteDetails.id
-    );
-  };
 
   const fetchClubs = async () => {
     try {
@@ -185,45 +161,11 @@ const Profile = () => {
   );
 
   /* editing data */
-  const editBio = async (updatedBio: string) => {
-    try {
-      const specificRoleId = localStorage.getItem("specificRoleId");
-      if (!role || !specificRoleId) throw new Error("User role or ID missing");
-
-      const id = parseInt(specificRoleId);
-
-      // updating bio based on role
-      const endpoint =
-        role === "Athlete"
-          ? `/athlete/editBio/${id}`
-          : role === "Coach"
-          ? `/coach/editBio/${id}`
-          : role === "Club"
-          ? `/club/editBio/${id}`
-          : `/federation/editBio/${id}`;
-
-      await requestApi(endpoint, "PUT", { bio: updatedBio });
-
-      // refetching updated details for the user
-      switch (role) {
-        case "Athlete":
-          dispatch(fetchAthleteDetails(id));
-          break;
-        case "Coach":
-          dispatch(fetchCoachDetails(id));
-          break;
-        case "Club":
-          dispatch(fetchClubDetails(id));
-          break;
-        case "Federation":
-          dispatch(fetchFederationDetails(id));
-          break;
-        default:
-          throw new Error("Invalid role");
-      }
-    } catch (error) {
-      console.error("Error updating bio:", error);
+  const editUserBio = async (updatedBio: string) => {
+    if (!athleteDetails?.user_id && !athleteDetails?.id) {
+      throw new Error("Athlete details not found");
     }
+    await editBio(updatedBio, dispatch);
   };
 
   const editProfile = async (updatedFields: {
@@ -293,6 +235,30 @@ const Profile = () => {
     }
   };
 
+  const addUserExperience = async (newExperience: Experience) => {
+    if (!athleteDetails?.user_id && !athleteDetails?.id) {
+      throw new Error("Athlete details not found");
+    }
+    await addExperience(
+      newExperience,
+      dispatch,
+      athleteDetails.user_id,
+      athleteDetails.id
+    );
+  };
+
+  const editUserExperience = async (updatedExp: Experience) => {
+    if (!athleteDetails?.id) {
+      throw new Error("Athlete details not found");
+    }
+    await editExperience(
+      updatedExp,
+      dispatch,
+      updatedExp.id,
+      athleteDetails.id
+    );
+  };
+
   /* MOCK DATA */
   const staffData: CardData = {
     title: "STAFF",
@@ -331,7 +297,7 @@ const Profile = () => {
                 width={600}
                 bioText={bioData.bioText}
                 showEdit={true}
-                onEdit={editBio}
+                onEdit={editUserBio}
                 isLoading={isLoading}
               />
 
