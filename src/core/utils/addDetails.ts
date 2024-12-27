@@ -1,0 +1,49 @@
+import { AppDispatch } from "../../redux/store";
+import { requestApi } from "./request";
+import {
+  fetchAthleteDetails,
+  fetchCoachDetails,
+  fetchClubDetails,
+  fetchFederationDetails,
+} from "./fetchDetails";
+
+import { Experience } from "../../redux/users/athleteSlice";
+
+export const addExperience = async (
+  experience: Experience,
+  dispatch: AppDispatch,
+  user_id: number,
+  id: number
+) => {
+  try {
+    const role = localStorage.getItem("role");
+    if (!role) throw new Error("User role or ID missing");
+
+    const endpoint =
+      role === "Athlete"
+        ? `/athlete/addExperienceCertification/${user_id}`
+        : `/coach/addExperienceCertification/${user_id}`;
+
+    await requestApi(endpoint, "POST", experience);
+
+    switch (role) {
+      case "Athlete":
+        dispatch(fetchAthleteDetails(id));
+        break;
+      case "Coach":
+        dispatch(fetchCoachDetails(id));
+        break;
+      case "Club":
+        dispatch(fetchClubDetails(id));
+        break;
+      case "Federation":
+        dispatch(fetchFederationDetails(id));
+        break;
+      default:
+        throw new Error("Invalid role");
+    }
+  } catch (error) {
+    console.error("Error adding experience:", error);
+    throw error;
+  }
+};
