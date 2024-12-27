@@ -28,6 +28,8 @@ const coachSlice = createSlice({
   reducers: {
     setCoachDetails: (state, action) => {
       state.details = action.payload;
+      state.loading = false;
+      state.error = null;
     },
     setCoachLoading: (state, action) => {
       state.loading = action.payload;
