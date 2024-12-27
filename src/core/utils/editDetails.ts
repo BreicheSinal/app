@@ -7,7 +7,7 @@ import {
   fetchFederationDetails,
 } from "./fetchDetails";
 
-import { Experience } from "../../redux/users/athleteSlice";
+import { Experience } from "./interfaces";
 
 const role = localStorage.getItem("role");
 const specificRoleId = localStorage.getItem("specificRoleId");

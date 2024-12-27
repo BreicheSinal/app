@@ -1,11 +1,8 @@
 import { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
-import {
-  fetchAthleteDetails,
-  fetchCoachDetails,
-} from "./fetchDetails";
+import { fetchAthleteDetails, fetchCoachDetails } from "./fetchDetails";
 
-import { Experience } from "../../redux/users/athleteSlice";
+import { Experience } from "./interfaces";
 
 export const addExperience = async (
   experience: Experience,

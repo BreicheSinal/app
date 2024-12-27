@@ -1,12 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export interface Experience {
-  id: number;
-  name: string;
-  date: string;
-  type: string;
-  description: string;
-}
+import { Experience } from "../../core/utils/interfaces";
 
 interface AthleteDetails {
   id: number;

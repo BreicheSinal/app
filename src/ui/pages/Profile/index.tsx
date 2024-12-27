@@ -27,7 +27,8 @@ import {
   editProfile,
 } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
-import { Experience } from "../../../redux/users/athleteSlice";
+
+import { Experience, Club } from "../../../core/utils/interfaces";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
@@ -35,13 +36,6 @@ import { RootState, AppDispatch } from "../../../redux/store";
 import { requestApi } from "../../../core/utils/request";
 
 import "./style.css";
-
-type Club = {
-  id: number;
-  user: {
-    name: string;
-  };
-};
 
 const Profile = () => {
   const navigate = useNavigate();
