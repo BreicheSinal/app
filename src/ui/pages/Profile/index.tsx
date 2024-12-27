@@ -21,7 +21,11 @@ import {
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
-import { editExperience, editBio } from "../../../core/utils/editDetails";
+import {
+  editExperience,
+  editBio,
+  editProfile,
+} from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 import { Experience } from "../../../redux/users/athleteSlice";
 
@@ -168,67 +172,11 @@ const Profile = () => {
     await editBio(updatedBio, dispatch);
   };
 
-  const editProfile = async (updatedFields: {
+  const editUserProfile = async (updatedFields: {
     [key: string]: string | number | null;
   }) => {
     try {
-      const specificRoleId = localStorage.getItem("specificRoleId");
-      if (!role || !specificRoleId) throw new Error("User role or ID missing");
-
-      const id = parseInt(specificRoleId);
-
-      const requiredFields = Object.entries(updatedFields).reduce(
-        (acc, [key, value]) => {
-          const lowercaseKey = key.toLowerCase();
-
-          if (key === "Club") {
-            acc["club_id"] = parseInt(value as string);
-          } else if (key === "Height") {
-            acc[lowercaseKey] = parseFloat(value as string);
-          } else if (key === "Weight") {
-            acc[lowercaseKey] = parseFloat(value as string);
-          } else if (key === "Age") {
-            acc[lowercaseKey] = parseInt(value as string);
-          } else if (key === "Founded Year") {
-            acc["founded_year"] = parseInt(value as string);
-          } else {
-            acc[lowercaseKey] = value;
-          }
-
-          return acc;
-        },
-        {} as { [key: string]: string | number | null }
-      );
-
-      console.log(requiredFields);
-
-      const endpoint =
-        role === "Athlete"
-          ? `/athlete/editProfile/${id}`
-          : role === "Coach"
-          ? `/coach/editProfile/${id}`
-          : role === "Club"
-          ? `/club/editProfile/${id}`
-          : `/federation/editProfile/${id}`;
-
-      await requestApi(endpoint, "PUT", requiredFields);
-
-      switch (role) {
-        case "Athlete":
-          dispatch(fetchAthleteDetails(id));
-          break;
-        case "Coach":
-          dispatch(fetchCoachDetails(id));
-          break;
-        case "Club":
-          dispatch(fetchClubDetails(id));
-          break;
-        case "Federation":
-          dispatch(fetchFederationDetails(id));
-          break;
-        default:
-          throw new Error("Invalid role");
-      }
+      await editProfile(updatedFields, role, dispatch);
     } catch (error) {
       console.error("Error updating profile:", error);
       throw error;
@@ -286,7 +234,7 @@ const Profile = () => {
             width={300}
             data={profileData}
             showEdit={true}
-            onEdit={editProfile}
+            onEdit={editUserProfile}
             isLoading={isLoading}
             clubs={clubs}
           />

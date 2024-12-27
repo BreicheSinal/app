@@ -12,6 +12,22 @@ import { Experience } from "../../redux/users/athleteSlice";
 const role = localStorage.getItem("role");
 const specificRoleId = localStorage.getItem("specificRoleId");
 
+const getEndpoint = (role: string, id: number) =>
+  `/${role.toLowerCase()}/editProfile/${id}`;
+
+const dispatchFetch = (role: string, id: number, dispatch: AppDispatch) => {
+  const actions = {
+    Athlete: fetchAthleteDetails,
+    Coach: fetchCoachDetails,
+    Club: fetchClubDetails,
+    Federation: fetchFederationDetails,
+  };
+
+  const action = actions[role as keyof typeof actions];
+  if (!action) throw new Error("Invalid role");
+  return dispatch(action(id));
+};
+
 export const editExperience = async (
   experience: Experience,
   dispatch: AppDispatch,
@@ -90,4 +106,33 @@ export const editBio = async (updatedBio: string, dispatch: AppDispatch) => {
   } catch (error) {
     console.error("Error updating bio:", error);
   }
+};
+
+const formatFields = (fields: { [key: string]: string | number | null }) => {
+  return Object.entries(fields).reduce((acc, [key, value]) => {
+    if (key === "Club") acc["club_id"] = parseInt(value as string);
+    else if (["Height", "Weight"].includes(key))
+      acc[key.toLowerCase()] = parseFloat(value as string);
+    else if (["Age", "Founded Year"].includes(key)) {
+      acc[key === "Founded Year" ? "founded_year" : "age"] = parseInt(
+        value as string
+      );
+    } else acc[key.toLowerCase()] = value;
+    return acc;
+  }, {} as { [key: string]: string | number | null });
+};
+
+export const editProfile = async (
+  updatedFields: { [key: string]: string | number | null },
+  role: string,
+  dispatch: AppDispatch
+) => {
+  if (!role || !specificRoleId) throw new Error("User role or ID missing");
+
+  const id = parseInt(specificRoleId);
+  const formattedFields = formatFields(updatedFields);
+  const endpoint = getEndpoint(role, id);
+
+  await requestApi(endpoint, "PUT", formattedFields);
+  await dispatchFetch(role, id, dispatch);
 };
