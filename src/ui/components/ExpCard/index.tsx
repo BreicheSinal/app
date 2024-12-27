@@ -11,15 +11,21 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { Add as AddIcon, Edit as EditIcon } from "@mui/icons-material";
+import {
+  Add as AddIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+} from "@mui/icons-material";
 
 import { Experience } from "../../../redux/users/athleteSlice";
 
 interface ExperienceCardProps {
   width?: 600;
   experiences: Experience[];
-  addition: (experience: Omit<Experience, "id">) => void;
-  edit: (experience: Experience) => void;
+  addition?: (experience: Omit<Experience, "id">) => void;
+  edit?: (experience: Experience) => void;
+  delete: (id: number) => void;
+  showEdit?: boolean;
 }
 
 const ExperienceCard: FC<ExperienceCardProps> = ({
@@ -27,12 +33,12 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
   experiences,
   addition,
   edit,
+  delete: deleteExp,
+  showEdit = true,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-
   const [selectedExperience, setSelectedExperience] =
     useState<Experience | null>(null);
-
   const [formData, setFormData] = useState<Omit<Experience, "id">>({
     name: "",
     date: "",
@@ -72,12 +78,12 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
     };
 
   const submit = () => {
-    if (selectedExperience) {
+    if (selectedExperience && edit) {
       edit({
         id: selectedExperience.id,
         ...formData,
       });
-    } else {
+    } else if (addition) {
       addition(formData);
     }
     close();
@@ -118,18 +124,20 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
           >
             EXPERIENCE
           </Typography>
-          <IconButton
-            color="primary"
-            onClick={() => handleOpen()}
-            sx={{
-              color: "primary.main",
-              position: "absolute",
-              top: 0,
-              right: 0,
-            }}
-          >
-            <AddIcon fontSize="small" />
-          </IconButton>
+          {showEdit && addition && (
+            <IconButton
+              color="primary"
+              onClick={() => handleOpen()}
+              sx={{
+                color: "primary.main",
+                position: "absolute",
+                top: 0,
+                right: 0,
+              }}
+            >
+              <AddIcon fontSize="small" />
+            </IconButton>
+          )}
         </Box>
 
         {experiences.map((experience, index) => (
@@ -167,15 +175,29 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
                     {experience.date}
                   </Typography>
                 </Box>
-                <IconButton
-                  size="small"
-                  onClick={() => handleOpen(experience)}
-                  sx={{
-                    color: "primary.main",
-                  }}
-                >
-                  <EditIcon fontSize="small" />
-                </IconButton>
+                {showEdit && (
+                  <Box>
+                    <IconButton
+                      size="small"
+                      onClick={() => handleOpen(experience)}
+                      sx={{
+                        color: "primary.main",
+                        marginRight: 1,
+                      }}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      onClick={() => deleteExp(experience.id)}
+                      sx={{
+                        color: "#ff1744",
+                      }}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                )}
               </Box>
               <Typography
                 variant="body2"

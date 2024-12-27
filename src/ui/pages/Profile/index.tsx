@@ -328,6 +328,7 @@ const Profile = () => {
                 experiences={experienceData.experiences}
                 addition={addUserExperience}
                 edit={editExperience}
+                showEdit={true}
               />
             </div>
 
