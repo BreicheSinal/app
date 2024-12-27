@@ -24,13 +24,15 @@ interface Experience {
 interface ExperienceCardProps {
   width?: 600;
   experiences: Experience[];
-  onAddExperience: (experience: Omit<Experience, "id">) => void;
-  onUpdateExperience: (experience: Experience) => void;
+  addition: (experience: Omit<Experience, "id">) => void;
+  edit: (experience: Experience) => void;
 }
 
 const ExperienceCard: FC<ExperienceCardProps> = ({
   width = 600,
   experiences,
+  addition,
+  edit,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedExperience, setSelectedExperience] =
@@ -59,6 +61,37 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
     }
     setOpen(true);
   };
+
+  const close = () => {
+    setOpen(false);
+    setSelectedExperience(null);
+    setFormData({
+      name: "",
+      year: "",
+      description: "",
+    });
+  };
+
+  const submit = () => {
+    if (selectedExperience) {
+      edit({
+        ...selectedExperience,
+        ...formData,
+      });
+    } else {
+      addition(formData);
+    }
+    close();
+  };
+
+  const change =
+    (field: keyof Omit<Experience, "id">) =>
+    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData({
+        ...formData,
+        [field]: event.target.value,
+      });
+    };
 
   return (
     <Box className="Box flex align-start">
@@ -162,6 +195,114 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
             )}
           </Fragment>
         ))}
+
+        <Dialog
+          open={open}
+          onClose={close}
+          fullWidth
+          maxWidth="sm"
+          sx={{
+            "& .MuiDialog-paper": {
+              backgroundColor: "#1d2125",
+              color: "white",
+            },
+          }}
+        >
+          <DialogTitle className="bold tertiary-color">
+            {selectedExperience ? "Edit Experience" : "Add Experience"}
+          </DialogTitle>
+          <DialogContent>
+            <Box
+              sx={{ pt: 2, display: "flex", flexDirection: "column", gap: 2 }}
+            >
+              <TextField
+                label="Name"
+                fullWidth
+                value={formData.name}
+                onChange={change("name")}
+                sx={{
+                  "& .MuiInputBase-input": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                label="Year"
+                fullWidth
+                value={formData.year}
+                onChange={change("year")}
+                sx={{
+                  "& .MuiInputBase-input": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                label="Description"
+                fullWidth
+                multiline
+                rows={4}
+                value={formData.description}
+                onChange={change("description")}
+                sx={{
+                  "& .MuiInputBase-input": {
+                    color: "white",
+                  },
+                  "& .MuiInputLabel-root": {
+                    color: "white",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                }}
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={close} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={submit} color="primary" variant="contained">
+              {selectedExperience ? "Update" : "Add"}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Box>
   );
