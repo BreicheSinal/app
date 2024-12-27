@@ -21,6 +21,7 @@ import {
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
+import { editExperience } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 import { Experience } from "../../../redux/users/athleteSlice";
 
@@ -58,7 +59,6 @@ const Profile = () => {
   );
 
   const addUserExperience = async (newExperience: Experience) => {
-    console.log(newExperience);
     if (!athleteDetails?.user_id && !athleteDetails?.id) {
       throw new Error("Athlete details not found");
     }
@@ -70,7 +70,17 @@ const Profile = () => {
     );
   };
 
-  const editExperience = async (updatedExp: Experience) => {};
+  const editUserExperience = async (updatedExp: Experience) => {
+    if (!athleteDetails?.id) {
+      throw new Error("Athlete details not found");
+    }
+    await editExperience(
+      updatedExp,
+      dispatch,
+      updatedExp.id,
+      athleteDetails.id
+    );
+  };
 
   const fetchClubs = async () => {
     try {
@@ -283,6 +293,7 @@ const Profile = () => {
     }
   };
 
+  /* MOCK DATA */
   const staffData: CardData = {
     title: "STAFF",
     sections: [
@@ -327,7 +338,7 @@ const Profile = () => {
               <ExperienceCard
                 experiences={experienceData.experiences}
                 addition={addUserExperience}
-                edit={editExperience}
+                edit={editUserExperience}
                 showEdit={true}
               />
             </div>
