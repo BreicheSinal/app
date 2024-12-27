@@ -29,6 +29,8 @@ const clubSlice = createSlice({
   reducers: {
     setClubDetails: (state, action) => {
       state.details = action.payload;
+      state.loading = false;
+      state.error = null;
     },
     setClubLoading: (state, action) => {
       state.loading = action.payload;
