@@ -1,4 +1,4 @@
-import { FC, useState, Fragment } from "react";
+import { FC, useState, Fragment, ChangeEvent } from "react";
 import {
   Typography,
   IconButton,
@@ -13,13 +13,7 @@ import {
 } from "@mui/material";
 import { Add as AddIcon, Edit as EditIcon } from "@mui/icons-material";
 
-// Types
-export interface Experience {
-  id?: string;
-  name: string;
-  year: string;
-  description: string;
-}
+import { Experience } from "../../../redux/users/athleteSlice";
 
 interface ExperienceCardProps {
   width?: 600;
@@ -35,11 +29,14 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
   edit,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
+
   const [selectedExperience, setSelectedExperience] =
     useState<Experience | null>(null);
+
   const [formData, setFormData] = useState<Omit<Experience, "id">>({
     name: "",
-    year: "",
+    date: "",
+    type: "experience",
     description: "",
   });
 
@@ -48,34 +45,36 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
       setSelectedExperience(experience);
       setFormData({
         name: experience.name,
-        year: experience.year,
+        date: experience.date,
+        type: "experience",
         description: experience.description,
       });
     } else {
       setSelectedExperience(null);
       setFormData({
         name: "",
-        year: "",
+        date: "",
+        type: "experience",
         description: "",
       });
     }
     setOpen(true);
   };
 
-  const close = () => {
-    setOpen(false);
-    setSelectedExperience(null);
-    setFormData({
-      name: "",
-      year: "",
-      description: "",
-    });
-  };
+  const change =
+    (field: keyof Omit<Experience, "id">) =>
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData({
+        ...formData,
+        [field]: event.target.value,
+        type: "experience",
+      });
+    };
 
   const submit = () => {
     if (selectedExperience) {
       edit({
-        ...selectedExperience,
+        id: selectedExperience.id,
         ...formData,
       });
     } else {
@@ -84,14 +83,16 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
     close();
   };
 
-  const change =
-    (field: keyof Omit<Experience, "id">) =>
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setFormData({
-        ...formData,
-        [field]: event.target.value,
-      });
-    };
+  const close = () => {
+    setOpen(false);
+    setSelectedExperience(null);
+    setFormData({
+      name: "",
+      date: "",
+      type: "experience",
+      description: "",
+    });
+  };
 
   return (
     <Box className="Box flex align-start">
@@ -164,7 +165,7 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
                     variant="subtitle2"
                     sx={{ color: "white", opacity: 0.7 }}
                   >
-                    {experience.year}
+                    {experience.date}
                   </Typography>
                 </Box>
                 <IconButton
@@ -243,8 +244,8 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
               <TextField
                 label="Year"
                 fullWidth
-                value={formData.year}
-                onChange={change("year")}
+                value={formData.date}
+                onChange={change("date")}
                 sx={{
                   "& .MuiInputBase-input": {
                     color: "white",
