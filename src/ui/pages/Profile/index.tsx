@@ -202,6 +202,8 @@ const Profile = () => {
             acc[lowercaseKey] = parseFloat(value as string);
           } else if (key === "Age") {
             acc[lowercaseKey] = parseInt(value as string);
+          } else if (key === "Founded Year") {
+            acc["founded_year"] = parseInt(value as string);
           } else {
             acc[lowercaseKey] = value;
           }
