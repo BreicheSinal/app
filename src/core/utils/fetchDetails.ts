@@ -38,7 +38,7 @@ export const fetchAthleteDetails =
         name: athleteData.user.name,
         bio: athleteData.user.bio,
         role: "Athlete",
-        club_id: athleteData.club.id,
+        club_id: athleteData.club?.id || null,
         club: athleteData.club?.user?.name || null,
         position: athleteData.position,
         age: athleteData.age,
@@ -138,13 +138,23 @@ export const fetchFederationDetails =
     }
   };
 
-export const getProfileData = (role: string | null, details: any) => {
+export const getProfileData = (
+  role: string | null,
+  details: any,
+  clubs?: Array<{ id: number; name: string }>
+) => {
   if (role === "Athlete" && details) {
     return {
       title: details.name,
       avatar: details.name.charAt(0),
       fields: [
-        { label: "Club", value: details.club || "N/A" },
+        {
+          label: "Club",
+          value: details.club_id || "",
+          displayValue: details.club || "N/A",
+          type: "select",
+          options: clubs,
+        },
         { label: "Position", value: details.position || "N/A" },
         { label: "Age", value: details.age },
         { label: "Height", value: `${details.height} cm` },
@@ -156,7 +166,13 @@ export const getProfileData = (role: string | null, details: any) => {
       title: details.name,
       avatar: details.name.charAt(0),
       fields: [
-        { label: "Club", value: details.club || "N/A" },
+        {
+          label: "Club",
+          value: details.club_id || "",
+          displayValue: details.club || "N/A",
+          type: "select",
+          options: clubs,
+        },
         { label: "Specialty", value: details.specialty || "N/A" },
       ],
     };
@@ -191,6 +207,6 @@ export const getBioData = (role: string | null, bio: string) => {
       bioText: bio || "N/A",
     };
   } else {
-    return { title: "Loading...", bioText: "Loading bio data..." };
+    return { title: "Loading...", bioText: null };
   }
 };
