@@ -17,7 +17,7 @@ import {
   Delete as DeleteIcon,
 } from "@mui/icons-material";
 
-import { Experience } from "../../../redux/users/athleteSlice";
+import { Experience } from "../../../core/utils/interfaces";
 
 interface ExperienceCardProps {
   width?: 600;

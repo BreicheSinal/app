@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
@@ -171,7 +170,7 @@ const Profile = () => {
     }
   };
 
-  const addUserExperience = async (newExperience: Experience) => {
+  const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
     if (!athleteDetails?.user_id && !athleteDetails?.id) {
       throw new Error("Athlete details not found");
     }
@@ -194,6 +193,8 @@ const Profile = () => {
       athleteDetails.id
     );
   };
+
+  const deleteExp = async () => {};
 
   /* MOCK DATA */
   const staffData: CardData = {
@@ -242,6 +243,7 @@ const Profile = () => {
                 addition={addUserExperience}
                 edit={editUserExperience}
                 showEdit={true}
+                delete={deleteExp}
               />
             </div>
 

@@ -5,7 +5,7 @@ import { fetchAthleteDetails, fetchCoachDetails } from "./fetchDetails";
 import { Experience } from "./interfaces";
 
 export const addExperience = async (
-  experience: Experience,
+  experience: Omit<Experience, "id">,
   dispatch: AppDispatch,
   user_id: number,
   id: number
