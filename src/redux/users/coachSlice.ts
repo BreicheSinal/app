@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Experience } from "../../core/utils/interfaces";
 
 interface CoachDetails {
   id: number;
@@ -8,6 +9,7 @@ interface CoachDetails {
   name: string;
   bio: string | null;
   specialty: string | null;
+  experiences: Experience[] | null;
 }
 
 interface CoachState {
@@ -38,9 +40,35 @@ const coachSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    addExperience: (state, action) => {
+      if (state.details) {
+        const experiences = state.details.experiences || [];
+        state.details.experiences = [...experiences, action.payload];
+      }
+    },
+    updateExperience: (state, action) => {
+      if (state.details?.experiences) {
+        state.details.experiences = state.details.experiences.map((exp) =>
+          exp.id === action.payload.id ? action.payload : exp
+        );
+      }
+    },
+    deleteExperience: (state, action) => {
+      if (state.details?.experiences) {
+        state.details.experiences = state.details.experiences.filter(
+          (exp) => exp.id !== action.payload
+        );
+      }
+    },
   },
 });
 
-export const { setCoachDetails, setCoachLoading, setCoachError } =
-  coachSlice.actions;
+export const {
+  setCoachDetails,
+  setCoachLoading,
+  setCoachError,
+  addExperience,
+  updateExperience,
+  deleteExperience,
+} = coachSlice.actions;
 export default coachSlice.reducer;
