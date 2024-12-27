@@ -24,7 +24,7 @@ import {
 
 import { AppDispatch } from "../../redux/store";
 
-import { Experience } from "../../ui/components/ExpCard";
+import { Experience } from "../../redux/users/athleteSlice";
 
 export const fetchAthleteDetails =
   (id: number) => async (dispatch: AppDispatch) => {
@@ -33,6 +33,8 @@ export const fetchAthleteDetails =
 
       const response = await requestApi(`/athlete/${id}`);
       const athleteData = response.athlete[0];
+
+      //console.log(response);
 
       const parsedAthleteDetails = {
         id: parseInt(athleteData.id, 10),
@@ -50,12 +52,10 @@ export const fetchAthleteDetails =
           response.experience?.map((exp: Experience) => ({
             id: exp.id,
             name: exp.name,
-            date: exp.year,
+            date: exp.date,
             description: exp.description,
           })) || null,
       };
-
-      console.log(parsedAthleteDetails);
 
       dispatch(setAthleteDetails(parsedAthleteDetails));
     } catch (error: any) {
