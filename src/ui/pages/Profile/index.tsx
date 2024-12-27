@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
@@ -25,6 +25,13 @@ import { requestApi } from "../../../core/utils/request";
 
 import "./style.css";
 
+type Club = {
+  id: number;
+  user: {
+    name: string;
+  };
+};
+
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -39,6 +46,22 @@ const Profile = () => {
   const federationDetails = useSelector(
     (state: RootState) => state.federation.details
   );
+
+  const [clubs, setClubs] = useState<{ id: number; name: string }[]>([]);
+
+  const fetchClubs = async () => {
+    try {
+      const response = await requestApi("/club", "GET");
+
+      const clubs = response.clubs.map((club: Club) => ({
+        id: Number(club.id),
+        name: club.user.name,
+      }));
+      setClubs(clubs);
+    } catch (error) {
+      console.error("Error fetching clubs:", error);
+    }
+  };
 
   const role = localStorage.getItem("role") || "";
 
@@ -86,6 +109,9 @@ const Profile = () => {
     }
   }, [navigate, dispatch]);
 
+  useEffect(() => {
+    fetchClubs();
+  }, []);
 
   const profileData = getProfileData(
     role,
@@ -95,7 +121,8 @@ const Profile = () => {
       ? coachDetails
       : role === "Club"
       ? clubDetails
-      : federationDetails
+      : federationDetails,
+    clubs
   );
 
   const bioData = useMemo(
@@ -154,6 +181,71 @@ const Profile = () => {
     }
   };
 
+  const editProfile = async (updatedFields: {
+    [key: string]: string | number | null;
+  }) => {
+    try {
+      const specificRoleId = localStorage.getItem("specificRoleId");
+      if (!role || !specificRoleId) throw new Error("User role or ID missing");
+
+      const id = parseInt(specificRoleId);
+
+      const requiredFields = Object.entries(updatedFields).reduce(
+        (acc, [key, value]) => {
+          const lowercaseKey = key.toLowerCase();
+
+          if (key === "Club") {
+            acc["club_id"] = parseInt(value as string);
+          } else if (key === "Height") {
+            acc[lowercaseKey] = parseFloat(value as string);
+          } else if (key === "Weight") {
+            acc[lowercaseKey] = parseFloat(value as string);
+          } else if (key === "Age") {
+            acc[lowercaseKey] = parseInt(value as string);
+          } else {
+            acc[lowercaseKey] = value;
+          }
+
+          return acc;
+        },
+        {} as { [key: string]: string | number | null }
+      );
+
+      //console.log(requiredFields);
+
+      const endpoint =
+        role === "Athlete"
+          ? `/athlete/editProfile/${id}`
+          : role === "Coach"
+          ? `/coach/editProfile/${id}`
+          : role === "Club"
+          ? `/club/editProfile/${id}`
+          : `/federation/editProfile/${id}`;
+
+      await requestApi(endpoint, "PUT", requiredFields);
+
+      switch (role) {
+        case "Athlete":
+          dispatch(fetchAthleteDetails(id));
+          break;
+        case "Coach":
+          dispatch(fetchCoachDetails(id));
+          break;
+        case "Club":
+          dispatch(fetchClubDetails(id));
+          break;
+        case "Federation":
+          dispatch(fetchFederationDetails(id));
+          break;
+        default:
+          throw new Error("Invalid role");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error;
+    }
+  };
+
   const staffData: CardData = {
     title: "STAFF",
     sections: [
@@ -180,7 +272,9 @@ const Profile = () => {
             width={300}
             data={profileData}
             showEdit={true}
-            onEdit={() => {}}
+            onEdit={editProfile}
+            isLoading={isLoading}
+            clubs={clubs}
           />
 
           <div className="sub-cards-container flex">
