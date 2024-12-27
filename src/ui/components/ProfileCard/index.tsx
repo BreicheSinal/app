@@ -13,6 +13,7 @@ import {
   DialogContent,
   DialogActions,
   Autocomplete,
+  Divider,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -129,7 +130,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
           </Box>
 
           <CardContent sx={{ pt: 6 }}>
-            <Box sx={{ position: "relative", textAlign: "center", mb: 4 }}>
+            <Box sx={{ position: "relative", textAlign: "center", mb: 2 }}>
               {showEdit && !isLoading && (
                 <IconButton
                   onClick={editClick}
@@ -148,26 +149,29 @@ const ProfileCard: FC<ProfileCardProps> = ({
               </Typography>
             </Box>
 
-            {data.fields.map((field) => (
-              <Box
-                key={field.label}
-                className="flex space-between align-center"
-                sx={{ mb: 2 }}
-              >
-                <Box>
-                  <Typography variant="subtitle2" className="tertiary-color">
-                    {field.label}
-                  </Typography>
-                  <Typography variant="body2" className="white-color">
-                    {field.type === "select"
-                      ? field.options?.find(
-                          (opt) => opt.id === Number(field.value)
-                        )?.name ||
-                        field.displayValue ||
-                        "N/A"
-                      : field.value}
-                  </Typography>
+            {data.fields.map((field, index) => (
+              <Box key={field.label}>
+                <Box className="flex space-between align-center" sx={{ mb: 1 }}>
+                  <Box>
+                    <Typography variant="subtitle2" className="tertiary-color">
+                      {field.label}
+                    </Typography>
+                    <Typography variant="body2" className="white-color">
+                      {field.type === "select"
+                        ? field.options?.find(
+                            (opt) => opt.id === Number(field.value)
+                          )?.name ||
+                          field.displayValue ||
+                          "N/A"
+                        : field.value}
+                    </Typography>
+                  </Box>
                 </Box>
+                {index < data.fields.length - 1 && (
+                  <Divider
+                    sx={{ backgroundColor: "white", opacity: 0.5, mb: 1 }}
+                  />
+                )}
               </Box>
             ))}
           </CardContent>
