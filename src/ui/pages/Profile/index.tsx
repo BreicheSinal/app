@@ -211,7 +211,7 @@ const Profile = () => {
         {} as { [key: string]: string | number | null }
       );
 
-      //console.log(requiredFields);
+      console.log(requiredFields);
 
       const endpoint =
         role === "Athlete"

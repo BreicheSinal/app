@@ -69,7 +69,7 @@ export const fetchCoachDetails =
         name: coachData.user.name,
         bio: coachData.user.bio,
         role: "Coach",
-        club_id: coachData.club,
+        club_id: coachData.club?.id || null,
         club: coachData.club?.user?.name || null,
         specialty: coachData.specialty,
       };
