@@ -3,8 +3,6 @@ import { requestApi } from "./request";
 import {
   fetchAthleteDetails,
   fetchCoachDetails,
-  fetchClubDetails,
-  fetchFederationDetails,
 } from "./fetchDetails";
 
 import { Experience } from "../../redux/users/athleteSlice";
@@ -32,12 +30,6 @@ export const addExperience = async (
         break;
       case "Coach":
         dispatch(fetchCoachDetails(id));
-        break;
-      case "Club":
-        dispatch(fetchClubDetails(id));
-        break;
-      case "Federation":
-        dispatch(fetchFederationDetails(id));
         break;
       default:
         throw new Error("Invalid role");
