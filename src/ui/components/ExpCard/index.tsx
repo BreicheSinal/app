@@ -109,7 +109,7 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
       >
         <Box
           className="flex space-between align-center"
-          sx={{ position: "relative", mb: 1 }}
+          sx={{ position: "relative" }}
         >
           <Typography
             variant="h6"
@@ -142,7 +142,6 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
                 border: "none",
                 borderRadius: 2,
                 padding: 2,
-                mb: 2,
               }}
             >
               <Box
