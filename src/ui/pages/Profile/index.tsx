@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
+import ExperienceCard from "../../components/ExpCard";
 import BioCard from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
@@ -32,6 +33,13 @@ type Club = {
   };
 };
 
+type Experience = {
+  id?: string;
+  name: string;
+  year: string;
+  description: string;
+};
+
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -46,6 +54,12 @@ const Profile = () => {
   const federationDetails = useSelector(
     (state: RootState) => state.federation.details
   );
+
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+
+  const addExperience = async (newExp: Experience) => {};
+
+  const editExperience = async (updatedExp: Experience) => {};
 
   const [clubs, setClubs] = useState<{ id: number; name: string }[]>([]);
 
@@ -287,6 +301,12 @@ const Profile = () => {
                 showEdit={true}
                 onEdit={editBio}
                 isLoading={isLoading}
+              />
+
+              <ExperienceCard
+                experiences={experiences}
+                addition={addExperience}
+                edit={editExperience}
               />
             </div>
 
