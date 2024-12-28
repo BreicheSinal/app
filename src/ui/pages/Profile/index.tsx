@@ -134,10 +134,10 @@ const Profile = () => {
 
   /* adding data */
   const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
-    if (!details?.user_id && !details?.id) {
+    if (!details?.user_id) {
       throw new Error("Athlete details not found");
     }
-    await addExperience(newExperience, dispatch, details.user_id, details.id);
+    await addExperience(newExperience, dispatch, details.user_id);
   };
 
   /* deleting data */
