@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Experience } from "../../core/utils/interfaces";
+import { Experience } from "../../core/utils/globalUtils";
 
 interface CoachDetails {
   id: number;

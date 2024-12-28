@@ -1,7 +1,7 @@
 import { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
 
-import { Experience, dispatchFetch } from "./interfaces";
+import { Experience, dispatchFetch } from "./globalUtils";
 
 const role = localStorage.getItem("role");
 const specificRoleId = localStorage.getItem("specificRoleId");

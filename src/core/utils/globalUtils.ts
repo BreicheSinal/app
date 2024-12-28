@@ -43,3 +43,9 @@ export const dispatchFetch = (
   if (!action) throw new Error("Invalid role");
   return dispatch(action(id));
 };
+
+export const getStoredRole = () => localStorage.getItem("role");
+export const getStoredRoleId = () => {
+  const id = localStorage.getItem("specificRoleId");
+  return id ? parseInt(id) : null;
+};

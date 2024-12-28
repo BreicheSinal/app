@@ -24,7 +24,7 @@ import {
 
 import { AppDispatch } from "../../redux/store";
 
-import { Experience, Club } from "./interfaces";
+import { Experience, Club } from "./globalUtils";
 
 export const fetchAthleteDetails =
   (id: number) => async (dispatch: AppDispatch) => {

@@ -17,7 +17,7 @@ import {
   Delete as DeleteIcon,
 } from "@mui/icons-material";
 
-import { Experience } from "../../../core/utils/interfaces";
+import { Experience } from "../../../core/utils/globalUtils";
 
 interface ExperienceCardProps {
   width?: 600;

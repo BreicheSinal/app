@@ -28,7 +28,7 @@ import {
 } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 
-import { Experience, ClubOption } from "../../../core/utils/interfaces";
+import { Experience, ClubOption } from "../../../core/utils/globalUtils";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
