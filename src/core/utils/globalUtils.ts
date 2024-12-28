@@ -26,6 +26,7 @@ import {
 export interface BaseUserDetails {
   id: number;
   user_id: number;
+  avatar?: string;
   name: string;
   bio: string | null;
   role: string;
