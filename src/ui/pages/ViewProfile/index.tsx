@@ -38,7 +38,7 @@ import { RootState, AppDispatch } from "../../../redux/store";
 
 import "./style.css";
 
-const Feed = () => {
+const ViewProfile = () => {
   const role = getStoredRole();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -204,4 +204,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default ViewProfile;

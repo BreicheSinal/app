@@ -6,7 +6,7 @@ import "../ui/styles/colors.css";
 
 import SignUp from "../ui/pages/SignUp";
 import LogIn from "../ui/pages/LogIn";
-import Feed from "../ui/pages/Feed";
+import ViewProfile from "../ui/pages/ViewProfile";
 import Profile from "../ui/pages/Profile";
 
 import ProtectedRoute from "../core/routes/protectedRoute";
@@ -20,8 +20,8 @@ const App = () => {
           <Route path="/login" element={<LogIn />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/feed" element={<Feed />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/view" element={<ViewProfile />} />
           </Route>
         </Routes>
       </BrowserRouter>
