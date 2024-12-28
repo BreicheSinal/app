@@ -1,11 +1,27 @@
-import {
-  fetchAthleteDetails,
-  fetchCoachDetails,
-  fetchClubDetails,
-  fetchFederationDetails,
-} from "./fetchDetails";
-
 import { AppDispatch } from "../../redux/store";
+
+import { fetchUserDetails } from "./fetchDetails";
+
+import {
+  setAthleteDetails,
+  setAthleteError,
+  setAthleteLoading,
+} from "../../redux/users/athleteSlice";
+import {
+  setCoachDetails,
+  setCoachError,
+  setCoachLoading,
+} from "../../redux/users/coachSlice";
+import {
+  setClubDetails,
+  setClubError,
+  setClubLoading,
+} from "../../redux/users/clubSlice";
+import {
+  setFederationDetails,
+  setFederationError,
+  setFederationLoading,
+} from "../../redux/users/federationSlice";
 
 export interface BaseUserDetails {
   id: number;
@@ -76,20 +92,43 @@ export const dispatchFetch = (
   id: number,
   dispatch: AppDispatch
 ) => {
-  const actions = {
-    Athlete: fetchAthleteDetails,
-    Coach: fetchCoachDetails,
-    Club: fetchClubDetails,
-    Federation: fetchFederationDetails,
-  };
-
-  const action = actions[role as keyof typeof actions];
-  if (!action) throw new Error("Invalid role");
-  return dispatch(action(id));
+  if (!["Athlete", "Coach", "Club", "Federation"].includes(role)) {
+    throw new Error("Invalid role");
+  }
+  return dispatch(fetchUserDetails(role, id));
 };
 
 export const getStoredRole = () => localStorage.getItem("role");
 export const getStoredRoleId = () => {
   const id = localStorage.getItem("specificRoleId");
   return id ? parseInt(id) : null;
+};
+
+export const createSetters = (role: string) => {
+  const setterMap = {
+    Athlete: {
+      setLoading: setAthleteLoading,
+      setError: setAthleteError,
+      setDetails: setAthleteDetails,
+    },
+    Coach: {
+      setLoading: setCoachLoading,
+      setError: setCoachError,
+      setDetails: setCoachDetails,
+    },
+    Club: {
+      setLoading: setClubLoading,
+      setError: setClubError,
+      setDetails: setClubDetails,
+    },
+    Federation: {
+      setLoading: setFederationLoading,
+      setError: setFederationError,
+      setDetails: setFederationDetails,
+    },
+  };
+
+  const setters = setterMap[role as keyof typeof setterMap];
+  if (!setters) throw new Error("Invalid role");
+  return setters;
 };
