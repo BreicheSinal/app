@@ -8,14 +8,7 @@ import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
-import {
-  fetchAthleteDetails,
-  fetchCoachDetails,
-  fetchClubDetails,
-  fetchFederationDetails,
-  getBioData,
-  getProfileData,
-} from "../../../core/utils/fetchDetails";
+import { getBioData, getProfileData } from "../../../core/utils/fetchDetails";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
