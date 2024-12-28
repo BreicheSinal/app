@@ -20,7 +20,6 @@ const App = () => {
           <Route path="/login" element={<LogIn />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/feed" element={<Feed />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
         </Routes>

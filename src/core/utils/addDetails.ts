@@ -1,8 +1,7 @@
 import { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
-import { fetchAthleteDetails, fetchCoachDetails } from "./fetchDetails";
-
 import { Experience, getStoredRole } from "./globalUtils";
+import { fetchUserDetails } from "./fetchDetails";
 
 export const addExperience = async (
   experience: Omit<Experience, "id">,
@@ -12,25 +11,13 @@ export const addExperience = async (
 ) => {
   try {
     const role = getStoredRole();
-    if (!role) throw new Error("User role missing");
-
-    const endpoint =
-      role === "Athlete"
-        ? `/athlete/addExperienceCertification/${user_id}`
-        : `/coach/addExperienceCertification/${user_id}`;
-
-    await requestApi(endpoint, "POST", experience);
-
-    switch (role) {
-      case "Athlete":
-        dispatch(fetchAthleteDetails(id));
-        break;
-      case "Coach":
-        dispatch(fetchCoachDetails(id));
-        break;
-      default:
-        throw new Error("Invalid role");
+    if (!role || !["Athlete", "Coach"].includes(role)) {
+      throw new Error("Invalid or missing user role");
     }
+
+    const endpoint = `/${role.toLowerCase()}/addExperienceCertification/${user_id}`;
+    await requestApi(endpoint, "POST", experience);
+    dispatch(fetchUserDetails(role, id));
   } catch (error) {
     console.error("Error adding experience:", error);
     throw error;
