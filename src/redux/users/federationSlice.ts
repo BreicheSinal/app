@@ -1,15 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-interface FederationDetails {
-  id: number;
-  user_id: number;
-  federation_type_id: number | null;
-  name: string;
-  bio: string | null;
-  location: string | null;
-  country: string | null;
-  founded_year: number | null;
-}
+import { FederationDetails } from "../../core/utils/globalUtils";
 
 interface FederationState {
   details: FederationDetails | null;
