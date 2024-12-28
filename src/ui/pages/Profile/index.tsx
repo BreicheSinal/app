@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
-import ExperienceCard from "../../components/ExpCard";
-import BioCard from "../../components/BioCard";
+import { ExperienceCard } from "../../components/ExpCard";
+import { BioCard } from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
-import ProfileCard from "../../components/ProfileCard";
+import { ProfileCard } from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
 import { deleteExp } from "../../../core/utils/deleteDetails";
@@ -183,6 +183,7 @@ const Profile = () => {
               />
 
               <ExperienceCard
+                width={600}
                 experiences={experienceData.experiences}
                 addition={addUserExperience}
                 edit={editUserExperience}
