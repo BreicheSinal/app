@@ -2,7 +2,7 @@ import { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
 import { fetchAthleteDetails, fetchCoachDetails } from "./fetchDetails";
 
-import { Experience } from "./globalUtils";
+import { Experience, getStoredRole } from "./globalUtils";
 
 export const addExperience = async (
   experience: Omit<Experience, "id">,
@@ -11,8 +11,8 @@ export const addExperience = async (
   id: number
 ) => {
   try {
-    const role = localStorage.getItem("role");
-    if (!role) throw new Error("User role or ID missing");
+    const role = getStoredRole();
+    if (!role) throw new Error("User role missing");
 
     const endpoint =
       role === "Athlete"
