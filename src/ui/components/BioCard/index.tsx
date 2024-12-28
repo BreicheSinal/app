@@ -14,11 +14,16 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 
 interface BioCardProps {
-  width?: number;
+  width: number;
   bioText: string | null;
   showEdit?: boolean;
   onEdit: (updatedBio: string) => Promise<void>;
   isLoading?: boolean;
+}
+
+interface BioCardViewProps {
+  width: number;
+  bioText: string | null;
 }
 
 const BioCard: FC<BioCardProps> = ({
@@ -180,4 +185,43 @@ const BioCard: FC<BioCardProps> = ({
   );
 };
 
-export default BioCard;
+const BioCardView: FC<BioCardViewProps> = ({ width = 600, bioText = "" }) => {
+  return (
+    <Box className="Box flex align-start">
+      <Box
+        className="Card secondary-bg-color"
+        sx={{
+          width: { xs: "90%", sm: width, md: width },
+          minWidth: "300px",
+          maxWidth: "600px",
+          height: "auto",
+          border: "none",
+          borderRadius: 2,
+          padding: 2,
+        }}
+      >
+        <Box
+          className="flex space-between align-center"
+          sx={{ position: "relative", mb: 1 }}
+        >
+          <Typography
+            variant="h6"
+            className="tertiary-color"
+            sx={{ fontWeight: "bold", letterSpacing: "0.5px" }}
+          >
+            BIO
+          </Typography>
+        </Box>
+
+        <Typography
+          variant="body2"
+          className="white-color"
+          sx={{ lineHeight: 1.6, opacity: 0.9 }}
+        >
+          {bioText || "No bio available."}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+export { BioCard, BioCardView };

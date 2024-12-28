@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
 import ExperienceCard from "../../components/ExpCard";
-import BioCard from "../../components/BioCard";
+import { BioCardView } from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
 import { ProfileCardView } from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
@@ -11,18 +11,16 @@ import { CardData } from "../../components/CustomCard";
 import { deleteExp } from "../../../core/utils/deleteDetails";
 
 import {
-  fetchClubOptions,
   getBioData,
   getProfileData,
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
-import { editExperience, editBio } from "../../../core/utils/editDetails";
+import { editExperience } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 
 import {
   Experience,
-  ClubOption,
   getStoredRole,
   UserDetails,
   AthleteDetails,
@@ -38,8 +36,6 @@ const ViewProfile = () => {
   const role = getStoredRole();
   const dispatch = useDispatch<AppDispatch>();
 
-  const [clubs, setClubs] = useState<ClubOption[]>([]);
-
   const details = useSelector((state: RootState) =>
     role === "Athlete"
       ? state.athlete.details
@@ -50,37 +46,13 @@ const ViewProfile = () => {
       : state.federation.details
   );
 
-  const isLoading = useSelector((state: RootState) =>
-    role === "Athlete"
-      ? state.athlete.loading
-      : role === "Coach"
-      ? state.coach.loading
-      : role === "Club"
-      ? state.club.loading
-      : state.federation.loading
-  );
-
-  const loadClubs = async () => {
-    try {
-      const clubOptions = await fetchClubOptions();
-      setClubs(clubOptions);
-    } catch (error) {
-      console.error("Error loading clubs:", error);
-    }
-  };
-
-  /* use effects */
-  useEffect(() => {
-    loadClubs();
-  }, []);
-
   /* getting data */
   const profileData = useMemo(
     () =>
       details
-        ? getProfileData(role, details as UserDetails, clubs)
+        ? getProfileData(role, details as UserDetails)
         : { title: "Loading...", fields: [] },
-    [role, details, clubs]
+    [role, details]
   );
 
   const bioData = useMemo(() => getBioData(details?.bio || ""), [details]);
@@ -94,13 +66,6 @@ const ViewProfile = () => {
   }, [role, details]);
 
   /* editing data */
-  const editUserBio = async (updatedBio: string) => {
-    if (!details?.user_id && !details?.id) {
-      throw new Error("Athlete details not found");
-    }
-    await editBio(updatedBio, dispatch);
-  };
-
   const editUserExperience = async (updatedExp: Experience) => {
     if (!details?.id) {
       throw new Error("Athlete details not found");
@@ -152,13 +117,7 @@ const ViewProfile = () => {
 
           <div className="sub-cards-container flex">
             <div className="flex column">
-              <BioCard
-                width={600}
-                bioText={bioData.bioText}
-                showEdit={false}
-                onEdit={editUserBio}
-                isLoading={isLoading}
-              />
+              <BioCardView width={600} bioText={bioData.bioText} />
 
               <ExperienceCard
                 experiences={experienceData.experiences}
