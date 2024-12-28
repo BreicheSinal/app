@@ -11,6 +11,7 @@ import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
 import { initializeUserData } from "../../../core/utils/initialize";
+import { deleteExp } from "../../../core/utils/deleteDetails";
 
 import {
   fetchClubOptions,
@@ -140,7 +141,13 @@ const Profile = () => {
   };
 
   /* deleting data */
-  const deleteExp = async () => {};
+  const deleteUserExp = async (expId: number) => {
+    try {
+      await deleteExp(dispatch, expId);
+    } catch (error) {
+      console.error("Failed to delete experience:", error);
+    }
+  };
 
   /* MOCK DATA */
   const staffData: CardData = {
@@ -189,7 +196,7 @@ const Profile = () => {
                 addition={addUserExperience}
                 edit={editUserExperience}
                 showEdit={true}
-                delete={deleteExp}
+                delete={deleteUserExp}
               />
             </div>
 
