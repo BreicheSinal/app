@@ -1,15 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-interface ClubDetails {
-  id: number;
-  user_id: number;
-  federation_id: number | null;
-  federation: string | null;
-  bio: string | null;
-  name: string;
-  location: string | null;
-  founded_year: number | null;
-}
+import { ClubDetails } from "../../core/utils/globalUtils";
 
 interface ClubState {
   details: ClubDetails | null;
