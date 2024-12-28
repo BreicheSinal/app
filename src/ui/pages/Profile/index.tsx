@@ -26,7 +26,11 @@ import {
 } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 
-import { Experience, ClubOption } from "../../../core/utils/globalUtils";
+import {
+  Experience,
+  ClubOption,
+  getStoredRole,
+} from "../../../core/utils/globalUtils";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
@@ -37,7 +41,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const role = localStorage.getItem("role") || "";
+  const role = getStoredRole();
 
   const [clubs, setClubs] = useState<ClubOption[]>([]);
 
@@ -135,7 +139,7 @@ const Profile = () => {
     [key: string]: string | number | null;
   }) => {
     try {
-      await editProfile(updatedFields, role, dispatch);
+      await editProfile(updatedFields, role!, dispatch);
     } catch (error) {
       console.error("Error updating profile:", error);
       throw error;
