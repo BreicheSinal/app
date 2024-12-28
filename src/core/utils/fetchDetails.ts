@@ -113,6 +113,35 @@ export const fetchClubOptions = async () => {
   }
 };
 
+export const fetchSearchResults = async (
+  currentUserId: number,
+  searchValue: string
+) => {
+  if (!searchValue.trim() || !currentUserId) {
+    return [];
+  }
+
+  try {
+    const url = `/user/${currentUserId}/search?search=${encodeURIComponent(
+      searchValue
+    )}`;
+    
+    const response = await requestApi(url);
+
+    if (response.status === "success") {
+      return response.users.map((user: UserDetails) => ({
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar || "",
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error("Search error:", error);
+    return [];
+  }
+};
+
 const getBaseProfileData = (details: UserDetails) => ({
   title: details.name,
   avatar: details.name.charAt(0),
