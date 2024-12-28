@@ -44,7 +44,7 @@ const NavBar: FC = () => {
   const goToMessaging = () => goTo("/");
   const goToTryOuts = () => goTo("/");
   const goToProfile = () => goTo("/profile");
-  const goToFeed = () => goTo("/feed");
+  const goToFeed = () => goTo("/view");
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
