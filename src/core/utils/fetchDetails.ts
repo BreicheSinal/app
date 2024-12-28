@@ -14,7 +14,11 @@ import {
   FederationDetails,
 } from "./globalUtils";
 
-const parseUserData = (roleType: string, data: any): UserDetails => {
+const parseUserData = (
+  roleType: string,
+  data: any,
+  response: any
+): UserDetails => {
   const baseDetails: BaseUserDetails = {
     id: parseInt(data.id),
     user_id: parseInt(data.user.id),
@@ -34,7 +38,7 @@ const parseUserData = (roleType: string, data: any): UserDetails => {
         height: data.height ? parseFloat(data.height) : null,
         weight: data.weight ? parseFloat(data.weight) : null,
         experiences:
-          data.experience?.map((exp: Experience) => ({
+          response.experience?.map((exp: Experience) => ({
             id: exp.id,
             name: exp.name,
             date: exp.date,
@@ -49,7 +53,7 @@ const parseUserData = (roleType: string, data: any): UserDetails => {
         club: data.club?.user?.name || null,
         specialty: data.specialty || null,
         experiences:
-          data.experience?.map((exp: Experience) => ({
+          response.experience?.map((exp: Experience) => ({
             id: exp.id,
             name: exp.name,
             date: exp.date,
@@ -87,7 +91,7 @@ export const fetchUserDetails =
       dispatch(setLoading(true));
       const response = await requestApi(`/${role.toLowerCase()}/${id}`);
       const userData = response[role.toLowerCase()][0];
-      dispatch(setDetails(parseUserData(role, userData)));
+      dispatch(setDetails(parseUserData(role, userData, response)));
     } catch (error: any) {
       console.error(`Error fetching ${role} details:`, error);
       dispatch(setError(error.message || `Failed to fetch ${role} details`));
