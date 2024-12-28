@@ -10,11 +10,9 @@ import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
+import { initializeUserData } from "../../../core/utils/initialize";
+
 import {
-  fetchAthleteDetails,
-  fetchCoachDetails,
-  fetchClubDetails,
-  fetchFederationDetails,
   fetchClubOptions,
   getBioData,
   getProfileData,
@@ -75,37 +73,7 @@ const Profile = () => {
 
   /* use effects */
   useEffect(() => {
-    const role = localStorage.getItem("role");
-    const specificRoleId = localStorage.getItem("specificRoleId");
-
-    if (!role || !specificRoleId) {
-      navigate("/login");
-      return;
-    }
-
-    try {
-      const id = parseInt(specificRoleId);
-
-      switch (role) {
-        case "Athlete":
-          dispatch(fetchAthleteDetails(id));
-          break;
-        case "Coach":
-          dispatch(fetchCoachDetails(id));
-          break;
-        case "Club":
-          dispatch(fetchClubDetails(id));
-          break;
-        case "Federation":
-          dispatch(fetchFederationDetails(id));
-          break;
-        default:
-          throw new Error("Invalid role");
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-      navigate("/login");
-    }
+    initializeUserData(navigate, dispatch);
   }, [navigate, dispatch]);
 
   useEffect(() => {
