@@ -1,10 +1,15 @@
 import { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
 
-import { Experience, dispatchFetch } from "./globalUtils";
+import {
+  Experience,
+  dispatchFetch,
+  getStoredRole,
+  getStoredRoleId,
+} from "./globalUtils";
 
-const role = localStorage.getItem("role");
-const specificRoleId = localStorage.getItem("specificRoleId");
+const role = getStoredRole();
+const roleId = getStoredRoleId();
 
 const getEndpoint = (role: string, id: number) =>
   `/${role.toLowerCase()}/editProfile/${id}`;
@@ -29,12 +34,11 @@ export const editExperience = async (
 
 export const editBio = async (updatedBio: string, dispatch: AppDispatch) => {
   try {
-    if (!role || !specificRoleId) throw new Error("User role or ID missing");
-    const id = parseInt(specificRoleId);
+    if (!role || !roleId) throw new Error("User role or ID missing");
 
-    const endpoint = `/${role.toLowerCase()}/editBio/${id}`;
+    const endpoint = `/${role.toLowerCase()}/editBio/${roleId}`;
     await requestApi(endpoint, "PUT", { bio: updatedBio });
-    await dispatchFetch(role, id, dispatch);
+    await dispatchFetch(role, roleId, dispatch);
   } catch (error) {
     console.error("Error updating bio:", error);
     throw error;
@@ -61,12 +65,11 @@ export const editProfile = async (
   role: string,
   dispatch: AppDispatch
 ) => {
-  if (!role || !specificRoleId) throw new Error("User role or ID missing");
+  if (!role || !roleId) throw new Error("User role or ID missing");
 
-  const id = parseInt(specificRoleId);
   const formattedFields = formatFields(updatedFields);
-  const endpoint = getEndpoint(role, id);
+  const endpoint = getEndpoint(role, roleId);
 
   await requestApi(endpoint, "PUT", formattedFields);
-  await dispatchFetch(role, id, dispatch);
+  await dispatchFetch(role, roleId, dispatch);
 };
