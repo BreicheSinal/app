@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
-
 import FeedLayout from "../../Layout/FeedLayout";
 
 import ExperienceCard from "../../components/ExpCard";
@@ -10,7 +8,6 @@ import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
-import { initializeUserData } from "../../../core/utils/initialize";
 import { deleteExp } from "../../../core/utils/deleteDetails";
 
 import {
@@ -36,16 +33,14 @@ import {
   CoachDetails,
 } from "../../../core/utils/globalUtils";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
 
 import "./style.css";
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-
   const role = getStoredRole();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [clubs, setClubs] = useState<ClubOption[]>([]);
 
@@ -59,15 +54,6 @@ const Profile = () => {
       : state.federation.details
   );
 
-  const loadClubs = async () => {
-    try {
-      const clubOptions = await fetchClubOptions();
-      setClubs(clubOptions);
-    } catch (error) {
-      console.error("Error loading clubs:", error);
-    }
-  };
-
   const isLoading = useSelector((state: RootState) =>
     role === "Athlete"
       ? state.athlete.loading
@@ -78,11 +64,16 @@ const Profile = () => {
       : state.federation.loading
   );
 
-  /* use effects */
-  useEffect(() => {
-    initializeUserData(navigate, dispatch);
-  }, [navigate, dispatch]);
+  const loadClubs = async () => {
+    try {
+      const clubOptions = await fetchClubOptions();
+      setClubs(clubOptions);
+    } catch (error) {
+      console.error("Error loading clubs:", error);
+    }
+  };
 
+  /* use effects */
   useEffect(() => {
     loadClubs();
   }, []);
