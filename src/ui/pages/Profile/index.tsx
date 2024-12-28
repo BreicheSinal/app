@@ -113,16 +113,20 @@ const Profile = () => {
   }, []);
 
   /* getting data */
-  const profileData = getProfileData(
-    role,
-    role === "Athlete"
-      ? athleteDetails
-      : role === "Coach"
-      ? coachDetails
-      : role === "Club"
-      ? clubDetails
-      : federationDetails,
-    clubs
+  const profileData = useMemo(
+    () =>
+      getProfileData(
+        role,
+        role === "Athlete"
+          ? athleteDetails
+          : role === "Coach"
+          ? coachDetails
+          : role === "Club"
+          ? clubDetails
+          : federationDetails,
+        clubs
+      ),
+    [role, athleteDetails, coachDetails, clubDetails, federationDetails, clubs]
   );
 
   const bioData = useMemo(
@@ -170,18 +174,6 @@ const Profile = () => {
     }
   };
 
-  const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
-    if (!athleteDetails?.user_id && !athleteDetails?.id) {
-      throw new Error("Athlete details not found");
-    }
-    await addExperience(
-      newExperience,
-      dispatch,
-      athleteDetails.user_id,
-      athleteDetails.id
-    );
-  };
-
   const editUserExperience = async (updatedExp: Experience) => {
     if (!athleteDetails?.id) {
       throw new Error("Athlete details not found");
@@ -194,6 +186,20 @@ const Profile = () => {
     );
   };
 
+  /* adding data */
+  const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
+    if (!athleteDetails?.user_id && !athleteDetails?.id) {
+      throw new Error("Athlete details not found");
+    }
+    await addExperience(
+      newExperience,
+      dispatch,
+      athleteDetails.user_id,
+      athleteDetails.id
+    );
+  };
+
+  /* deleting data */
   const deleteExp = async () => {};
 
   /* MOCK DATA */

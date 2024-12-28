@@ -1,32 +1,13 @@
 import { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
-import {
-  fetchAthleteDetails,
-  fetchCoachDetails,
-  fetchClubDetails,
-  fetchFederationDetails,
-} from "./fetchDetails";
 
-import { Experience } from "./interfaces";
+import { Experience, dispatchFetch } from "./interfaces";
 
 const role = localStorage.getItem("role");
 const specificRoleId = localStorage.getItem("specificRoleId");
 
 const getEndpoint = (role: string, id: number) =>
   `/${role.toLowerCase()}/editProfile/${id}`;
-
-const dispatchFetch = (role: string, id: number, dispatch: AppDispatch) => {
-  const actions = {
-    Athlete: fetchAthleteDetails,
-    Coach: fetchCoachDetails,
-    Club: fetchClubDetails,
-    Federation: fetchFederationDetails,
-  };
-
-  const action = actions[role as keyof typeof actions];
-  if (!action) throw new Error("Invalid role");
-  return dispatch(action(id));
-};
 
 export const editExperience = async (
   experience: Experience,
