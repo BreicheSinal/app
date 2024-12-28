@@ -5,7 +5,7 @@ import FeedLayout from "../../Layout/FeedLayout";
 import ExperienceCard from "../../components/ExpCard";
 import BioCard from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
-import ProfileCard from "../../components/ProfileCard";
+import { ProfileCardView } from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
 import { deleteExp } from "../../../core/utils/deleteDetails";
@@ -17,11 +17,7 @@ import {
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
-import {
-  editExperience,
-  editBio,
-  editProfile,
-} from "../../../core/utils/editDetails";
+import { editExperience, editBio } from "../../../core/utils/editDetails";
 import { addExperience } from "../../../core/utils/addDetails";
 
 import {
@@ -105,17 +101,6 @@ const ViewProfile = () => {
     await editBio(updatedBio, dispatch);
   };
 
-  const editUserProfile = async (updatedFields: {
-    [key: string]: string | number | null;
-  }) => {
-    try {
-      await editProfile(updatedFields, role!, dispatch);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      throw error;
-    }
-  };
-
   const editUserExperience = async (updatedExp: Experience) => {
     if (!details?.id) {
       throw new Error("Athlete details not found");
@@ -163,14 +148,7 @@ const ViewProfile = () => {
     <div className="feed-container">
       <FeedLayout>
         <div className="cards-container flex">
-          <ProfileCard
-            width={300}
-            data={profileData}
-            showEdit={false}
-            onEdit={editUserProfile}
-            isLoading={isLoading}
-            clubs={clubs}
-          />
+          <ProfileCardView width={300} data={profileData} />
 
           <div className="sub-cards-container flex">
             <div className="flex column">

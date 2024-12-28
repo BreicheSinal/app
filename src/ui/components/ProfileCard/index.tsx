@@ -106,7 +106,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
     <>
       <Box className="Box flex align-start">
         <Card
-          className="Card secondary-bg-color"
+          className="secondary-bg-color"
           sx={{
             width: { xs: "90%", sm: width, md: width },
             minWidth: "300px",
@@ -301,4 +301,69 @@ const ProfileCard: FC<ProfileCardProps> = ({
   );
 };
 
-export default ProfileCard;
+const ProfileCardView: FC<ProfileCardProps> = ({ width, data }) => {
+  return (
+    <Box className="Box flex align-start">
+      <Card
+        className="secondary-bg-color"
+        sx={{
+          width: { xs: "90%", sm: width, md: width },
+          minWidth: "300px",
+          maxWidth: "600px",
+          height: "auto",
+        }}
+      >
+        <Box className="banner full-width relative-position primary-bg-color">
+          <Avatar
+            className="absolute-position"
+            sx={{
+              width: 100,
+              height: 100,
+              top: "100%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            {data.avatar}
+          </Avatar>
+        </Box>
+
+        <CardContent sx={{ pt: 6 }}>
+          <Box sx={{ position: "relative", textAlign: "center", mb: 2 }}>
+            <Typography variant="h5" className="white-color bold">
+              {data.title}
+            </Typography>
+          </Box>
+
+          {data.fields.map((field, index) => (
+            <Box key={field.label}>
+              <Box className="flex space-between align-center" sx={{ mb: 1 }}>
+                <Box>
+                  <Typography variant="subtitle2" className="tertiary-color">
+                    {field.label}
+                  </Typography>
+                  <Typography variant="body2" className="white-color">
+                    {field.type === "select"
+                      ? field.options?.find(
+                          (opt) => opt.id === Number(field.value)
+                        )?.name ||
+                        field.displayValue ||
+                        "N/A"
+                      : field.value}
+                  </Typography>
+                </Box>
+              </Box>
+              {index < data.fields.length - 1 && (
+                <Divider
+                  sx={{ backgroundColor: "white", opacity: 0.5, mb: 1 }}
+                />
+              )}
+            </Box>
+          ))}
+        </CardContent>
+      </Card>
+    </Box>
+  );
+};
+
+export { ProfileCard, ProfileCardView };
