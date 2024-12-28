@@ -62,7 +62,7 @@ const LogIn = () => {
         localStorage.setItem("specificRoleId", specificRoleId);
 
         console.log(role + " " + specificRoleId);
-        navigate("/feed");
+        navigate("/profile");
       }
     } catch (error: any) {
       const { message } = error;
