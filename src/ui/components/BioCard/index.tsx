@@ -16,9 +16,9 @@ import EditIcon from "@mui/icons-material/Edit";
 interface BioCardProps {
   width: number;
   bioText: string | null;
-  showEdit?: boolean;
+  showEdit: boolean;
   onEdit: (updatedBio: string) => Promise<void>;
-  isLoading?: boolean;
+  isLoading: boolean;
 }
 
 interface BioCardViewProps {

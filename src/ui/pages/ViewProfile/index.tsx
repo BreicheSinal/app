@@ -2,13 +2,11 @@ import { useMemo } from "react";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
-import ExperienceCard from "../../components/ExpCard";
+import { ExperienceCardView } from "../../components/ExpCard";
 import { BioCardView } from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
 import { ProfileCardView } from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
-
-import { deleteExp } from "../../../core/utils/deleteDetails";
 
 import {
   getBioData,
@@ -16,25 +14,20 @@ import {
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
-import { editExperience } from "../../../core/utils/editDetails";
-import { addExperience } from "../../../core/utils/addDetails";
-
 import {
-  Experience,
   getStoredRole,
   UserDetails,
   AthleteDetails,
   CoachDetails,
 } from "../../../core/utils/globalUtils";
 
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "../../../redux/store";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 import "./style.css";
 
 const ViewProfile = () => {
   const role = getStoredRole();
-  const dispatch = useDispatch<AppDispatch>();
 
   const details = useSelector((state: RootState) =>
     role === "Athlete"
@@ -65,31 +58,6 @@ const ViewProfile = () => {
     );
   }, [role, details]);
 
-  /* editing data */
-  const editUserExperience = async (updatedExp: Experience) => {
-    if (!details?.id) {
-      throw new Error("Athlete details not found");
-    }
-    await editExperience(updatedExp, dispatch, updatedExp.id, details.id);
-  };
-
-  /* adding data */
-  const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
-    if (!details?.user_id) {
-      throw new Error("Athlete details not found");
-    }
-    await addExperience(newExperience, dispatch, details.user_id);
-  };
-
-  /* deleting data */
-  const deleteUserExp = async (expId: number) => {
-    try {
-      await deleteExp(dispatch, expId);
-    } catch (error) {
-      console.error("Failed to delete experience:", error);
-    }
-  };
-
   /* MOCK DATA */
   const staffData: CardData = {
     title: "STAFF",
@@ -119,12 +87,9 @@ const ViewProfile = () => {
             <div className="flex column">
               <BioCardView width={600} bioText={bioData.bioText} />
 
-              <ExperienceCard
+              <ExperienceCardView
+                width={600}
                 experiences={experienceData.experiences}
-                addition={addUserExperience}
-                edit={editUserExperience}
-                showEdit={false}
-                delete={deleteUserExp}
               />
             </div>
 

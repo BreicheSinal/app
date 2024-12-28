@@ -20,12 +20,17 @@ import {
 import { Experience } from "../../../core/utils/globalUtils";
 
 interface ExperienceCardProps {
-  width?: 600;
+  width: 600;
   experiences: Experience[];
   addition?: (experience: Omit<Experience, "id">) => void;
-  edit?: (experience: Experience) => void;
+  edit: (experience: Experience) => void;
   delete: (id: number) => void;
-  showEdit?: boolean;
+  showEdit: boolean;
+}
+
+interface ExperienceCardViewProps {
+  width: 600;
+  experiences: Experience[];
 }
 
 const ExperienceCard: FC<ExperienceCardProps> = ({
@@ -330,4 +335,93 @@ const ExperienceCard: FC<ExperienceCardProps> = ({
   );
 };
 
-export default ExperienceCard;
+const ExperienceCardView: FC<ExperienceCardViewProps> = ({
+  width = 600,
+  experiences,
+}) => {
+  return (
+    <Box className="Box flex align-start">
+      <Box
+        className="Card secondary-bg-color"
+        sx={{
+          width: { xs: "90%", sm: width, md: width },
+          minWidth: "300px",
+          maxWidth: "600px",
+          height: "auto",
+          borderRadius: 2,
+          padding: 2,
+        }}
+      >
+        <Box
+          className="flex space-between align-center"
+          sx={{ position: "relative" }}
+        >
+          <Typography
+            variant="h6"
+            className="tertiary-color"
+            sx={{ fontWeight: "bold", letterSpacing: "0.5px" }}
+          >
+            EXPERIENCE
+          </Typography>
+        </Box>
+
+        {experiences.map((experience, index) => (
+          <Fragment key={index}>
+            <Box
+              className="Card secondary-bg-color"
+              sx={{
+                backgroundColor: "#1d2125",
+                color: "white",
+                border: "none",
+                borderRadius: 2,
+                padding: 2,
+              }}
+            >
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="flex-start"
+              >
+                <Box>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      color: "white",
+                      fontWeight: "bold",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {experience.name}
+                  </Typography>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "white", opacity: 0.7 }}
+                  >
+                    {experience.date}
+                  </Typography>
+                </Box>
+              </Box>
+              <Typography
+                variant="body2"
+                sx={{ color: "white", opacity: 0.9, mt: 1, lineHeight: 1.6 }}
+              >
+                {experience.description}
+              </Typography>
+            </Box>
+            {index < experiences.length - 1 && (
+              <Divider
+                sx={{
+                  backgroundColor: "white",
+                  opacity: 0.5,
+                  mb: 2,
+                }}
+              />
+            )}
+          </Fragment>
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
+export { ExperienceCard, ExperienceCardView };
