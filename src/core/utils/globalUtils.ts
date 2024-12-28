@@ -7,6 +7,49 @@ import {
 
 import { AppDispatch } from "../../redux/store";
 
+export interface BaseUserDetails {
+  id: number;
+  user_id: number;
+  name: string;
+  bio: string | null;
+  role: string;
+}
+
+export interface AthleteDetails extends BaseUserDetails {
+  club_id: number | null;
+  club: string | null;
+  position: string | null;
+  age: number | null;
+  height: number | null;
+  weight: number | null;
+  experiences: Experience[] | null;
+}
+
+export interface CoachDetails extends BaseUserDetails {
+  club_id: number | null;
+  club: string | null;
+  specialty: string | null;
+}
+
+export interface ClubDetails extends BaseUserDetails {
+  federation_id: number | null;
+  federation: string | null;
+  location: string | null;
+  founded_year: number | null;
+}
+
+export interface FederationDetails extends BaseUserDetails {
+  location: string | null;
+  country: string | null;
+  founded_year: number | null;
+}
+
+export type UserDetails =
+  | AthleteDetails
+  | CoachDetails
+  | ClubDetails
+  | FederationDetails;
+
 export interface Experience {
   id: number;
   name: string;
