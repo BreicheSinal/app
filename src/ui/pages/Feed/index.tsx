@@ -1,93 +1,146 @@
-import { useEffect } from "react";
-
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
+import ExperienceCard from "../../components/ExpCard";
+import BioCard from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
 import ProfileCard from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
-import { getBioData, getProfileData } from "../../../core/utils/fetchDetails";
+import { deleteExp } from "../../../core/utils/deleteDetails";
 
-import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchClubOptions,
+  getBioData,
+  getProfileData,
+  getExperienceData,
+} from "../../../core/utils/fetchDetails";
+
+import {
+  editExperience,
+  editBio,
+  editProfile,
+} from "../../../core/utils/editDetails";
+import { addExperience } from "../../../core/utils/addDetails";
+
+import {
+  Experience,
+  ClubOption,
+  getStoredRole,
+  UserDetails,
+  AthleteDetails,
+  CoachDetails,
+} from "../../../core/utils/globalUtils";
+
+import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
 
 import "./style.css";
 
 const Feed = () => {
-  const navigate = useNavigate();
+  const role = getStoredRole();
   const dispatch = useDispatch<AppDispatch>();
 
-  const athleteDetails = useSelector(
-    (state: RootState) => state.athlete.details
+  const [clubs, setClubs] = useState<ClubOption[]>([]);
+
+  const details = useSelector((state: RootState) =>
+    role === "Athlete"
+      ? state.athlete.details
+      : role === "Coach"
+      ? state.coach.details
+      : role === "Club"
+      ? state.club.details
+      : state.federation.details
   );
 
-  const coachDetails = useSelector((state: RootState) => state.coach.details);
-
-  const clubDetails = useSelector((state: RootState) => state.club.details);
-  const federationDetails = useSelector(
-    (state: RootState) => state.federation.details
+  const isLoading = useSelector((state: RootState) =>
+    role === "Athlete"
+      ? state.athlete.loading
+      : role === "Coach"
+      ? state.coach.loading
+      : role === "Club"
+      ? state.club.loading
+      : state.federation.loading
   );
 
-  useEffect(() => {
-    const role = localStorage.getItem("role");
-    const specificRoleId = localStorage.getItem("specificRoleId");
-
-    if (!role || !specificRoleId) {
-      navigate("/login");
-      return;
-    }
-
+  const loadClubs = async () => {
     try {
-      const id = parseInt(specificRoleId);
-
-      switch (role) {
-        case "Athlete":
-          dispatch(fetchAthleteDetails(id));
-          break;
-        case "Coach":
-          dispatch(fetchCoachDetails(id));
-          break;
-        case "Club":
-          dispatch(fetchClubDetails(id));
-          break;
-        case "Federation":
-          dispatch(fetchFederationDetails(id));
-          break;
-        default:
-          throw new Error("Invalid role");
-      }
+      const clubOptions = await fetchClubOptions();
+      setClubs(clubOptions);
     } catch (error) {
-      console.error("Error fetching user details:", error);
-      navigate("/login");
+      console.error("Error loading clubs:", error);
     }
-  }, [navigate, dispatch]);
+  };
 
-  const role = localStorage.getItem("role");
+  /* use effects */
+  useEffect(() => {
+    loadClubs();
+  }, []);
 
-  const profileData = getProfileData(
-    role,
-    role === "Athlete"
-      ? athleteDetails
-      : role === "Coach"
-      ? coachDetails
-      : role === "Club"
-      ? clubDetails
-      : federationDetails
+  /* getting data */
+  const profileData = useMemo(
+    () =>
+      details
+        ? getProfileData(role, details as UserDetails, clubs)
+        : { title: "Loading...", fields: [] },
+    [role, details, clubs]
   );
 
-  const bio = getBioData(
-    role,
-    role === "Athlete"
-      ? athleteDetails
-      : role === "Coach"
-      ? coachDetails
-      : role === "Club"
-      ? clubDetails
-      : federationDetails
-  );
+  const bioData = useMemo(() => getBioData(details?.bio || ""), [details]);
 
+  const experienceData = useMemo(() => {
+    if (!details || (role !== "Athlete" && role !== "Coach"))
+      return { experiences: [] };
+    return getExperienceData(
+      (details as AthleteDetails | CoachDetails).experiences || []
+    );
+  }, [role, details]);
+
+  /* editing data */
+  const editUserBio = async (updatedBio: string) => {
+    if (!details?.user_id && !details?.id) {
+      throw new Error("Athlete details not found");
+    }
+    await editBio(updatedBio, dispatch);
+  };
+
+  const editUserProfile = async (updatedFields: {
+    [key: string]: string | number | null;
+  }) => {
+    try {
+      await editProfile(updatedFields, role!, dispatch);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error;
+    }
+  };
+
+  const editUserExperience = async (updatedExp: Experience) => {
+    if (!details?.id) {
+      throw new Error("Athlete details not found");
+    }
+    await editExperience(updatedExp, dispatch, updatedExp.id, details.id);
+  };
+
+  /* adding data */
+  const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
+    if (!details?.user_id) {
+      throw new Error("Athlete details not found");
+    }
+    await addExperience(newExperience, dispatch, details.user_id);
+  };
+
+  /* deleting data */
+  const deleteUserExp = async (expId: number) => {
+    try {
+      await deleteExp(dispatch, expId);
+    } catch (error) {
+      console.error("Failed to delete experience:", error);
+    }
+  };
+
+  /* MOCK DATA */
   const staffData: CardData = {
     title: "STAFF",
     sections: [
@@ -114,22 +167,27 @@ const Feed = () => {
             width={300}
             data={profileData}
             showEdit={false}
-            onEdit={() => {}}
+            onEdit={editUserProfile}
+            isLoading={isLoading}
+            clubs={clubs}
           />
 
           <div className="sub-cards-container flex">
             <div className="flex column">
-              <CustomCard
+              <BioCard
                 width={600}
-                data={bio}
+                bioText={bioData.bioText}
                 showEdit={false}
-                onEdit={() => {}}
+                onEdit={editUserBio}
+                isLoading={isLoading}
               />
-              <CustomCard
-                width={600}
-                data={bio}
+
+              <ExperienceCard
+                experiences={experienceData.experiences}
+                addition={addUserExperience}
+                edit={editUserExperience}
                 showEdit={false}
-                onEdit={() => {}}
+                delete={deleteUserExp}
               />
             </div>
 
