@@ -29,6 +29,7 @@ export interface CoachDetails extends BaseUserDetails {
   club_id: number | null;
   club: string | null;
   specialty: string | null;
+  experiences: Experience[] | null;
 }
 
 export interface ClubDetails extends BaseUserDetails {

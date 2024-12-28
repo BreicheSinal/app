@@ -1,16 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Experience } from "../../core/utils/globalUtils";
-
-interface CoachDetails {
-  id: number;
-  user_id: number;
-  club_id: number | null;
-  club: string | null;
-  name: string;
-  bio: string | null;
-  specialty: string | null;
-  experiences: Experience[] | null;
-}
+import { CoachDetails } from "../../core/utils/globalUtils";
 
 interface CoachState {
   details: CoachDetails | null;
