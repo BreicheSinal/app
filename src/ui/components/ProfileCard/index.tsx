@@ -16,6 +16,7 @@ import {
   Divider,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 
 import "./style.css";
 
@@ -333,6 +334,22 @@ const ProfileCardView: FC<ProfileCardProps> = ({ width, data }) => {
             <Typography variant="h5" className="white-color bold">
               {data.title}
             </Typography>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                mt: 2,
+                textTransform: "none",
+                borderRadius: "20px",
+                px: 3,
+                backgroundColor: "#1976d2",
+                "&:hover": {
+                  backgroundColor: "#1565c0",
+                },
+              }}
+            >
+              Connect
+            </Button>
           </Box>
 
           {data.fields.map((field, index) => (
