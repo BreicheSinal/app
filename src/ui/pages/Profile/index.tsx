@@ -30,6 +30,9 @@ import {
   Experience,
   ClubOption,
   getStoredRole,
+  UserDetails,
+  AthleteDetails,
+  CoachDetails,
 } from "../../../core/utils/globalUtils";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -45,15 +48,14 @@ const Profile = () => {
 
   const [clubs, setClubs] = useState<ClubOption[]>([]);
 
-  const athleteDetails = useSelector(
-    (state: RootState) => state.athlete.details
-  );
-
-  const coachDetails = useSelector((state: RootState) => state.coach.details);
-
-  const clubDetails = useSelector((state: RootState) => state.club.details);
-  const federationDetails = useSelector(
-    (state: RootState) => state.federation.details
+  const details = useSelector((state: RootState) =>
+    role === "Athlete"
+      ? state.athlete.details
+      : role === "Coach"
+      ? state.coach.details
+      : role === "Club"
+      ? state.club.details
+      : state.federation.details
   );
 
   const loadClubs = async () => {
@@ -87,49 +89,25 @@ const Profile = () => {
   /* getting data */
   const profileData = useMemo(
     () =>
-      getProfileData(
-        role,
-        role === "Athlete"
-          ? athleteDetails
-          : role === "Coach"
-          ? coachDetails
-          : role === "Club"
-          ? clubDetails
-          : federationDetails,
-        clubs
-      ),
-    [role, athleteDetails, coachDetails, clubDetails, federationDetails, clubs]
+      details
+        ? getProfileData(role, details as UserDetails, clubs)
+        : { title: "Loading...", fields: [] },
+    [role, details, clubs]
   );
 
-  const bioData = useMemo(
-    () =>
-      getBioData(
-        role,
-        role === "Athlete"
-          ? athleteDetails?.bio || ""
-          : role === "Coach"
-          ? coachDetails?.bio || ""
-          : role === "Club"
-          ? clubDetails?.bio || ""
-          : federationDetails?.bio || ""
-      ),
-    [role, athleteDetails, coachDetails, clubDetails, federationDetails]
-  );
+  const bioData = useMemo(() => getBioData(details?.bio || ""), [details]);
 
-  const experienceData = useMemo(
-    () =>
-      getExperienceData(
-        role,
-        role === "Athlete"
-          ? athleteDetails?.experiences || []
-          : coachDetails?.experiences || []
-      ),
-    [role, athleteDetails, coachDetails]
-  );
+  const experienceData = useMemo(() => {
+    if (!details || (role !== "Athlete" && role !== "Coach"))
+      return { experiences: [] };
+    return getExperienceData(
+      (details as AthleteDetails | CoachDetails).experiences || []
+    );
+  }, [role, details]);
 
   /* editing data */
   const editUserBio = async (updatedBio: string) => {
-    if (!athleteDetails?.user_id && !athleteDetails?.id) {
+    if (!details?.user_id && !details?.id) {
       throw new Error("Athlete details not found");
     }
     await editBio(updatedBio, dispatch);
@@ -147,28 +125,18 @@ const Profile = () => {
   };
 
   const editUserExperience = async (updatedExp: Experience) => {
-    if (!athleteDetails?.id) {
+    if (!details?.id) {
       throw new Error("Athlete details not found");
     }
-    await editExperience(
-      updatedExp,
-      dispatch,
-      updatedExp.id,
-      athleteDetails.id
-    );
+    await editExperience(updatedExp, dispatch, updatedExp.id, details.id);
   };
 
   /* adding data */
   const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
-    if (!athleteDetails?.user_id && !athleteDetails?.id) {
+    if (!details?.user_id && !details?.id) {
       throw new Error("Athlete details not found");
     }
-    await addExperience(
-      newExperience,
-      dispatch,
-      athleteDetails.user_id,
-      athleteDetails.id
-    );
+    await addExperience(newExperience, dispatch, details.user_id, details.id);
   };
 
   /* deleting data */
