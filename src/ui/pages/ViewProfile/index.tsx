@@ -8,6 +8,8 @@ import CustomCard from "../../components/CustomCard";
 import { ProfileCardView } from "../../components/ProfileCard";
 import { CardData } from "../../components/CustomCard";
 
+import { CircularProgress } from "@mui/material";
+
 import {
   getBioData,
   getProfileData,
@@ -69,7 +71,9 @@ const ViewProfile = () => {
     return (
       <div className="feed-container">
         <FeedLayout>
-          <div>Loading...</div>
+          <div>
+            <CircularProgress />
+          </div>
         </FeedLayout>
       </div>
     );
