@@ -21,7 +21,7 @@ const App = () => {
 
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
-            <Route path="/view" element={<ViewProfile />} />
+            <Route path="/view/:userId/:role" element={<ViewProfile />} />
           </Route>
         </Routes>
       </BrowserRouter>
