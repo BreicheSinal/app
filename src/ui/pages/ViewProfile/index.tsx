@@ -18,6 +18,7 @@ import {
 } from "../../../core/utils/fetchDetails";
 
 import { fetchSearchedUserDetails } from "../../../core/utils/fetchDetails";
+import { createConnectionRequest } from "../../../core/utils/addDetails";
 
 import {
   UserDetails,
@@ -55,6 +56,23 @@ const ViewProfile = () => {
         return null;
     }
   });
+
+  const connect = async () => {
+    try {
+      setConnectionStatus("pending");
+
+      await createConnectionRequest(currentUserId!, Number(userId));
+
+      const newStatus = await fetchConnectionStatus(
+        currentUserId!,
+        Number(userId)
+      );
+      setConnectionStatus(newStatus);
+    } catch (error) {
+      console.error("Connection error:", error);
+      setConnectionStatus(null);
+    }
+  };
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -154,6 +172,7 @@ const ViewProfile = () => {
             connectedUserId={Number(userId)}
             userId={currentUserId!}
             connectionStatus={connectionStatus!}
+            onConnect={connect}
           />
 
           <div className="sub-cards-container flex">

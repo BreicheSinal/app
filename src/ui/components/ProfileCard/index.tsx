@@ -22,8 +22,6 @@ import CheckIcon from "@mui/icons-material/CheckCircleOutline";
 
 import "./style.css";
 
-import { createConnectionRequest } from "../../../core/utils/addDetails";
-
 interface Club {
   id: number;
   name: string;
@@ -57,6 +55,7 @@ interface ProfileCardProps {
   connectedUserId?: number;
   userId?: number;
   connectionStatus?: string;
+  onConnect: () => Promise<void>;
 }
 
 const ProfileCard: FC<ProfileCardProps> = ({
@@ -314,14 +313,9 @@ const ProfileCardView: FC<ProfileCardProps> = ({
   width,
   data,
   showConnect = false,
-  connectedUserId,
-  userId,
   connectionStatus,
+  onConnect,
 }) => {
-  const connect = () => {
-    createConnectionRequest(userId!, connectedUserId!);
-  };
-
   const renderConnectButton = () => {
     switch (connectionStatus) {
       case "accepted":
@@ -369,7 +363,7 @@ const ProfileCardView: FC<ProfileCardProps> = ({
       default:
         return (
           <Button
-            onClick={connect}
+            onClick={onConnect}
             disableRipple
             variant="contained"
             startIcon={<AddIcon />}
