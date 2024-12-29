@@ -16,7 +16,7 @@ import NoteEvent from "@mui/icons-material/EventNote";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 
-import Search from "../SearchBar";
+import SearchBar from "../SearchBar";
 import { getStoredRole, createSetters } from "../../../core/utils/globalUtils";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
@@ -147,7 +147,8 @@ const NavBar: FC = () => {
               className="logo"
             />
           </IconButton>
-          <Search currentUserId={currentUserId} />
+          
+          <SearchBar currentUserId={currentUserId} />
 
           <Box sx={{ flexGrow: 1 }} />
           <Box
