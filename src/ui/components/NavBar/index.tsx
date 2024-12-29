@@ -62,7 +62,7 @@ const NavBar: FC = () => {
   const goTo = (path: string) => navigate(path);
 
   const goToConnections = () => goTo("/");
-  const goToMessaging = () => goTo("/");
+  const goToMessaging = () => goTo("/messaging");
   const goToTryOuts = () => goTo("/");
   const goToProfile = () => goTo("/profile");
   const goToFeed = () => goTo("/feed");

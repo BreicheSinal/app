@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import NavBar from "../../components/NavBar";
 import ChatComponent from "../../components/Chat";
 
@@ -41,18 +42,44 @@ const messages = [
 
 const Messaging = () => {
   return (
-    <div>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        bgcolor: "#393933",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <NavBar />
-      <ChatComponent
-        currentUser={currentUser}
-        users={users}
-        messages={messages}
-        onSendMessage={(message, receiverId) =>
-          console.log("New message:", message, "To:", receiverId)
-        }
-        onUserSelect={(user) => console.log("Selected user:", user)}
-      />
-    </div>
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          p: 4,
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            maxWidth: "1200px",
+            height: "80vh",
+            borderRadius: 2,
+          }}
+        >
+          <ChatComponent
+            currentUser={currentUser}
+            users={users}
+            messages={messages}
+            onSendMessage={(message, receiverId) =>
+              console.log("New message:", message, "To:", receiverId)
+            }
+            onUserSelect={(user) => console.log("Selected user:", user)}
+          />
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
