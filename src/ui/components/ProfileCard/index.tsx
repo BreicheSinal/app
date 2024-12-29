@@ -318,7 +318,6 @@ const ProfileCardView: FC<ProfileCardProps> = ({
   userId,
   connectionStatus,
 }) => {
-  
   const connect = () => {
     createConnectionRequest(userId!, connectedUserId!);
   };

@@ -170,10 +170,17 @@ export const fetchConnectionStatus = async (
       "GET"
     );
 
+    if (
+      !response.connection ||
+      response.message === "No connection found between the users"
+    ) {
+      return null;
+    }
+
     return response.connection.status;
   } catch (error) {
     console.error("Error fetching connection status:", error);
-    throw error;
+    return null;
   }
 };
 
