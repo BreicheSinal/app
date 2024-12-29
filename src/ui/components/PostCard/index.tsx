@@ -1,11 +1,36 @@
-import { FC } from "react";
-import { TextField, Avatar, Box } from "@mui/material";
+import { FC, useState, ChangeEvent } from "react";
+import { IconButton, TextField, Button, Avatar, Box } from "@mui/material";
+import {
+  Image as ImageIcon,
+  EmojiEmotions as EmojiIcon,
+} from "@mui/icons-material";
 
 interface PostCardProps {
   width: number;
 }
 
 const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
+  const [post, setPost] = useState<string>("");
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  const onFocus = () => {
+    setIsExpanded(true);
+  };
+
+  const onChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setPost(event.target.value);
+  };
+
+  const handlePost = () => {
+    if (post.trim()) {
+      console.log("Posting:", post);
+      setPost("");
+      setIsExpanded(false);
+    }
+  };
+
   return (
     <Box className="Box flex align-start">
       <Box
@@ -39,9 +64,12 @@ const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
           <Box sx={{ flex: 1 }}>
             <TextField
               fullWidth
-              onChange={change}
-              onFocus={focus}
+              value={post}
+              onChange={onChange}
+              onFocus={onFocus}
               placeholder="Start a post...."
+              multiline={isExpanded}
+              rows={isExpanded ? 3 : 1}
               variant="outlined"
               sx={{
                 "& .MuiInputBase-input": {
@@ -64,6 +92,53 @@ const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
                 },
               }}
             />
+
+            {isExpanded && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mt: 2,
+                }}
+              >
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <IconButton
+                    size="small"
+                    sx={{
+                      color: "primary.main",
+                    }}
+                  >
+                    <ImageIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    sx={{
+                      color: "warning.main",
+                    }}
+                  >
+                    <EmojiIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handlePost}
+                  disabled={!post.trim()}
+                  sx={{
+                    borderRadius: "24px",
+                    px: 3,
+                    "&.Mui-disabled": {
+                      backgroundColor: "#404040",
+                      color: "rgba(255, 255, 255, 0.3)",
+                    },
+                  }}
+                >
+                  Post
+                </Button>
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>
