@@ -159,6 +159,22 @@ export const fetchSearchResults = async (
   }
 };
 
+export const fetchConnectionStatus = async (
+  userID: number,
+  connectedUserId: number
+) => {
+  try {
+    const response = await requestApi(`/user/${connectedUserId}`, "GET", {
+      userID,
+    });
+
+    return response.connection.status;
+  } catch (error) {
+    console.error("Error fetching connection status:", error);
+    throw error;
+  }
+};
+
 const getBaseProfileData = (details: UserDetails) => ({
   title: details.name,
   avatar: details.name.charAt(0),
