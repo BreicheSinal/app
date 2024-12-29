@@ -9,6 +9,7 @@ import LogIn from "../ui/pages/LogIn";
 import ViewProfile from "../ui/pages/ViewProfile";
 import Profile from "../ui/pages/Profile";
 import ErrorPage from "../ui/pages/ErrorPage";
+import Feed from "../ui/pages/Feed";
 
 import ProtectedRoute from "../core/routes/protectedRoute";
 
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/login" element={<LogIn />} />
 
           <Route element={<ProtectedRoute />}>
+            <Route path="/feed" element={<Feed />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/view/:userId/:role" element={<ViewProfile />} />
           </Route>

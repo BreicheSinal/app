@@ -65,7 +65,7 @@ const NavBar: FC = () => {
   const goToMessaging = () => goTo("/");
   const goToTryOuts = () => goTo("/");
   const goToProfile = () => goTo("/profile");
-  const goToFeed = () => goTo("/view");
+  const goToFeed = () => goTo("/feed");
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -147,7 +147,7 @@ const NavBar: FC = () => {
               className="logo"
             />
           </IconButton>
-          
+
           <SearchBar currentUserId={currentUserId} />
 
           <Box sx={{ flexGrow: 1 }} />
