@@ -8,6 +8,7 @@ import {
   ListItemAvatar,
   ListItemText,
   Divider,
+  Paper,
 } from "@mui/material";
 
 interface ChatUser {
@@ -34,8 +35,22 @@ interface ChatComponentProps {
   onUserSelect?: (user: ChatUser) => void;
 }
 
-const ChatComponent: FC<ChatComponentProps> = ({ users, currentUser }) => {
+const ChatComponent: FC<ChatComponentProps> = ({
+  users,
+  currentUser,
+  messages,
+}) => {
   const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
+
+  const filteredMessages = selectedUser
+    ? messages.filter(
+        (msg) =>
+          (msg.senderId === currentUser.id &&
+            msg.receiverId === selectedUser.id) ||
+          (msg.senderId === selectedUser.id &&
+            msg.receiverId === currentUser.id)
+      )
+    : [];
 
   return (
     <Box
@@ -158,6 +173,77 @@ const ChatComponent: FC<ChatComponentProps> = ({ users, currentUser }) => {
             </Typography>
           </Box>
         )}
+
+        {/* Chat Area */}
+        <Box
+          sx={{
+            flex: 1,
+            p: 2,
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+          }}
+        >
+          {filteredMessages.map((msg) => {
+            const isCurrentUser = msg.senderId === currentUser.id;
+            return (
+              <Box
+                key={msg.id}
+                sx={{
+                  display: "flex",
+                  justifyContent: isCurrentUser ? "flex-end" : "flex-start",
+                  alignItems: "flex-start",
+                  gap: 1,
+                }}
+              >
+                {!isCurrentUser && (
+                  <Avatar
+                    sx={{
+                      width: 32,
+                      height: 32,
+                      bgcolor: "primary.main",
+                      boxShadow: 1,
+                    }}
+                  >
+                    {selectedUser?.avatar || selectedUser?.name.charAt(0)}
+                  </Avatar>
+                )}
+                <Box
+                  sx={{
+                    maxWidth: "70%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 0.5,
+                  }}
+                >
+                  <Paper
+                    sx={{
+                      p: 1.5,
+                      backgroundColor: isCurrentUser
+                        ? "primary.main"
+                        : "background.paper",
+                      color: isCurrentUser ? "white" : "text.primary",
+                      borderRadius: 2,
+                      boxShadow: 2,
+                    }}
+                  >
+                    <Typography variant="body1">{msg.content}</Typography>
+                  </Paper>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      color: "rgba(255, 255, 255, 0.5)",
+                      alignSelf: isCurrentUser ? "flex-end" : "flex-start",
+                    }}
+                  >
+                    {msg.timestamp}
+                  </Typography>
+                </Box>
+              </Box>
+            );
+          })}
+        </Box>
       </Box>
     </Box>
   );
