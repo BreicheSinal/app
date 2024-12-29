@@ -143,14 +143,12 @@ export const fetchSearchResults = async (
     const response = await requestApi(url);
 
     if (response.status === "success") {
-      const role = response.users?.[0]?.userRoles?.[0]?.role?.role_name;
-
       return response.users.map((user: UserDetails) => {
         return {
           id: user.id,
           name: user.name,
           avatar: user.avatar || "",
-          role: role,
+          role: user.role,
         };
       });
     }
