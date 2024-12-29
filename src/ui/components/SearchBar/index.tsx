@@ -48,11 +48,11 @@ const Search: FC<SearchProps> = ({ currentUserId }) => {
     setIsSearching(false);
   };
 
-  const handleSearchResultClick = (userId: number) => {
+  const handleSearchResultClick = (userId: number, role: string) => {
     setSearchResults([]);
     setSearchTerm("");
     setAnchorEl(null);
-    navigate(`/view/${userId}`);
+    navigate(`/view/${userId}/${role}`);
   };
 
   const handleCloseResults = () => {
@@ -102,7 +102,7 @@ const Search: FC<SearchProps> = ({ currentUserId }) => {
               <ListItem
                 key={user.id}
                 component="div"
-                onClick={() => handleSearchResultClick(user.id)}
+                onClick={() => handleSearchResultClick(user.id, user.role)}
                 sx={{
                   cursor: "pointer",
                   "&:hover": {
