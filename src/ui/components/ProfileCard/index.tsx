@@ -335,6 +335,7 @@ const ProfileCardView: FC<ProfileCardProps> = ({ width, data }) => {
               {data.title}
             </Typography>
             <Button
+              disableRipple
               variant="contained"
               startIcon={<AddIcon />}
               sx={{
