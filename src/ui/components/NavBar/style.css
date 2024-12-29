@@ -48,7 +48,8 @@
 }
 
 .logo {
-  width: 85px;
+  width: 52.5px;
+  margin-left: 10px;
 }
 
 .search {
@@ -56,8 +57,7 @@
   border: 1px solid white;
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.1);
-  margin-right: 16px;
-  margin-left: 0;
+  margin-left: 10px;
   width: 350px;
   height: 40px;
 }

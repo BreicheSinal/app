@@ -142,7 +142,7 @@ const NavBar: FC = () => {
             onClick={goToFeed}
           >
             <img
-              src="src/assets/icons/AthLink_noBG.png"
+              src="../../../../src/assets/icons/AthLink_noBG1.png"
               alt="Logo"
               className="logo"
             />
