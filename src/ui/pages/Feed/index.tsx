@@ -3,6 +3,7 @@ import FeedLayout from "../../Layout/FeedLayout";
 import CustomCard from "../../components/CustomCard";
 import { ProfileCardView } from "../../components/ProfileCard";
 import PostCard from "../../components/PostCard";
+import Post from "../../components/Post";
 
 import { CardData } from "../../components/CustomCard";
 
@@ -32,6 +33,10 @@ const staffData: CardData = {
     },
   ],
 };
+
+const handleLike = async () => {};
+const handleComment = async () => {};
+
 const Feed = () => {
   const role = getStoredRole();
 
@@ -63,6 +68,14 @@ const Feed = () => {
           <div className="sub-cards-container flex">
             <div className="flex column">
               <PostCard width={600} />
+              <Post
+                width={600}
+                userName="Name"
+                //image="../../../../src/assets/icons/AthLink_noBG1.png"
+                description="Qorem ipsum dolor sit amet, consectetur adipiscing elit..."
+                onLike={() => handleLike()}
+                onComment={() => handleComment()}
+              />
             </div>
             <CustomCard
               width={250}
