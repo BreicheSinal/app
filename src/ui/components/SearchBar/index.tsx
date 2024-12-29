@@ -16,12 +16,12 @@ import { UserDetails } from "../../../core/utils/globalUtils";
 import { fetchSearchResults } from "../../../core/utils/fetchDetails";
 
 interface SearchProps {
-  currentUserId: number | null;
+  currentUserId: number | null | undefined;
 }
 
 const Search: FC<SearchProps> = ({ currentUserId }) => {
   const navigate = useNavigate();
-  
+
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<UserDetails[]>([]);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);

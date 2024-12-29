@@ -8,15 +8,18 @@ import {
   MenuItem,
   Badge,
   Typography,
-  InputBase,
   Button,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import PeopleIcon from "@mui/icons-material/People";
 import ChatIcon from "@mui/icons-material/Chat";
 import NoteEvent from "@mui/icons-material/EventNote";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
+
+import Search from "../SearchBar";
+import { getStoredRole, createSetters } from "../../../core/utils/globalUtils";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +27,24 @@ import "./style.css";
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
+
+  const role = getStoredRole();
+  createSetters(role!);
+
+  const currentUserId = useSelector((state: RootState) => {
+    switch (role) {
+      case "Athlete":
+        return state.athlete.details?.user_id;
+      case "Coach":
+        return state.coach.details?.user_id;
+      case "Club":
+        return state.club.details?.user_id;
+      case "Federation":
+        return state.federation.details?.user_id;
+      default:
+        return null;
+    }
+  });
 
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
@@ -126,16 +147,7 @@ const NavBar: FC = () => {
               className="logo"
             />
           </IconButton>
-          <div className="search">
-            <div className="search-icon-wrapper">
-              <SearchIcon className="search-icon" />
-            </div>
-            <InputBase
-              className="search-input"
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
+          <Search currentUserId={currentUserId} />
 
           <Box sx={{ flexGrow: 1 }} />
           <Box
