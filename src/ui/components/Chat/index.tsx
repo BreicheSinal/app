@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
   Box,
   Typography,
@@ -35,6 +35,8 @@ interface ChatComponentProps {
 }
 
 const ChatComponent: FC<ChatComponentProps> = ({ users, currentUser }) => {
+  const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
+
   return (
     <Box
       sx={{
@@ -120,6 +122,42 @@ const ChatComponent: FC<ChatComponentProps> = ({ users, currentUser }) => {
               </Box>
             ))}
         </List>
+      </Box>
+
+      {/* Chat window */}
+      <Box
+        sx={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          bgcolor: "#1a1a1a",
+        }}
+      >
+        {/* Chat Header */}
+        {selectedUser && (
+          <Box
+            sx={{
+              p: 2,
+              borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              bgcolor: "#242424",
+            }}
+          >
+            <Avatar
+              sx={{
+                bgcolor: "primary.main",
+                boxShadow: 1,
+              }}
+            >
+              {selectedUser.avatar || selectedUser.name.charAt(0)}
+            </Avatar>
+            <Typography sx={{ color: "white", fontWeight: 500 }}>
+              {selectedUser.name}
+            </Typography>
+          </Box>
+        )}
       </Box>
     </Box>
   );
