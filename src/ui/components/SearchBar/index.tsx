@@ -15,11 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { UserDetails } from "../../../core/utils/globalUtils";
 import { fetchSearchResults } from "../../../core/utils/fetchDetails";
 
-interface SearchProps {
+interface SearchBarProps {
   currentUserId: number | null | undefined;
 }
 
-const Search: FC<SearchProps> = ({ currentUserId }) => {
+const SearchBar: FC<SearchBarProps> = ({ currentUserId }) => {
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -130,4 +130,4 @@ const Search: FC<SearchProps> = ({ currentUserId }) => {
   );
 };
 
-export default Search;
+export default SearchBar;
