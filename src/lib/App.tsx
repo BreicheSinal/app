@@ -8,6 +8,7 @@ import SignUp from "../ui/pages/SignUp";
 import LogIn from "../ui/pages/LogIn";
 import ViewProfile from "../ui/pages/ViewProfile";
 import Profile from "../ui/pages/Profile";
+import ErrorPage from "../ui/pages/ErrorPage";
 
 import ProtectedRoute from "../core/routes/protectedRoute";
 
@@ -23,6 +24,8 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/view/:userId/:role" element={<ViewProfile />} />
           </Route>
+
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </div>
