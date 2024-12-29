@@ -100,6 +100,17 @@ export const fetchUserDetails =
     }
   };
 
+export const fetchSearchedUserDetails = async (role: string, id: number) => {
+  try {
+    const response = await requestApi(`/${role.toLowerCase()}/${id}`);
+    const userData = response[role.toLowerCase()][0];
+    return parseUserData(role, userData, response);
+  } catch (error: any) {
+    console.error(`Error fetching ${role} details:`, error);
+    throw new Error(error.message || `Failed to fetch ${role} details`);
+  }
+};
+
 export const fetchClubOptions = async () => {
   try {
     const response = await requestApi("/club", "GET");
@@ -125,7 +136,7 @@ export const fetchSearchResults = async (
     const url = `/user/${currentUserId}/search?search=${encodeURIComponent(
       searchValue
     )}`;
-    
+
     const response = await requestApi(url);
 
     if (response.status === "success") {
