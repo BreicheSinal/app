@@ -45,7 +45,7 @@ const Messaging = () => {
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "#393933",
+        bgcolor: "#393939",
         display: "flex",
         flexDirection: "column",
       }}

@@ -115,7 +115,7 @@ const ChatComponent: FC<ChatComponentProps> = ({
             fontWeight: 600,
           }}
         >
-          Messages
+          Chats
         </Typography>
 
         <List sx={{ flex: 1, overflow: "auto" }}>
