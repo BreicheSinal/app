@@ -47,13 +47,32 @@ const ChatComponent: FC<ChatComponentProps> = ({
   users,
   currentUser,
   messages,
+  onSendMessage,
+  onUserSelect,
 }) => {
   const [message, setMessage] = useState("");
   const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
 
-  const send = () => {};
+  const send = () => {
+    if (message.trim() && onSendMessage && selectedUser) {
+      onSendMessage(message, selectedUser.id);
+      setMessage("");
+    }
+  };
 
-  const keyPress = () => {};
+  const userClick = (user: ChatUser) => {
+    setSelectedUser(user);
+    if (onUserSelect) {
+      onUserSelect(user);
+    }
+  };
+
+  const keyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      send();
+    }
+  };
 
   const filteredMessages = selectedUser
     ? messages.filter(
@@ -105,7 +124,19 @@ const ChatComponent: FC<ChatComponentProps> = ({
             .map((user, index) => (
               <Box key={user.id}>
                 <ListItem
+                  onClick={() => userClick(user)}
                   sx={{
+                    cursor: "pointer",
+                    backgroundColor:
+                      selectedUser?.id === user.id
+                        ? "rgba(144, 202, 249, 0.08)"
+                        : "transparent",
+                    "&:hover": {
+                      backgroundColor:
+                        selectedUser?.id === user.id
+                          ? "rgba(144, 202, 249, 0.12)"
+                          : "rgba(255, 255, 255, 0.05)",
+                    },
                     transition: "background-color 0.2s",
                   }}
                 >
