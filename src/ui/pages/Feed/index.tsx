@@ -2,6 +2,7 @@ import FeedLayout from "../../Layout/FeedLayout";
 
 import CustomCard from "../../components/CustomCard";
 import { ProfileCardView } from "../../components/ProfileCard";
+import PostCard from "../../components/PostCard";
 
 import { CardData } from "../../components/CustomCard";
 
@@ -57,10 +58,12 @@ const Feed = () => {
     <div className="feed-container">
       <FeedLayout>
         <div className="cards-container flex">
-          <ProfileCardView width={300} data={profileData} />
+          <ProfileCardView width={300} data={profileData} showConnect={false} />
 
           <div className="sub-cards-container flex">
-            <div className="flex column"></div>
+            <div className="flex column">
+              <PostCard width={600} />
+            </div>
             <CustomCard
               width={250}
               data={staffData}

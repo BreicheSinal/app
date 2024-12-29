@@ -44,6 +44,7 @@ interface ProfileCardProps {
   width: number;
   data: ProfileData;
   showEdit?: boolean;
+  showConnect?: boolean;
   onEdit?: (updatedFields: {
     [key: string]: string | number | null;
   }) => Promise<void>;
@@ -302,7 +303,11 @@ const ProfileCard: FC<ProfileCardProps> = ({
   );
 };
 
-const ProfileCardView: FC<ProfileCardProps> = ({ width, data }) => {
+const ProfileCardView: FC<ProfileCardProps> = ({
+  width,
+  data,
+  showConnect = false,
+}) => {
   return (
     <Box className="Box flex align-start">
       <Card
@@ -334,23 +339,25 @@ const ProfileCardView: FC<ProfileCardProps> = ({ width, data }) => {
             <Typography variant="h5" className="white-color bold">
               {data.title}
             </Typography>
-            <Button
-              disableRipple
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{
-                mt: 2,
-                textTransform: "none",
-                borderRadius: "20px",
-                px: 3,
-                backgroundColor: "#1976d2",
-                "&:hover": {
-                  backgroundColor: "#1565c0",
-                },
-              }}
-            >
-              Connect
-            </Button>
+            {showConnect && (
+              <Button
+                disableRipple
+                variant="contained"
+                startIcon={<AddIcon />}
+                sx={{
+                  mt: 2,
+                  textTransform: "none",
+                  borderRadius: "20px",
+                  px: 3,
+                  backgroundColor: "#1976d2",
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
+                  },
+                }}
+              >
+                Connect
+              </Button>
+            )}
           </Box>
 
           {data.fields.map((field, index) => (
