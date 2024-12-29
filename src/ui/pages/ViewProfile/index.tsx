@@ -22,7 +22,12 @@ import {
   UserDetails,
   AthleteDetails,
   CoachDetails,
+  createSetters,
+  getStoredRole,
 } from "../../../core/utils/globalUtils";
+
+import { RootState } from "../../../redux/store";
+import { useSelector } from "react-redux";
 
 const ViewProfile = () => {
   const { userId, role } = useParams<{ userId: string; role: string }>();
@@ -30,6 +35,23 @@ const ViewProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const roleCurrentUser = getStoredRole();
+  createSetters(roleCurrentUser!);
+
+  const currentUserId = useSelector((state: RootState) => {
+    switch (roleCurrentUser) {
+      case "Athlete":
+        return state.athlete.details?.user_id;
+      case "Coach":
+        return state.coach.details?.user_id;
+      case "Club":
+        return state.club.details?.user_id;
+      case "Federation":
+        return state.federation.details?.user_id;
+      default:
+        return null;
+    }
+  });
   useEffect(() => {
     const loadUserData = async () => {
       if (!userId) return;
@@ -112,7 +134,13 @@ const ViewProfile = () => {
     <div className="feed-container">
       <FeedLayout>
         <div className="cards-container flex">
-          <ProfileCardView width={300} data={profileData} showConnect={true} />
+          <ProfileCardView
+            width={300}
+            data={profileData}
+            showConnect={true}
+            connectedUserId={Number(userId)}
+            userId={currentUserId!}
+          />
 
           <div className="sub-cards-container flex">
             <div className="flex column">

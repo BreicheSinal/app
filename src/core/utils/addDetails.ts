@@ -28,3 +28,19 @@ export const addExperience = async (
     throw error;
   }
 };
+
+export const createConnectionRequest = async (
+  connectedUserId: number,
+  userId: number
+) => {
+  try {
+    if (!connectedUserId || !userId) {
+      throw new Error("Invalid or missing user IDs");
+    }
+
+    return requestApi(`/user/${connectedUserId}`, "POST", { userId });
+  } catch (error) {
+    console.error("Error creating connection:", error);
+    throw error;
+  }
+};

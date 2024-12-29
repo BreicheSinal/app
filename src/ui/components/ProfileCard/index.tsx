@@ -20,6 +20,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 import "./style.css";
 
+import { createConnectionRequest } from "../../../core/utils/addDetails";
+
 interface Club {
   id: number;
   name: string;
@@ -50,6 +52,8 @@ interface ProfileCardProps {
   }) => Promise<void>;
   isLoading?: boolean;
   clubs?: Club[];
+  connectedUserId?: number;
+  userId?: number;
 }
 
 const ProfileCard: FC<ProfileCardProps> = ({
@@ -307,7 +311,14 @@ const ProfileCardView: FC<ProfileCardProps> = ({
   width,
   data,
   showConnect = false,
+  connectedUserId,
+  userId,
 }) => {
+  
+  const connect = () => {
+    createConnectionRequest(userId!, connectedUserId!);
+  };
+
   return (
     <Box className="Box flex align-start">
       <Card
@@ -341,6 +352,7 @@ const ProfileCardView: FC<ProfileCardProps> = ({
             </Typography>
             {showConnect && (
               <Button
+                onClick={connect}
                 disableRipple
                 variant="contained"
                 startIcon={<AddIcon />}
