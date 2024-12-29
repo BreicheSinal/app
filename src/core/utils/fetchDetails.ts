@@ -160,13 +160,15 @@ export const fetchSearchResults = async (
 };
 
 export const fetchConnectionStatus = async (
-  userID: number,
+  userId: number,
   connectedUserId: number
 ) => {
+  console.log(userId, connectedUserId);
   try {
-    const response = await requestApi(`/user/${connectedUserId}`, "GET", {
-      userID,
-    });
+    const response = await requestApi(
+      `/user/${connectedUserId}?userId=${userId}`,
+      "GET"
+    );
 
     return response.connection.status;
   } catch (error) {

@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
+import PendingIcon from "@mui/icons-material/PendingOutlined"; // For "Pending" icon
+import CheckIcon from "@mui/icons-material/CheckCircleOutline";
 
 import "./style.css";
 
@@ -54,6 +56,7 @@ interface ProfileCardProps {
   clubs?: Club[];
   connectedUserId?: number;
   userId?: number;
+  connectionStatus?: string;
 }
 
 const ProfileCard: FC<ProfileCardProps> = ({
@@ -313,10 +316,79 @@ const ProfileCardView: FC<ProfileCardProps> = ({
   showConnect = false,
   connectedUserId,
   userId,
+  connectionStatus,
 }) => {
   
   const connect = () => {
     createConnectionRequest(userId!, connectedUserId!);
+  };
+
+  const renderConnectButton = () => {
+    switch (connectionStatus) {
+      case "accepted":
+        return (
+          <Button
+            disabled
+            variant="contained"
+            startIcon={<CheckIcon />}
+            sx={{
+              mt: 2,
+              textTransform: "none",
+              borderRadius: "20px",
+              px: 3,
+              backgroundColor: "#43a047",
+              "&:disabled": {
+                backgroundColor: "#43a047",
+                color: "white",
+              },
+            }}
+          >
+            Connected
+          </Button>
+        );
+      case "pending":
+        return (
+          <Button
+            disabled
+            variant="contained"
+            startIcon={<PendingIcon />}
+            sx={{
+              mt: 2,
+              textTransform: "none",
+              borderRadius: "20px",
+              px: 3,
+              backgroundColor: "#666",
+              "&:disabled": {
+                backgroundColor: "#666",
+                color: "white",
+              },
+            }}
+          >
+            Pending
+          </Button>
+        );
+      default:
+        return (
+          <Button
+            onClick={connect}
+            disableRipple
+            variant="contained"
+            startIcon={<AddIcon />}
+            sx={{
+              mt: 2,
+              textTransform: "none",
+              borderRadius: "20px",
+              px: 3,
+              backgroundColor: "#1976d2",
+              "&:hover": {
+                backgroundColor: "#1565c0",
+              },
+            }}
+          >
+            Connect
+          </Button>
+        );
+    }
   };
 
   return (
@@ -350,26 +422,7 @@ const ProfileCardView: FC<ProfileCardProps> = ({
             <Typography variant="h5" className="white-color bold">
               {data.title}
             </Typography>
-            {showConnect && (
-              <Button
-                onClick={connect}
-                disableRipple
-                variant="contained"
-                startIcon={<AddIcon />}
-                sx={{
-                  mt: 2,
-                  textTransform: "none",
-                  borderRadius: "20px",
-                  px: 3,
-                  backgroundColor: "#1976d2",
-                  "&:hover": {
-                    backgroundColor: "#1565c0",
-                  },
-                }}
-              >
-                Connect
-              </Button>
-            )}
+            {showConnect && renderConnectButton()}
           </Box>
 
           {data.fields.map((field, index) => (

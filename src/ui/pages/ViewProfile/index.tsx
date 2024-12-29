@@ -14,6 +14,7 @@ import {
   getBioData,
   getProfileData,
   getExperienceData,
+  fetchConnectionStatus,
 } from "../../../core/utils/fetchDetails";
 
 import { fetchSearchedUserDetails } from "../../../core/utils/fetchDetails";
@@ -35,6 +36,8 @@ const ViewProfile = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [connectionStatus, setConnectionStatus] = useState<string | null>(null);
+
   const roleCurrentUser = getStoredRole();
   createSetters(roleCurrentUser!);
 
@@ -52,6 +55,7 @@ const ViewProfile = () => {
         return null;
     }
   });
+
   useEffect(() => {
     const loadUserData = async () => {
       if (!userId) return;
@@ -61,6 +65,15 @@ const ViewProfile = () => {
         setError(null);
         const details = await fetchSearchedUserDetails(role!, parseInt(userId));
         setUserData(details);
+
+        // Fetch connection status if we have both IDs
+        if (currentUserId) {
+          const status = await fetchConnectionStatus(
+            currentUserId,
+            parseInt(userId)
+          );
+          setConnectionStatus(status);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
       } finally {
@@ -69,7 +82,7 @@ const ViewProfile = () => {
     };
 
     loadUserData();
-  }, [userId, role]);
+  }, [userId, role, currentUserId]);
 
   const profileData = useMemo(
     () =>
@@ -140,6 +153,7 @@ const ViewProfile = () => {
             showConnect={true}
             connectedUserId={Number(userId)}
             userId={currentUserId!}
+            connectionStatus={connectionStatus!}
           />
 
           <div className="sub-cards-container flex">
