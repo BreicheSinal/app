@@ -112,7 +112,7 @@ const ViewProfile = () => {
     <div className="feed-container">
       <FeedLayout>
         <div className="cards-container flex">
-          <ProfileCardView width={300} data={profileData} />
+          <ProfileCardView width={300} data={profileData} showConnect={true} />
 
           <div className="sub-cards-container flex">
             <div className="flex column">

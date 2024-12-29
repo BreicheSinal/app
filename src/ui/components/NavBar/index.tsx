@@ -86,6 +86,7 @@ const NavBar: FC = () => {
     >
       <MenuItem onClick={goToProfile}>
         <IconButton
+          disableRipple
           size="large"
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
@@ -135,6 +136,7 @@ const NavBar: FC = () => {
       <AppBar position="static" className="app-bar">
         <Toolbar>
           <IconButton
+            disableRipple
             size="large"
             edge="start"
             aria-label="open drawer"
@@ -172,6 +174,7 @@ const NavBar: FC = () => {
             </Box>
             <Box className="icon-container">
               <IconButton
+                disableRipple
                 size="large"
                 aria-label="account of current user"
                 aria-haspopup="true"
@@ -185,6 +188,7 @@ const NavBar: FC = () => {
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
+              disableRipple
               size="large"
               aria-label="show more"
               aria-controls={mobileMenuId}
