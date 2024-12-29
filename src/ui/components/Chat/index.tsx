@@ -3,13 +3,21 @@ import {
   Box,
   Typography,
   Avatar,
+  TextField,
+  IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
   Divider,
+  InputAdornment,
   Paper,
 } from "@mui/material";
+import {
+  Send as SendIcon,
+  InsertEmoticon as EmojiIcon,
+  AttachFile as AttachIcon,
+} from "@mui/icons-material";
 
 interface ChatUser {
   id: number;
@@ -40,7 +48,12 @@ const ChatComponent: FC<ChatComponentProps> = ({
   currentUser,
   messages,
 }) => {
+  const [message, setMessage] = useState("");
   const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
+
+  const send = () => {};
+
+  const keyPress = () => {};
 
   const filteredMessages = selectedUser
     ? messages.filter(
@@ -243,6 +256,89 @@ const ChatComponent: FC<ChatComponentProps> = ({
               </Box>
             );
           })}
+        </Box>
+
+        {/* Chat Input Bar */}
+        <Box
+          sx={{
+            p: 2,
+            borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+            bgcolor: "#242424",
+          }}
+        >
+          <TextField
+            fullWidth
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={keyPress}
+            placeholder="Type a message..."
+            multiline
+            maxRows={4}
+            variant="outlined"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconButton
+                    size="small"
+                    sx={{
+                      color: "rgba(255, 255, 255, 0.7)",
+                      "&:hover": { color: "primary.main" },
+                    }}
+                  >
+                    <EmojiIcon />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    sx={{
+                      color: "rgba(255, 255, 255, 0.7)",
+                      "&:hover": { color: "primary.main" },
+                    }}
+                  >
+                    <AttachIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    size="small"
+                    onClick={send}
+                    sx={{
+                      color: message.trim()
+                        ? "primary.main"
+                        : "rgba(255, 255, 255, 0.3)",
+                      "&:hover": {
+                        color: message.trim()
+                          ? "primary.light"
+                          : "rgba(255, 255, 255, 0.3)",
+                      },
+                    }}
+                    disabled={!message.trim()}
+                  >
+                    <SendIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                color: "white",
+                backgroundColor: "#1a1a1a",
+                "&:hover": {
+                  backgroundColor: "#242424",
+                },
+                "& fieldset": {
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                },
+                "&:hover fieldset": {
+                  borderColor: "rgba(255, 255, 255, 0.2)",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "primary.main",
+                },
+              },
+            }}
+          />
         </Box>
       </Box>
     </Box>
