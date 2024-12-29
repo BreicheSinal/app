@@ -1,7 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import FeedLayout from "../../Layout/FeedLayout";
-
 import { ExperienceCardView } from "../../components/ExpCard";
 import { BioCardView } from "../../components/BioCard";
 import CustomCard from "../../components/CustomCard";
@@ -14,49 +14,76 @@ import {
   getExperienceData,
 } from "../../../core/utils/fetchDetails";
 
+import { fetchSearchedUserDetails } from "../../../core/utils/fetchDetails";
+
 import {
-  getStoredRole,
   UserDetails,
   AthleteDetails,
   CoachDetails,
 } from "../../../core/utils/globalUtils";
 
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-
-import "./style.css";
-
 const ViewProfile = () => {
-  const role = getStoredRole();
+  const { userId, role } = useParams<{ userId: string; role: string }>();
+  const [userData, setUserData] = useState<UserDetails | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const details = useSelector((state: RootState) =>
-    role === "Athlete"
-      ? state.athlete.details
-      : role === "Coach"
-      ? state.coach.details
-      : role === "Club"
-      ? state.club.details
-      : state.federation.details
-  );
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (!userId) return;
 
-  /* getting data */
+      try {
+        setIsLoading(true);
+        setError(null);
+        const details = await fetchSearchedUserDetails(role!, parseInt(userId));
+        setUserData(details);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUserData();
+  }, [userId, role]);
+
   const profileData = useMemo(
     () =>
-      details
-        ? getProfileData(role, details as UserDetails)
+      userData
+        ? getProfileData(userData.role, userData)
         : { title: "Loading...", fields: [] },
-    [role, details]
+    [userData]
   );
 
-  const bioData = useMemo(() => getBioData(details?.bio || ""), [details]);
+  const bioData = useMemo(() => getBioData(userData?.bio || ""), [userData]);
 
   const experienceData = useMemo(() => {
-    if (!details || (role !== "Athlete" && role !== "Coach"))
+    if (!userData || (userData.role !== "Athlete" && userData.role !== "Coach"))
       return { experiences: [] };
     return getExperienceData(
-      (details as AthleteDetails | CoachDetails).experiences || []
+      (userData as AthleteDetails | CoachDetails).experiences || []
     );
-  }, [role, details]);
+  }, [userData]);
+
+  if (isLoading) {
+    return (
+      <div className="feed-container">
+        <FeedLayout>
+          <div>Loading...</div>
+        </FeedLayout>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="feed-container">
+        <FeedLayout>
+          <div>Error: {error}</div>
+        </FeedLayout>
+      </div>
+    );
+  }
 
   /* MOCK DATA */
   const staffData: CardData = {
@@ -87,12 +114,13 @@ const ViewProfile = () => {
             <div className="flex column">
               <BioCardView width={600} bioText={bioData.bioText} />
 
-              <ExperienceCardView
-                width={600}
-                experiences={experienceData.experiences}
-              />
+              {(userData?.role === "Athlete" || userData?.role === "Coach") && (
+                <ExperienceCardView
+                  width={600}
+                  experiences={experienceData.experiences}
+                />
+              )}
             </div>
-
             <CustomCard
               width={250}
               data={staffData}
