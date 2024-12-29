@@ -100,9 +100,12 @@ export const fetchUserDetails =
     }
   };
 
-export const fetchSearchedUserDetails = async (role: string, id: number) => {
+export const fetchSearchedUserDetails = async (
+  role: string,
+  userId: number
+) => {
   try {
-    const response = await requestApi(`/${role.toLowerCase()}/${id}`);
+    const response = await requestApi(`/${role.toLowerCase()}/user/${userId}`);
     const userData = response[role.toLowerCase()][0];
     return parseUserData(role, userData, response);
   } catch (error: any) {
