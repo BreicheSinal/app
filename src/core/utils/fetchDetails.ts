@@ -163,7 +163,6 @@ export const fetchConnectionStatus = async (
   userId: number,
   connectedUserId: number
 ) => {
-  console.log(userId, connectedUserId);
   try {
     const response = await requestApi(
       `/user/${connectedUserId}?userId=${userId}`,
