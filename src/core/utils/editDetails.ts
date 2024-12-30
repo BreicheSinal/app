@@ -11,8 +11,8 @@ import {
 const role = getStoredRole();
 const roleId = getStoredRoleId();
 
-const getEndpoint = (role: string, id: number) =>
-  `/${role.toLowerCase()}/editProfile/${id}`;
+const getEndpoint = (role: string, roleId: number) =>
+  `/${role.toLowerCase()}/editProfile/${roleId}`;
 
 export const editExperience = async (
   experience: Experience,
