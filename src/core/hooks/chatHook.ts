@@ -92,5 +92,12 @@ export const useChat = (currentUserId: number) => {
     selectedChat,
     loading,
     error,
+    selectUser: useCallback(
+      (user: ChatUser) => {
+        setSelectedChat(user.chatID!);
+        fetchMessages(user.chatID!);
+      },
+      [fetchMessages]
+    ),
   };
 };
