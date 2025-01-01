@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { requestApi } from "../utils/request";
 
 export interface ChatUser {
@@ -41,6 +41,50 @@ export const useChat = (currentUserId: number) => {
       setLoading(false);
     }
   }, [currentUserId]);
+
+  const fetchMessages = useCallback(
+    async (chatId: number) => {
+      try {
+        setLoading(true);
+        const url = `/user/chats/messages?chatId=${chatId}&userId=${currentUserId}`;
+        const response = await requestApi(url, "GET");
+        console.log(url, response);
+
+        if (response?.messages) {
+          const messagesWithChatId = response.messages.map(
+            (msg: ChatMessage) => ({
+              content: msg.content,
+              id: Number(msg.id),
+              senderId: Number(msg.senderId),
+              receiverId: Number(msg.receiverId),
+              chatID: Number(msg.chatID),
+              timestamp: msg.timestamp,
+            })
+          );
+
+          setMessages(messagesWithChatId);
+        }
+      } catch (err) {
+        setError("Failed to fetch messages");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [currentUserId]
+  );
+
+  useEffect(() => {
+    if (currentUserId) {
+      fetchChats();
+    }
+  }, [currentUserId, fetchChats]);
+
+  useEffect(() => {
+    if (selectedChat) {
+      fetchMessages(selectedChat);
+    }
+  }, [selectedChat, fetchMessages]);
 
   return {
     users,
