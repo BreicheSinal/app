@@ -86,6 +86,34 @@ export const useChat = (currentUserId: number) => {
     }
   }, [selectedChat, fetchMessages]);
 
+  // remove it later
+  useEffect(() => {
+    console.log("Updated messages:", messages);
+  }, [messages]);
+
+  const sendMessage = async (message: string, chatId: number) => {
+    if (!message?.trim() || !chatId) return;
+
+    try {
+      setLoading(true);
+      const response = await requestApi("/user/chats/messages", "POST", {
+        senderId: currentUserId,
+        chatId,
+        message: message.trim(),
+      });
+
+      if (response) {
+        setMessages((prev) => [...prev, { ...response, chatId }]);
+        await fetchMessages(chatId);
+        console.log("msg sent!");
+      }
+    } catch (err) {
+      setError("Failed to send message");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return {
     users,
     messages,
@@ -99,5 +127,6 @@ export const useChat = (currentUserId: number) => {
       },
       [fetchMessages]
     ),
+    sendMessage,
   };
 };
