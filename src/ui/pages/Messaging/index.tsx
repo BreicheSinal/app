@@ -30,6 +30,7 @@ const Messaging = () => {
     messages = [],
     loading,
     error,
+    sendMessage,
     selectUser,
   } = useChat(currentUser?.user_id || 0);
 
@@ -108,6 +109,12 @@ const Messaging = () => {
             }}
             users={formattedUsers}
             messages={messages}
+            onSendMessage={(message, receiverId) => {
+              const chat = users.find((u) => u.id === receiverId);
+              if (chat) {
+                sendMessage(message, chat.chatID!);
+              }
+            }}
             onUserSelect={(user) => {
               const chatUser = users.find((u) => u.id === user.id);
               if (chatUser) {
