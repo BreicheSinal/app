@@ -50,20 +50,18 @@ export const useChat = (currentUserId: number) => {
         const response = await requestApi(url, "GET");
         console.log(url, response);
 
-        if (response?.messages) {
-          const messagesWithChatId = response.messages.map(
-            (msg: ChatMessage) => ({
-              content: msg.content,
-              id: Number(msg.id),
-              senderId: Number(msg.senderId),
-              receiverId: Number(msg.receiverId),
-              chatID: Number(msg.chatID),
-              timestamp: msg.timestamp,
-            })
-          );
+        const messagesList = response?.messages || [];
 
-          setMessages(messagesWithChatId);
-        }
+        const messagesWithChatId = messagesList.map((msg: ChatMessage) => ({
+          content: msg.content,
+          id: Number(msg.id),
+          senderId: Number(msg.senderId),
+          receiverId: Number(msg.receiverId),
+          chatID: Number(msg.chatID),
+          timestamp: msg.timestamp,
+        }));
+
+        setMessages(messagesWithChatId);
       } catch (err) {
         setError("Failed to fetch messages");
         console.error(err);
