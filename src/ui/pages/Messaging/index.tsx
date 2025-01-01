@@ -34,6 +34,7 @@ const Messaging = () => {
     selectUser,
   } = useChat(currentUser?.user_id || 0);
 
+  /*
   const formattedUsers = Array.isArray(users)
     ? users.map((user) => ({
         id: user.id,
@@ -57,7 +58,7 @@ const Messaging = () => {
             )[0]?.timestamp || "",
       }))
     : [];
-
+*/
   return (
     <Box
       sx={{
@@ -107,7 +108,7 @@ const Messaging = () => {
               name: currentUser?.name || "",
               avatar: currentUser?.avatar || "",
             }}
-            users={formattedUsers}
+            users={users}
             messages={messages}
             onSendMessage={(message, receiverId) => {
               const chat = users.find((u) => u.id === receiverId);
