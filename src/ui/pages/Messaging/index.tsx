@@ -7,8 +7,10 @@ import { getStoredRole } from "../../../core/utils/globalUtils";
 import { useChat } from "../../../core/hooks/chatHook";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import { useState } from "react";
 
 const Messaging = () => {
+  const [showError, setShowError] = useState(true);
   const roleCurrentUser = getStoredRole();
   const currentUser = useSelector((state: RootState) => {
     switch (roleCurrentUser) {
@@ -34,49 +36,39 @@ const Messaging = () => {
     selectUser,
   } = useChat(currentUser?.user_id || 0);
 
-  /*
-  const formattedUsers = Array.isArray(users)
-    ? users.map((user) => ({
-        id: user.id,
-        name: user.name,
-        avatar: user.avatar,
-        lastMessage:
-          messages
-            .filter((m) => m.chatID === user.chatID)
-            .sort(
-              (a, b) =>
-                new Date(b.timestamp).getTime() -
-                new Date(a.timestamp).getTime()
-            )[0]?.content || "",
-        time:
-          messages
-            .filter((m) => m.chatID === user.chatID)
-            .sort(
-              (a, b) =>
-                new Date(b.timestamp).getTime() -
-                new Date(a.timestamp).getTime()
-            )[0]?.timestamp || "",
-      }))
-    : [];
-*/
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        bgcolor: "#121212",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <Box sx={{ minHeight: "100vh", bgcolor: "#393939" }}>
       <NavBar />
+
+      {error && showError && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 20,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1100,
+            width: "auto",
+            maxWidth: "90%",
+          }}
+        >
+          <Alert
+            severity="error"
+            onClose={() => setShowError(false)}
+            sx={{ boxShadow: 3 }}
+          >
+            {error}
+          </Alert>
+        </Box>
+      )}
+
       <Box
         sx={{
-          flex: 1,
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
-          p: 4,
+          p: 2,
           position: "relative",
+          mt: 4,
         }}
       >
         {loading && (
@@ -93,15 +85,7 @@ const Messaging = () => {
           </Box>
         )}
 
-        {error && (
-          <Box sx={{ position: "absolute", top: 16, right: 16, zIndex: 1000 }}>
-            <Alert severity="error" onClose={() => {}}>
-              {error}
-            </Alert>
-          </Box>
-        )}
-
-        <Box sx={{ width: "100%", height: "calc(100vh - 150px)" }}>
+        <Box sx={{ width: "100%", maxWidth: "1200px" }}>
           <ChatComponent
             currentUser={{
               id: currentUser?.user_id || 0,
