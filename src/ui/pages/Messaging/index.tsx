@@ -1,51 +1,67 @@
 import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 import NavBar from "../../components/NavBar";
 import ChatComponent from "../../components/Chat";
-
-// MOCK DATA
-const currentUser = {
-  id: 1,
-  name: "Current User",
-};
-
-const users = [
-  {
-    id: 2,
-    name: "John Doe",
-    lastMessage: "Hello there!",
-    time: "12:30",
-  },
-  {
-    id: 3,
-    name: "Jane Smith",
-    lastMessage: "How are you?",
-    time: "11:45",
-  },
-];
-
-const messages = [
-  {
-    id: 1,
-    senderId: 1,
-    receiverId: 2,
-    content: "Hey John!",
-    timestamp: "12:28",
-  },
-  {
-    id: 2,
-    senderId: 2,
-    receiverId: 1,
-    content: "Hello there!",
-    timestamp: "12:30",
-  },
-];
+import { RootState } from "../../../redux/store";
+import { getStoredRole } from "../../../core/utils/globalUtils";
+import { useChat } from "../../../core/hooks/chatHook";
+import CircularProgress from "@mui/material/CircularProgress";
+import Alert from "@mui/material/Alert";
 
 const Messaging = () => {
+  const roleCurrentUser = getStoredRole();
+  const currentUser = useSelector((state: RootState) => {
+    switch (roleCurrentUser) {
+      case "Athlete":
+        return state.athlete.details;
+      case "Coach":
+        return state.coach.details;
+      case "Club":
+        return state.club.details;
+      case "Federation":
+        return state.federation.details;
+      default:
+        return null;
+    }
+  });
+
+  const {
+    users = [],
+    messages = [],
+    loading,
+    error,
+    selectUser,
+  } = useChat(currentUser?.user_id || 0);
+
+  const formattedUsers = Array.isArray(users)
+    ? users.map((user) => ({
+        id: user.id,
+        name: user.name,
+        avatar: user.avatar,
+        lastMessage:
+          messages
+            .filter((m) => m.chatID === user.chatID)
+            .sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime()
+            )[0]?.content || "",
+        time:
+          messages
+            .filter((m) => m.chatID === user.chatID)
+            .sort(
+              (a, b) =>
+                new Date(b.timestamp).getTime() -
+                new Date(a.timestamp).getTime()
+            )[0]?.timestamp || "",
+      }))
+    : [];
+
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "#393939",
+        bgcolor: "#121212",
         display: "flex",
         flexDirection: "column",
       }}
@@ -58,24 +74,46 @@ const Messaging = () => {
           justifyContent: "center",
           alignItems: "center",
           p: 4,
+          position: "relative",
         }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            maxWidth: "1200px",
-            height: "80vh",
-            borderRadius: 2,
-          }}
-        >
+        {loading && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+
+        {error && (
+          <Box sx={{ position: "absolute", top: 16, right: 16, zIndex: 1000 }}>
+            <Alert severity="error" onClose={() => {}}>
+              {error}
+            </Alert>
+          </Box>
+        )}
+
+        <Box sx={{ width: "100%", height: "calc(100vh - 150px)" }}>
           <ChatComponent
-            currentUser={currentUser}
-            users={users}
+            currentUser={{
+              id: currentUser?.user_id || 0,
+              name: currentUser?.name || "",
+              avatar: currentUser?.avatar || "",
+            }}
+            users={formattedUsers}
             messages={messages}
-            onSendMessage={(message, receiverId) =>
-              console.log("New message:", message, "To:", receiverId)
-            }
-            onUserSelect={(user) => console.log("Selected user:", user)}
+            onUserSelect={(user) => {
+              const chatUser = users.find((u) => u.id === user.id);
+              if (chatUser) {
+                selectUser(chatUser);
+              }
+            }}
           />
         </Box>
       </Box>
