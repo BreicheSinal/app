@@ -19,21 +19,8 @@ import {
   AttachFile as AttachIcon,
 } from "@mui/icons-material";
 
-interface ChatUser {
-  id: number;
-  name: string;
-  avatar?: string;
-  lastMessage?: string;
-  time?: string;
-}
-
-interface ChatMessage {
-  id: number;
-  senderId: number;
-  receiverId: number;
-  content: string;
-  timestamp: string;
-}
+import { ChatUser } from "../../../core/hooks/chatHook";
+import { ChatMessage } from "../../../core/hooks/chatHook";
 
 interface ChatComponentProps {
   users: ChatUser[];
@@ -73,16 +60,6 @@ const ChatComponent: FC<ChatComponentProps> = ({
       send();
     }
   };
-
-  const filteredMessages = selectedUser
-    ? messages.filter(
-        (msg) =>
-          (msg.senderId === currentUser.id &&
-            msg.receiverId === selectedUser.id) ||
-          (msg.senderId === selectedUser.id &&
-            msg.receiverId === currentUser.id)
-      )
-    : [];
 
   return (
     <Box
@@ -229,7 +206,7 @@ const ChatComponent: FC<ChatComponentProps> = ({
             gap: 1,
           }}
         >
-          {filteredMessages.map((msg) => {
+          {messages.map((msg) => {
             const isCurrentUser = msg.senderId === currentUser.id;
             return (
               <Box
