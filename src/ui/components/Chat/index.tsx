@@ -21,6 +21,7 @@ import {
 
 import { ChatUser } from "../../../core/hooks/chatHook";
 import { ChatMessage } from "../../../core/hooks/chatHook";
+import ChatSearch from "../ChatSearch";
 
 interface ChatComponentProps {
   users: ChatUser[];
@@ -94,7 +95,10 @@ const ChatComponent: FC<ChatComponentProps> = ({
         >
           Chats
         </Typography>
-
+        <ChatSearch
+          currentUserId={currentUser.id}
+          onSelectUser={(user) => userClick(user)}
+        />
         <List sx={{ flex: 1, overflow: "auto" }}>
           {users
             .filter((user) => user.id !== currentUser.id)
@@ -150,7 +154,7 @@ const ChatComponent: FC<ChatComponentProps> = ({
                     {user.time}
                   </Typography>
                 </ListItem>
-                {index < users.length - 2 && (
+                {index < users.length - 1 && (
                   <Divider
                     sx={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
                   />
