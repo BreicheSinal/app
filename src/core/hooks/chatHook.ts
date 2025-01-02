@@ -31,7 +31,6 @@ export const useChat = (currentUserId: number) => {
 
     try {
       setLoading(true);
-
       const response = await requestApi(`/user/chats/user/${currentUserId}`);
       setUsers(response.chats);
     } catch (err) {
@@ -43,10 +42,10 @@ export const useChat = (currentUserId: number) => {
   }, [currentUserId]);
 
   const fetchMessages = useCallback(
-    async (chatId: number) => {
+    async (chatID: number) => {
       try {
         setLoading(true);
-        const url = `/user/chats/messages?chatId=${chatId}&userId=${currentUserId}`;
+        const url = `/user/chats/messages?chatID=${chatID}&userId=${currentUserId}`;
         const response = await requestApi(url, "GET");
         console.log(url, response);
 
@@ -84,24 +83,20 @@ export const useChat = (currentUserId: number) => {
     }
   }, [selectedChat, fetchMessages]);
 
-  // remove it later
-  useEffect(() => {
-    console.log("Updated messages:", messages);
-  }, [messages]);
-
   const sendMessage = async (message: string, chatId: number) => {
     if (!message?.trim() || !chatId) return;
 
     try {
       setLoading(true);
+      console.log("here" + currentUserId, chatId, message);
       const response = await requestApi("/user/chats/messages", "POST", {
         senderId: currentUserId,
-        chatId,
+        chatId: chatId,
         message: message.trim(),
       });
 
       if (response) {
-        setMessages((prev) => [...prev, { ...response, chatId }]);
+        setMessages((prev) => [...prev, { ...response, chatID: chatId }]);
         await fetchMessages(chatId);
         console.log("msg sent!");
       }
@@ -112,6 +107,7 @@ export const useChat = (currentUserId: number) => {
       setLoading(false);
     }
   };
+
   return {
     users,
     messages,
@@ -120,11 +116,13 @@ export const useChat = (currentUserId: number) => {
     error,
     selectUser: useCallback(
       (user: ChatUser) => {
+        console.log("Selecting user with chatID:", user.chatID);
         setSelectedChat(user.chatID!);
         fetchMessages(user.chatID!);
       },
       [fetchMessages]
     ),
     sendMessage,
+    fetchChats,
   };
 };
