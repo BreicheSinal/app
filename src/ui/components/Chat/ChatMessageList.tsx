@@ -23,11 +23,11 @@ const ChatMessageList: FC<ChatMessageListProps> = ({
       gap: 1,
     }}
   >
-    {messages.map((msg) => {
+    {messages.map((msg, index) => {
       const isCurrentUser = msg.senderId === currentUser.id;
       return (
         <Box
-          key={msg.id}
+          key={`${msg.id}-${index}`}
           sx={{
             display: "flex",
             justifyContent: isCurrentUser ? "flex-end" : "flex-start",
