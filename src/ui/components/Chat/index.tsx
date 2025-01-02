@@ -1,11 +1,11 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { ChatUser, ChatMessage } from "../../../core/hooks/chatHook";
 import ChatList from "./ChatList";
 import ChatHeader from "./ChatHeader";
 import ChatMessageList from "./ChatMessageList";
 import ChatInput from "./ChatInput";
-import ChatSearch from "../ChatSearch";
+import ChatSearch from "./ChatSearch";
 
 interface ChatComponentProps {
   users: ChatUser[];
@@ -24,9 +24,16 @@ const ChatComponent: FC<ChatComponentProps> = ({
 }) => {
   const [message, setMessage] = useState("");
   const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
+  const [chatUsers, setChatUsers] = useState<ChatUser[]>(users);
+
+  useEffect(() => {
+    setChatUsers(users);
+  }, [users]);
 
   const send = () => {
+    console.log("Send triggered with:", { message, selectedUser });
     if (message.trim() && onSendMessage && selectedUser) {
+      console.log("Calling onSendMessage with:", message, selectedUser.id);
       onSendMessage(message, selectedUser.id);
       setMessage("");
     }
@@ -37,6 +44,31 @@ const ChatComponent: FC<ChatComponentProps> = ({
     if (onUserSelect) {
       onUserSelect(user);
     }
+  };
+
+  const searchUserSelect = async (searchUser: {
+    id: number;
+    name: string;
+    chatID: number;
+  }) => {
+    const newChatUser: ChatUser = {
+      id: searchUser.id,
+      name: searchUser.name,
+      chatID: searchUser.chatID,
+      lastMessage: "",
+      time: new Date().toISOString(),
+    };
+
+    if (!chatUsers.some((user) => user.id === searchUser.id)) {
+      setChatUsers((prev) => [newChatUser, ...prev]);
+
+      if (onUserSelect) {
+        await onUserSelect(newChatUser);
+      }
+    }
+    console.log("Creating chat user:", newChatUser);
+
+    setSelectedUser(newChatUser);
   };
 
   return (
@@ -73,11 +105,11 @@ const ChatComponent: FC<ChatComponentProps> = ({
 
         <ChatSearch
           currentUserId={currentUser.id}
-          onSelectUser={(user) => userClick(user)}
+          onSelectUser={searchUserSelect}
         />
 
         <ChatList
-          users={users}
+          users={chatUsers}
           currentUser={currentUser}
           selectedUser={selectedUser}
           onUserSelect={userClick}
