@@ -6,6 +6,7 @@ import {
   ListItemText,
   Avatar,
   Divider,
+  Typography,
 } from "@mui/material";
 import { ChatUser } from "../../../core/hooks/chatHook";
 
@@ -51,17 +52,19 @@ const ChatList: FC<ChatListProps> = ({
             </ListItemAvatar>
             <ListItemText
               primary={
-                <div style={{ color: "white", fontWeight: 500 }}>
+                <Typography sx={{ color: "white", fontWeight: 500 }}>
                   {user.name}
-                </div>
+                </Typography>
               }
               secondary={
-                <div style={{ color: "rgba(255, 255, 255, 0.7)" }}>
+                <Typography sx={{ color: "rgba(255, 255, 255, 0.7)" }}>
                   {user.lastMessage}
-                </div>
+                </Typography>
               }
             />
-            <div style={{ color: "rgba(255, 255, 255, 0.5)" }}>{user.time}</div>
+            <Typography sx={{ color: "rgba(255, 255, 255, 0.5)" }}>
+              {user.time}
+            </Typography>
           </ListItem>
           {index < users.length - 1 && (
             <Divider sx={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }} />
