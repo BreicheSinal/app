@@ -1,4 +1,5 @@
 import { io, Socket } from "socket.io-client";
+import { ChatMessage } from "../hooks/chatHook";
 
 let socket: Socket | null = null;
 
@@ -25,7 +26,7 @@ export const sendMessage = (receiverId: number, message: string) => {
 };
 
 export const onNewMessage = (
-  callback: (data: { senderId: number; message: string }) => void
+  callback: (data: ChatMessage) => void
 ) => {
   socket?.on("newMessage", callback);
 };
