@@ -12,3 +12,10 @@ export const connect = (userId: number) => {
     socket?.emit("join", userId);
   });
 };
+
+export const disconnect = () => {
+    if (socket) {
+      socket.disconnect();
+      socket = null;
+    }
+  };
