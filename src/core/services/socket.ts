@@ -29,3 +29,9 @@ export const onNewMessage = (
 ) => {
   socket?.on("newMessage", callback);
 };
+
+export const removeAllListeners = () => {
+  if (socket) {
+    socket.removeAllListeners();
+  }
+};
