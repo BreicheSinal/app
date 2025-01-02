@@ -34,10 +34,18 @@ const Messaging = () => {
     error,
     sendMessage,
     selectUser,
+    fetchChats,
   } = useChat(currentUser?.user_id || 0);
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#393939" }}>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        bgcolor: "#393939",
+      }}
+    >
       <NavBar />
 
       {error && showError && (
@@ -62,29 +70,28 @@ const Messaging = () => {
         </Box>
       )}
 
+      {loading && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
+
       <Box
         sx={{
+          flexGrow: 4, 
           display: "flex",
-          justifyContent: "center",
-          p: 2,
-          position: "relative",
-          mt: 4,
+          alignItems: "center",
+          justifyContent: "center", 
         }}
       >
-        {loading && (
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 1000,
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        )}
-
         <Box sx={{ width: "100%", maxWidth: "1200px" }}>
           <ChatComponent
             currentUser={{
@@ -95,16 +102,20 @@ const Messaging = () => {
             users={users}
             messages={messages}
             onSendMessage={(message, receiverId) => {
+              console.log("onSendMessage called with:", {
+                message,
+                receiverId,
+              });
               const chat = users.find((u) => u.id === receiverId);
-              if (chat) {
-                sendMessage(message, chat.chatID!);
+              console.log("Found chat:", chat);
+              if (chat?.chatID) {
+                sendMessage(message, chat.chatID);
               }
             }}
-            onUserSelect={(user) => {
-              const chatUser = users.find((u) => u.id === user.id);
-              if (chatUser) {
-                selectUser(chatUser);
-              }
+            onUserSelect={async (user) => {
+              const chatUser = users.find((u) => u.id === user.id) || user;
+              await selectUser(chatUser);
+              await fetchChats();
             }}
           />
         </Box>
