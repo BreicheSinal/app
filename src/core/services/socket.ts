@@ -14,8 +14,18 @@ export const connect = (userId: number) => {
 };
 
 export const disconnect = () => {
-    if (socket) {
-      socket.disconnect();
-      socket = null;
-    }
-  };
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
+};
+
+export const sendMessage = (receiverId: number, message: string) => {
+  socket?.emit("sendMessage", { receiverId, message });
+};
+
+export const onNewMessage = (
+  callback: (data: { senderId: number; message: string }) => void
+) => {
+  socket?.on("newMessage", callback);
+};
