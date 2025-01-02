@@ -19,6 +19,12 @@ const ChatInput: FC<ChatInputProps> = ({ message, setMessage, onSend }) => (
     onChange={(e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setMessage(e.target.value)
     }
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        onSend();
+      }
+    }}
     placeholder="Type a message..."
     multiline
     maxRows={4}
@@ -68,10 +74,7 @@ const ChatInput: FC<ChatInputProps> = ({ message, setMessage, onSend }) => (
         },
         "&.Mui-focused fieldset": {
           borderColor: message.trim() ? "primary.main" : "gray",
-          borderWidth: "1px 0 0 0", 
-        },
-        "&.Mui-selected": {
-          outline: "none", 
+          borderWidth: "1px 0 0 0",
         },
       },
       "& .MuiInputBase-input::placeholder": {
