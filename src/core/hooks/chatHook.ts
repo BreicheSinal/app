@@ -77,18 +77,11 @@ export const useChat = (currentUserId: number) => {
     }
   }, [currentUserId, fetchChats]);
 
-  useEffect(() => {
-    if (selectedChat) {
-      fetchMessages(selectedChat);
-    }
-  }, [selectedChat, fetchMessages]);
-
   const sendMessage = async (message: string, chatId: number) => {
     if (!message?.trim() || !chatId) return;
 
     try {
       setLoading(true);
-      console.log("here" + currentUserId, chatId, message);
       const response = await requestApi("/user/chats/messages", "POST", {
         senderId: currentUserId,
         chatId: chatId,
