@@ -1,6 +1,14 @@
 import { FC, useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { ChatUser, ChatMessage } from "../../../core/hooks/chatHook";
+import { ChatUser, ChatMessage, useChat } from "../../../core/hooks/chatHook";
+import {
+  connect,
+  joinChat,
+  removeAllListeners,
+  disconnect,
+  socket,
+  onNewMessage,
+} from "../../../core/services/socket";
 import ChatList from "./ChatList";
 import ChatHeader from "./ChatHeader";
 import ChatMessageList from "./ChatMessageList";
@@ -19,30 +27,88 @@ const ChatComponent: FC<ChatComponentProps> = ({
   users,
   currentUser,
   messages,
-  onSendMessage,
   onUserSelect,
 }) => {
   const [message, setMessage] = useState("");
   const [selectedUser, setSelectedUser] = useState<ChatUser | null>(null);
   const [chatUsers, setChatUsers] = useState<ChatUser[]>(users);
+  const [localMessages, setLocalMessages] = useState<ChatMessage[]>(messages);
+
+  const { sendMessage } = useChat(currentUser.id);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const initSocket = async () => {
+      try {
+        if (!socket) {
+          await connect(currentUser.id);
+        }
+        if (selectedUser?.chatID && isMounted) {
+          await joinChat(selectedUser.chatID);
+        }
+      } catch (error) {
+        console.error("Socket error:", error);
+      }
+    };
+
+    initSocket();
+
+    return () => {
+      isMounted = false;
+      removeAllListeners();
+      disconnect();
+    };
+  }, [currentUser.id, selectedUser?.chatID]);
+
+  useEffect(() => {
+    setLocalMessages(messages);
+  }, [messages]);
+
+  const send = async () => {
+    if (message.trim() && selectedUser?.chatID) {
+      const messageText = message.trim();
+      setMessage("");
+
+      try {
+        await sendMessage(messageText, selectedUser.chatID);
+      } catch (error) {
+        console.error("Error sending message:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onNewMessage((newMessage) => {
+      console.log(newMessage.senderId, currentUser.id);
+      if (
+        selectedUser &&
+        newMessage.chatID === selectedUser.chatID &&
+        newMessage.senderId !== currentUser.id
+      ) {
+        console.log("Message received in component:", newMessage);
+
+        setLocalMessages((prev) => [...prev, newMessage]);
+      }
+    });
+
+    return () => {
+      removeAllListeners();
+    };
+  }, [selectedUser, currentUser.id]);
 
   useEffect(() => {
     setChatUsers(users);
   }, [users]);
 
-  const send = () => {
-    console.log("Send triggered with:", { message, selectedUser });
-    if (message.trim() && onSendMessage && selectedUser) {
-      console.log("Calling onSendMessage with:", message, selectedUser.id);
-      onSendMessage(message, selectedUser.id);
-      setMessage("");
-    }
-  };
-
-  const userClick = (user: ChatUser) => {
+  const userClick = async (user: ChatUser) => {
     setSelectedUser(user);
     if (onUserSelect) {
-      onUserSelect(user);
+      try {
+        await onUserSelect(user);
+      } catch (error) {
+        console.error("Error fetching messages for user:", error);
+      }
     }
   };
 
@@ -61,12 +127,15 @@ const ChatComponent: FC<ChatComponentProps> = ({
 
     if (!chatUsers.some((user) => user.id === searchUser.id)) {
       setChatUsers((prev) => [newChatUser, ...prev]);
+    }
 
-      if (onUserSelect) {
+    if (onUserSelect) {
+      try {
         await onUserSelect(newChatUser);
+      } catch (error) {
+        console.error("Error selecting new user:", error);
       }
     }
-    console.log("Creating chat user:", newChatUser);
 
     setSelectedUser(newChatUser);
   };
@@ -115,10 +184,11 @@ const ChatComponent: FC<ChatComponentProps> = ({
           onUserSelect={userClick}
         />
       </Box>
+
       <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <ChatHeader selectedUser={selectedUser} />
         <ChatMessageList
-          messages={messages}
+          messages={localMessages}
           currentUser={currentUser}
           selectedUser={selectedUser}
         />
