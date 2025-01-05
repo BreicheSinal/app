@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Box, Paper, Typography, Avatar } from "@mui/material";
 import { ChatMessage, ChatUser } from "../../../core/hooks/chatHook";
+import { formatTime } from "../../../core/utils/time";
 
 interface ChatMessageListProps {
   messages: ChatMessage[];
@@ -9,7 +10,7 @@ interface ChatMessageListProps {
 }
 
 const ChatMessageList: FC<ChatMessageListProps> = ({
-  messages,
+  messages = [],
   currentUser,
   selectedUser,
 }) => (
@@ -23,8 +24,8 @@ const ChatMessageList: FC<ChatMessageListProps> = ({
       gap: 1,
     }}
   >
-    {messages.map((msg, index) => {
-      const isCurrentUser = msg.senderId === currentUser.id;
+    {messages?.map((msg, index) => {
+      const isCurrentUser = Number(msg.senderId) === Number(currentUser.id);
       return (
         <Box
           key={`${msg.id}-${index}`}
@@ -44,7 +45,7 @@ const ChatMessageList: FC<ChatMessageListProps> = ({
                 boxShadow: 1,
               }}
             >
-              {selectedUser?.avatar || selectedUser?.name.charAt(0)}
+              {selectedUser?.avatar || selectedUser?.name?.charAt(0)}
             </Avatar>
           )}
           <Box
@@ -75,7 +76,7 @@ const ChatMessageList: FC<ChatMessageListProps> = ({
                 alignSelf: isCurrentUser ? "flex-end" : "flex-start",
               }}
             >
-              {msg.timestamp}
+              {formatTime(msg.timestamp)}
             </Typography>
           </Box>
         </Box>
