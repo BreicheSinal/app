@@ -1,38 +1,75 @@
 import { io, Socket } from "socket.io-client";
 import { ChatMessage } from "../hooks/chatHook";
 
-let socket: Socket | null = null;
+export let socket: Socket | null = null;
 
-export const connect = (userId: number) => {
-  socket = io("http://localhost:3000", {
-    withCredentials: true,
-  });
+export const connect = (userId: number): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const SERVER_PORT = import.meta.env.SERVER_PORT;
+    socket = io(`http://localhost:${SERVER_PORT}`, {
+      withCredentials: true,
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+      transports: ["websocket", "polling"],
+      path: "/socket.io/",
+    });
 
-  socket.on("connect", () => {
-    console.log("Connected to socket server");
-    socket?.emit("join", userId);
+    socket.on("connect", () => {
+      console.log("Connected to socket server with ID:", socket?.id);
+      socket?.emit("join", userId);
+      resolve();
+    });
+
+    socket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+      reject(error);
+    });
+
+    socket.on("newMessage", (data) => {
+      console.log("Socket received message:", data);
+    });
   });
 };
 
-export const disconnect = () => {
-  if (socket) {
-    socket.disconnect();
-    socket = null;
+export const joinChat = async (chatId: number) => {
+  if (!socket?.connected) {
+    throw new Error("Socket not connected. Cannot join chat.");
   }
+  socket.emit("joinChat", chatId);
 };
 
-export const sendMessage = (receiverId: number, message: string) => {
-  socket?.emit("sendMessage", { receiverId, message });
+export const sendSocketMessage = async (chatId: number, message: string) => {
+  if (!socket?.connected) {
+    throw new Error("Socket not connected. Cannot send message.");
+  }
+  socket.emit("sendMessage", { chatId, message });
+  console.log("msg sent!");
 };
 
-export const onNewMessage = (
-  callback: (data: ChatMessage) => void
-) => {
-  socket?.on("newMessage", callback);
+export const onNewMessage = (callback: (data: ChatMessage) => void) => {
+  if (!socket) {
+    throw new Error("Socket not initialized. Cannot listen for messages.");
+  }
+
+  socket.off("newMessage");
+  socket.on("newMessage", (data) => {
+    callback({
+      id: data.id,
+      content: data.message,
+      senderId: data.senderId,
+      receiverId: data.receiverId,
+      chatID: data.chatId,
+      timestamp: data.timestamp,
+    });
+  });
 };
 
 export const removeAllListeners = () => {
-  if (socket) {
-    socket.removeAllListeners();
-  }
+  socket?.removeAllListeners();
+};
+
+export const disconnect = () => {
+  socket?.disconnect();
+  socket = null;
 };
