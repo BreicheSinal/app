@@ -17,8 +17,8 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import PendingIcon from "@mui/icons-material/PendingOutlined"; // For "Pending" icon
 import CheckIcon from "@mui/icons-material/CheckCircleOutline";
+import PendingIcon from "@mui/icons-material/PendingOutlined";
 
 import "./style.css";
 
@@ -55,7 +55,7 @@ interface ProfileCardProps {
   connectedUserId?: number;
   userId?: number;
   connectionStatus?: string;
-  onConnect: () => Promise<void>;
+  onConnect?: () => Promise<void>;
 }
 
 const ProfileCard: FC<ProfileCardProps> = ({
