@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { requestApi } from "../utils/request";
+import { sendSocketMessage } from "../services/socket";
 
 export interface ChatUser {
   chatID?: number;
@@ -82,17 +83,8 @@ export const useChat = (currentUserId: number) => {
 
     try {
       setLoading(true);
-      const response = await requestApi("/user/chats/messages", "POST", {
-        senderId: currentUserId,
-        chatId: chatId,
-        message: message.trim(),
-      });
 
-      if (response) {
-        setMessages((prev) => [...prev, { ...response, chatID: chatId }]);
-        await fetchMessages(chatId);
-        console.log("msg sent!");
-      }
+      await sendSocketMessage(chatId, message);
     } catch (err) {
       setError("Failed to send message");
       console.error(err);
