@@ -9,6 +9,10 @@ import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
 
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
+import "./style.css";
+import CustomCard from "../../components/CustomCard";
+import { CardData } from "../../components/CustomCard";
+
 const TryOuts = () => {
   const role = getStoredRole();
 
@@ -30,6 +34,26 @@ const TryOuts = () => {
         : { title: "Loading...", fields: [] },
     [role, details]
   );
+
+  /* MOCK DATA */
+  const staffData: CardData = {
+    title: "STAFF",
+    sections: [
+      {
+        type: "list",
+        content: [
+          {
+            name: "NAME",
+            role: "ROLE",
+            content: "Alice is responsible for implementing the backend APIs.",
+          },
+          { name: "NAME", role: "ROLE" },
+          { name: "NAME", role: "ROLE" },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="feed-container">
       <FeedLayout>
@@ -37,7 +61,20 @@ const TryOuts = () => {
           <ProfileCardView width={300} data={profileData} showConnect={false} />
 
           <div className="sub-cards-container flex">
-            <div className="flex column"></div>
+            <div className="flex column">
+              <CustomCard
+                width={600}
+                data={staffData}
+                showEdit={false}
+                onEdit={() => {}}
+              />
+            </div>
+            <CustomCard
+              width={250}
+              data={staffData}
+              showEdit={false}
+              onEdit={() => {}}
+            />
           </div>
         </div>
       </FeedLayout>
