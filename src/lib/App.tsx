@@ -11,6 +11,7 @@ import Profile from "../ui/pages/Profile";
 import ErrorPage from "../ui/pages/ErrorPage";
 import Feed from "../ui/pages/Feed";
 import Messaging from "../ui/pages/Messaging";
+import TryOuts from "../ui/pages/TryOuts";
 
 import ProtectedRoute from "../core/routes/protectedRoute";
 
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/view/:userId/:role" element={<ViewProfile />} />
             <Route path="/messaging" element={<Messaging />} />
+            <Route path="/tryouts" element={<TryOuts />} />
           </Route>
 
           <Route path="*" element={<ErrorPage />} />
