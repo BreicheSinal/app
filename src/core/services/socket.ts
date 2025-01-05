@@ -5,8 +5,10 @@ export let socket: Socket | null = null;
 
 export const connect = (userId: number): Promise<void> => {
   return new Promise((resolve, reject) => {
-    const SERVER_PORT = import.meta.env.SERVER_PORT;
-    socket = io(`http://localhost:${SERVER_PORT}`, {
+    const SERVER_PORT = import.meta.env.VITE_SERVER_PORT;
+    const SERVER_URL = `http://localhost:${SERVER_PORT}`;
+
+    socket = io(SERVER_URL, {
       withCredentials: true,
       reconnection: true,
       reconnectionAttempts: 5,
