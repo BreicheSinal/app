@@ -32,7 +32,6 @@ const Messaging = () => {
     messages = [],
     loading,
     error,
-    sendMessage,
     selectUser,
     fetchChats,
   } = useChat(currentUser?.user_id || 0);
@@ -101,17 +100,6 @@ const Messaging = () => {
             }}
             users={users}
             messages={messages}
-            onSendMessage={(message, receiverId) => {
-              console.log("onSendMessage called with:", {
-                message,
-                receiverId,
-              });
-              const chat = users.find((u) => u.id === receiverId);
-              console.log("Found chat:", chat);
-              if (chat?.chatID) {
-                sendMessage(message, chat.chatID);
-              }
-            }}
             onUserSelect={async (user) => {
               const chatUser = users.find((u) => u.id === user.id) || user;
               await selectUser(chatUser);
