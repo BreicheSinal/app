@@ -68,6 +68,8 @@ export type UserDetails =
   | ClubDetails
   | FederationDetails;
 
+export type ValidRoleType = "Athlete" | "Coach" | "Club" | "Federation";
+
 export interface Experience {
   id: number;
   name: string;
@@ -89,7 +91,7 @@ export interface ClubOption {
 }
 
 export const dispatchFetch = (
-  role: string,
+  role: ValidRoleType,
   id: number,
   dispatch: AppDispatch
 ) => {
@@ -105,31 +107,60 @@ export const getStoredRoleId = () => {
   return id ? parseInt(id) : null;
 };
 
-export const createSetters = (role: string) => {
-  const setterMap = {
+type SetterMap = {
+  Athlete: {
+    setLoading: typeof setAthleteLoading;
+    setError: typeof setAthleteError;
+    setDetails: (
+      details: AthleteDetails
+    ) => ReturnType<typeof setAthleteDetails>;
+  };
+  Coach: {
+    setLoading: typeof setCoachLoading;
+    setError: typeof setCoachError;
+    setDetails: (details: CoachDetails) => ReturnType<typeof setCoachDetails>;
+  };
+  Club: {
+    setLoading: typeof setClubLoading;
+    setError: typeof setClubError;
+    setDetails: (details: ClubDetails) => ReturnType<typeof setClubDetails>;
+  };
+  Federation: {
+    setLoading: typeof setFederationLoading;
+    setError: typeof setFederationError;
+    setDetails: (
+      details: FederationDetails
+    ) => ReturnType<typeof setFederationDetails>;
+  };
+};
+
+export const createSetters = (
+  role: ValidRoleType
+): SetterMap[ValidRoleType] => {
+  const setterMap: SetterMap = {
     Athlete: {
       setLoading: setAthleteLoading,
       setError: setAthleteError,
-      setDetails: setAthleteDetails,
+      setDetails: (details: AthleteDetails) => setAthleteDetails(details),
     },
     Coach: {
       setLoading: setCoachLoading,
       setError: setCoachError,
-      setDetails: setCoachDetails,
+      setDetails: (details: CoachDetails) => setCoachDetails(details),
     },
     Club: {
       setLoading: setClubLoading,
       setError: setClubError,
-      setDetails: setClubDetails,
+      setDetails: (details: ClubDetails) => setClubDetails(details),
     },
     Federation: {
       setLoading: setFederationLoading,
       setError: setFederationError,
-      setDetails: setFederationDetails,
+      setDetails: (details: FederationDetails) => setFederationDetails(details),
     },
   };
 
-  const setters = setterMap[role as keyof typeof setterMap];
+  const setters = setterMap[role];
   if (!setters) throw new Error("Invalid role");
   return setters;
 };
