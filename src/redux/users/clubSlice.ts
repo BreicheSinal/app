@@ -1,23 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ClubDetails } from "../../core/utils/globalUtils";
-
-interface Tryout {
-  id: number;
-  name: string;
-  date: string;
-  description: string;
-}
+import { ClubDetails, Tryout } from "../../core/utils/globalUtils";
 
 interface ClubState {
   details: ClubDetails | null;
-  tryouts: Tryout[];
   loading: boolean;
   error: string | null;
 }
 
 const initialState: ClubState = {
   details: null,
-  tryouts: [],
   loading: false,
   error: null,
 };
@@ -31,7 +22,7 @@ const clubSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
-    setClubLoading: (state, action: PayloadAction<boolean>) => {
+    setClubLoading: (state, action) => {
       state.loading = action.payload;
     },
     setClubError: (state, action: PayloadAction<string>) => {
@@ -39,12 +30,16 @@ const clubSlice = createSlice({
       state.loading = false;
     },
     addTryout: (state, action: PayloadAction<Tryout>) => {
-      state.tryouts.push(action.payload);
+      if (state.details) {
+        state.details.tryouts.push(action.payload);
+      }
     },
     deleteTryout: (state, action: PayloadAction<number>) => {
-      state.tryouts = state.tryouts.filter(
-        (tryout) => tryout.id !== action.payload
-      );
+      if (state.details?.tryouts) {
+        state.details.tryouts = state.details.tryouts.filter(
+          (tryout) => tryout.id !== action.payload
+        );
+      }
     },
   },
 });
