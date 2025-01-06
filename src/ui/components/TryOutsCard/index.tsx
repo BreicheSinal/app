@@ -1,4 +1,5 @@
-import { useState, FC } from "react";
+import { FC, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Card,
@@ -13,36 +14,33 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-interface Tryout {
-  id: number;
-  name: string;
-  date: string;
-  description: string;
-}
+import { addTryout, deleteTryout } from "../../../redux/users/clubSlice";
+import { RootState } from "../../../redux/store";
 
 const TryoutsManager: FC = () => {
+  const dispatch = useDispatch();
+  const tryouts = useSelector((state: RootState) => state.club.tryouts);
+
+  // Local state for form inputs
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
-  const [tryouts, setTryouts] = useState<Tryout[]>([]);
+  const [description, setDescription] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const [description, setDescription] = useState("");
 
   const addTr = () => {
     if (name && date) {
-      setTryouts([
-        ...tryouts,
-        {
+      dispatch(
+        addTryout({
           id: Date.now(),
           name,
           date,
           description,
-        },
-      ]);
+        })
+      );
       setName("");
       setDate("");
       setDescription("");
@@ -55,9 +53,11 @@ const TryoutsManager: FC = () => {
   };
 
   const confirmDelete = () => {
-    setTryouts(tryouts.filter((tryout) => tryout.id !== deleteId));
-    setOpenDialog(false);
-    setDeleteId(null);
+    if (deleteId) {
+      dispatch(deleteTryout(deleteId));
+      setOpenDialog(false);
+      setDeleteId(null);
+    }
   };
 
   const cardWidth = { xs: "90%", sm: "500px", md: "632px" };
@@ -159,7 +159,7 @@ const TryoutsManager: FC = () => {
                 />
               </Box>
             </Box>
-            {/* New Description Field */}
+            {/* Description Field */}
             <Box sx={{ flex: 1 }}>
               <Typography
                 variant="subtitle2"
