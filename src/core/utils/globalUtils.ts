@@ -54,6 +54,7 @@ export interface ClubDetails extends BaseUserDetails {
   federation: string | null;
   location: string | null;
   founded_year: number | null;
+  tryouts: Tryout[];
 }
 
 export interface FederationDetails extends BaseUserDetails {
@@ -75,6 +76,13 @@ export interface Experience {
   name: string;
   date: string;
   type: string;
+  description: string;
+}
+
+export interface Tryout {
+  id: number;
+  name: string;
+  date: string;
   description: string;
 }
 
@@ -103,16 +111,6 @@ export const dispatchFetch = (
 
 export const getStoredRole = (): ValidRoleType => {
   const role = localStorage.getItem("role");
-  const validRoles: ValidRoleType[] = [
-    "Athlete",
-    "Coach",
-    "Club",
-    "Federation",
-  ];
-
-  if (!role || !validRoles.includes(role as ValidRoleType)) {
-    throw new Error("Invalid or missing role");
-  }
 
   return role as ValidRoleType;
 };
