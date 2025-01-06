@@ -12,10 +12,11 @@ import {
   CoachDetails,
   ClubDetails,
   FederationDetails,
+  ValidRoleType,
 } from "./globalUtils";
 
 const parseUserData = (
-  roleType: string,
+  roleType: ValidRoleType,
   data: any,
   response: any
 ): UserDetails => {
@@ -84,14 +85,16 @@ const parseUserData = (
 };
 
 export const fetchUserDetails =
-  (role: string, id: number) => async (dispatch: AppDispatch) => {
+  (role: ValidRoleType, id: number) => async (dispatch: AppDispatch) => {
     const { setLoading, setError, setDetails } = createSetters(role);
 
     try {
       dispatch(setLoading(true));
       const response = await requestApi(`/${role.toLowerCase()}/${id}`);
       const userData = response[role.toLowerCase()][0];
-      dispatch(setDetails(parseUserData(role, userData, response)));
+      const details = parseUserData(role, userData, response);
+
+      dispatch(setDetails(details as any));
     } catch (error: any) {
       console.error(`Error fetching ${role} details:`, error);
       dispatch(setError(error.message || `Failed to fetch ${role} details`));
@@ -101,7 +104,7 @@ export const fetchUserDetails =
   };
 
 export const fetchSearchedUserDetails = async (
-  role: string,
+  role: ValidRoleType,
   userId: number
 ) => {
   try {
@@ -189,7 +192,7 @@ const getBaseProfileData = (details: UserDetails) => ({
 });
 
 const getProfileFields = (
-  role: string,
+  role: ValidRoleType,
   details: UserDetails,
   clubs?: ClubOption[]
 ) => {
@@ -250,7 +253,7 @@ const getProfileFields = (
 };
 
 export const getProfileData = (
-  role: string | null,
+  role: ValidRoleType | null,
   details: UserDetails,
   clubs?: ClubOption[]
 ) => {
