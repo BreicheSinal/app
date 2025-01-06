@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CoachDetails } from "../../core/utils/globalUtils";
 
 interface CoachState {
@@ -17,15 +17,15 @@ const coachSlice = createSlice({
   name: "coach",
   initialState,
   reducers: {
-    setCoachDetails: (state, action) => {
+    setCoachDetails: (state, action: PayloadAction<CoachDetails>) => {
       state.details = action.payload;
       state.loading = false;
       state.error = null;
     },
-    setCoachLoading: (state, action) => {
+    setCoachLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setCoachError: (state, action) => {
+    setCoachError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
     },
