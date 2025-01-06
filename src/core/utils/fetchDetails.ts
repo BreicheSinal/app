@@ -13,6 +13,7 @@ import {
   ClubDetails,
   FederationDetails,
   ValidRoleType,
+  Tryout,
 } from "./globalUtils";
 
 const parseUserData = (
@@ -69,6 +70,13 @@ const parseUserData = (
         federation: data.club?.user?.name || null,
         location: data.location || null,
         founded_year: data.founded_year || null,
+        tryouts:
+          response.tryOuts?.map((tr: Tryout) => ({
+            id: tr.id,
+            name: tr.name,
+            date: tr.date,
+            description: tr.description,
+          })) || null,
       };
 
     case "Federation":
@@ -210,8 +218,8 @@ const getProfileFields = (
         value: (details as AthleteDetails).position || "N/A",
       },
       { label: "Age", value: (details as AthleteDetails).age },
-      { label: "Height", value: `${(details as AthleteDetails).height} cm` },
-      { label: "Weight", value: `${(details as AthleteDetails).weight} kg` },
+      { label: "Height", value: `${(details as AthleteDetails).height}` },
+      { label: "Weight", value: `${(details as AthleteDetails).weight}` },
     ],
     Coach: [
       {
