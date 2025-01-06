@@ -39,13 +39,12 @@ const parseUserData = (
         age: data.age || null,
         height: data.height ? parseFloat(data.height) : null,
         weight: data.weight ? parseFloat(data.weight) : null,
-        experiences:
-          response.experience?.map((exp: Experience) => ({
-            id: exp.id,
-            name: exp.name,
-            date: exp.date,
-            description: exp.description,
-          })) || null,
+        experiences: response.experience?.map((exp: Experience) => ({
+          id: exp.id,
+          name: exp.name,
+          date: exp.date,
+          description: exp.description,
+        })),
       };
 
     case "Coach":
@@ -54,13 +53,12 @@ const parseUserData = (
         club_id: data.club?.id || null,
         club: data.club?.user?.name || null,
         specialty: data.specialty || null,
-        experiences:
-          response.experience?.map((exp: Experience) => ({
-            id: exp.id,
-            name: exp.name,
-            date: exp.date,
-            description: exp.description,
-          })) || null,
+        experiences: response.experience?.map((exp: Experience) => ({
+          id: exp.id,
+          name: exp.name,
+          date: exp.date,
+          description: exp.description,
+        })),
       };
 
     case "Club":
