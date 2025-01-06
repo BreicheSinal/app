@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FederationDetails } from "../../core/utils/globalUtils";
 
 interface FederationState {
@@ -17,15 +17,15 @@ const federationSlice = createSlice({
   name: "federation",
   initialState,
   reducers: {
-    setFederationDetails: (state, action) => {
+    setFederationDetails: (state, action: PayloadAction<FederationDetails>) => {
       state.details = action.payload;
       state.loading = false;
       state.error = null;
     },
-    setFederationLoading: (state, action) => {
+    setFederationLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
-    setFederationError: (state, action) => {
+    setFederationError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
       state.loading = false;
     },
