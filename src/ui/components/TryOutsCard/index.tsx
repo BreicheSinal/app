@@ -1,53 +1,32 @@
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Button,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-
+import { Box } from "@mui/material";
 import { addTryout, deleteTryout } from "../../../redux/users/clubSlice";
 import { RootState } from "../../../redux/store";
+import { AddTryoutForm } from "./AddTryOut";
+import { TryoutsList } from "./TryOutList";
+import { ConfirmationDialog } from "./ConfirmationDialog";
 
 const TryoutsManager: FC = () => {
   const dispatch = useDispatch();
   const tryouts = useSelector((state: RootState) => state.club.tryouts);
-
-  // Local state for form inputs
-  const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const addTr = () => {
-    if (name && date) {
-      dispatch(
-        addTryout({
-          id: Date.now(),
-          name,
-          date,
-          description,
-        })
-      );
-      setName("");
-      setDate("");
-      setDescription("");
-    }
+  const handleAdd = (tryout: {
+    name: string;
+    date: string;
+    description: string;
+  }) => {
+    dispatch(
+      addTryout({
+        id: Date.now(),
+        ...tryout,
+      })
+    );
   };
 
-  const deleteTr = (id: number) => {
+  const handleDelete = (id: number) => {
     setDeleteId(id);
     setOpenDialog(true);
   };
@@ -60,275 +39,15 @@ const TryoutsManager: FC = () => {
     }
   };
 
-  const cardWidth = { xs: "90%", sm: "500px", md: "632px" };
-
   return (
     <Box className="flex column" sx={{ padding: "10px" }}>
-      {/* Add Try-out Card */}
-      <Card
-        className="secondary-bg-color"
-        sx={{
-          width: cardWidth,
-          minWidth: "300px",
-          maxWidth: "632px",
-          height: "auto",
-          border: "none",
-          borderRadius: 2,
-          mb: 2,
-        }}
-      >
-        <CardContent sx={{ p: 2 }}>
-          <Box className="flex space-between align-center" sx={{ mb: 2 }}>
-            <Typography
-              variant="h6"
-              className="tertiary-color"
-              sx={{ fontWeight: "bold", letterSpacing: "0.5px" }}
-            >
-              ADD TRY-OUT
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-            <Box sx={{ display: "flex", gap: 2 }}>
-              <Box sx={{ flex: 1 }}>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    color: "rgba(255, 255, 255, 0.7)",
-                    mb: 0.5,
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  Try-Out Name
-                </Typography>
-                <TextField
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Name"
-                  size="small"
-                  sx={{
-                    width: "100%",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "rgba(255, 255, 255, 0.23)",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "rgba(255, 255, 255, 0.23)",
-                      },
-                    },
-                    "& .MuiInputBase-input": {
-                      color: "white",
-                    },
-                  }}
-                />
-              </Box>
-              <Box>
-                <Typography
-                  variant="subtitle2"
-                  sx={{
-                    color: "rgba(255, 255, 255, 0.7)",
-                    mb: 0.5,
-                    fontSize: "0.875rem",
-                  }}
-                >
-                  Start Date
-                </Typography>
-                <TextField
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                  size="small"
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "rgba(255, 255, 255, 0.23)",
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "rgba(255, 255, 255, 0.23)",
-                      },
-                    },
-                    "& .MuiInputBase-input": {
-                      color: "white",
-                      "&::-webkit-calendar-picker-indicator": {
-                        filter: "invert(1)",
-                      },
-                    },
-                    "& .MuiSvgIcon-root": {
-                      color: "white",
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-            {/* Description Field */}
-            <Box sx={{ flex: 1 }}>
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  color: "rgba(255, 255, 255, 0.7)",
-                  mb: 0.5,
-                  fontSize: "0.875rem",
-                }}
-              >
-                Description
-              </Typography>
-              <TextField
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Add a description"
-                size="small"
-                multiline
-                rows={2}
-                sx={{
-                  width: "100%",
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.23)",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.23)",
-                    },
-                  },
-                  "& .MuiInputBase-input": {
-                    color: "white",
-                  },
-                }}
-              />
-            </Box>
-            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <IconButton
-                disableRipple
-                onClick={addTr}
-                sx={{
-                  bgcolor: "primary.main",
-                  color: "white",
-                  "&:hover": {
-                    bgcolor: "primary.dark",
-                  },
-                  padding: "8px",
-                }}
-              >
-                <AddIcon />
-              </IconButton>
-            </Box>
-          </Box>
-        </CardContent>
-      </Card>
-
-      {/* Try-outs List Card */}
-      <Card
-        className="secondary-bg-color"
-        sx={{
-          width: cardWidth,
-          minWidth: "300px",
-          maxWidth: "632px",
-          height: "auto",
-          border: "none",
-          borderRadius: 2,
-        }}
-      >
-        <CardContent sx={{ p: 2 }}>
-          <Box className="flex space-between align-center" sx={{ mb: 2 }}>
-            <Typography
-              variant="h6"
-              className="tertiary-color"
-              sx={{ fontWeight: "bold", letterSpacing: "0.5px" }}
-            >
-              TRY-OUTS
-            </Typography>
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-            {tryouts.map((tryout) => (
-              <Box
-                key={tryout.id}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                  bgcolor: "rgba(255, 255, 255, 0.05)",
-                  borderRadius: 1,
-                  p: 1,
-                }}
-              >
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                  <Box sx={{ display: "flex", gap: 2 }}>
-                    <Typography sx={{ color: "white" }}>
-                      {tryout.name}
-                    </Typography>
-                    <Typography sx={{ color: "white" }}>
-                      {tryout.date}
-                    </Typography>
-                  </Box>
-                  {tryout.description && (
-                    <Typography
-                      sx={{
-                        color: "rgba(255, 255, 255, 0.7)",
-                        fontSize: "0.875rem",
-                      }}
-                    >
-                      {tryout.description}
-                    </Typography>
-                  )}
-                </Box>
-                <IconButton
-                  onClick={() => deleteTr(tryout.id)}
-                  size="small"
-                  sx={{ color: "error.main" }}
-                  disableRipple
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </Box>
-            ))}
-          </Box>
-        </CardContent>
-      </Card>
-
-      {/* Deletion Popup Confirmation */}
-      <Dialog
+      <AddTryoutForm onAdd={handleAdd} />
+      <TryoutsList tryouts={tryouts} onDelete={handleDelete} />
+      <ConfirmationDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
-        PaperProps={{
-          sx: {
-            backgroundColor: "#1D2125",
-            "& .MuiDialogTitle-root": {
-              color: "white",
-              padding: "24px",
-              paddingBottom: "16px",
-            },
-            "& .MuiDialogContent-root": {
-              padding: "24px",
-              paddingTop: 0,
-              paddingBottom: "16px",
-            },
-            "& .MuiDialogContentText-root": {
-              color: "rgba(255, 255, 255, 0.7)",
-            },
-            "& .MuiDialogActions-root": {
-              padding: "24px",
-              paddingTop: "8px",
-            },
-          },
-        }}
-      >
-        <DialogTitle>Confirm Deletion</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete? This action cannot be undone.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => setOpenDialog(false)}
-            color="primary"
-            disableRipple
-          >
-            Cancel
-          </Button>
-          <Button onClick={confirmDelete} color="error" autoFocus disableRipple>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onConfirm={confirmDelete}
+      />
     </Box>
   );
 };
