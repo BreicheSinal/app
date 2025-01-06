@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Tryout {
   id: number;
@@ -20,6 +21,7 @@ const TryoutsManager: FC = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [tryouts, setTryouts] = useState<Tryout[]>([]);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const addTr = () => {
     if (name && date) {
@@ -34,6 +36,10 @@ const TryoutsManager: FC = () => {
       setName("");
       setDate("");
     }
+  };
+
+  const deleteTr = (id: number) => {
+    setDeleteId(id);
   };
   const cardWidth = { xs: "90%", sm: "500px", md: "632px" };
 
@@ -148,6 +154,61 @@ const TryoutsManager: FC = () => {
                 <AddIcon />
               </IconButton>
             </Box>
+          </Box>
+        </CardContent>
+      </Card>
+
+      {/* Try-outs List Card */}
+      <Card
+        className="secondary-bg-color"
+        sx={{
+          width: cardWidth,
+          minWidth: "300px",
+          maxWidth: "632px",
+          height: "auto",
+          border: "none",
+          borderRadius: 2,
+        }}
+      >
+        <CardContent sx={{ p: 2 }}>
+          <Box className="flex space-between align-center" sx={{ mb: 2 }}>
+            <Typography
+              variant="h6"
+              className="tertiary-color"
+              sx={{ fontWeight: "bold", letterSpacing: "0.5px" }}
+            >
+              TRY-OUTS
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+            {tryouts.map((tryout) => (
+              <Box
+                key={tryout.id}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  bgcolor: "rgba(255, 255, 255, 0.05)",
+                  borderRadius: 1,
+                  p: 1,
+                }}
+              >
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <Typography sx={{ color: "white" }}>
+                    {tryout.name}
+                  </Typography>
+                  <Typography sx={{ color: "white" }}>{tryout.date}</Typography>
+                </Box>
+                <IconButton
+                  onClick={() => deleteTr(tryout.id)}
+                  size="small"
+                  sx={{ color: "error.main" }}
+                  disableRipple
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            ))}
           </Box>
         </CardContent>
       </Card>
