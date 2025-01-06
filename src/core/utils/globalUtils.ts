@@ -79,6 +79,8 @@ export interface Experience {
   description: string;
 }
 
+export type ExperienceFormData = Omit<Experience, "id">
+
 export interface Tryout {
   id: number;
   name: string;
