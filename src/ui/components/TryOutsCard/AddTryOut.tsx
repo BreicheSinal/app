@@ -6,20 +6,22 @@ import {
   Typography,
   TextField,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 interface AddTryoutFormProps {
   onAdd: (tryout: { name: string; date: string; description: string }) => void;
+  isLoading: boolean;
 }
 
-export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd }) => {
+export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
-    if (name && date) {
+    if (name && date && !isLoading) {
       onAdd({ name, date, description });
       setName("");
       setDate("");
@@ -68,6 +70,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd }) => {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
                 size="small"
+                disabled={isLoading}
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -100,6 +103,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd }) => {
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
                 size="small"
+                disabled={isLoading}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
@@ -137,6 +141,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd }) => {
               size="small"
               multiline
               rows={2}
+              disabled={isLoading}
               sx={{
                 width: "100%",
                 "& .MuiOutlinedInput-root": {
@@ -157,16 +162,25 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd }) => {
             <IconButton
               disableRipple
               onClick={handleSubmit}
+              disabled={isLoading || !name || !date}
               sx={{
                 bgcolor: "primary.main",
                 color: "white",
                 "&:hover": {
                   bgcolor: "primary.dark",
                 },
+                "&.Mui-disabled": {
+                  bgcolor: "#d3d3d3 !important",
+                  color: "#808080 !important",
+                },
                 padding: "8px",
               }}
             >
-              <AddIcon />
+              {isLoading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                <AddIcon />
+              )}
             </IconButton>
           </Box>
         </Box>
