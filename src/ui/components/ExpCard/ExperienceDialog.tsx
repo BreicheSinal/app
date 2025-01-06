@@ -1,5 +1,4 @@
 import { FC, ChangeEvent } from "react";
-
 import {
   Dialog,
   DialogTitle,
@@ -12,6 +11,7 @@ import {
 
 import { ExperienceFormData } from "../../../core/utils/globalUtils";
 import { textFieldStyles } from "../../styles/textFieldStyles";
+import { dialogStyles } from "../../styles/dialogStyles";
 
 interface ExperienceDialogProps {
   open: boolean;
@@ -37,18 +37,13 @@ export const ExperienceDialog: FC<ExperienceDialogProps> = ({
     onClose={onClose}
     fullWidth
     maxWidth="sm"
-    sx={{
-      "& .MuiDialog-paper": {
-        backgroundColor: "#1d2125",
-        color: "white",
-      },
-    }}
+    sx={dialogStyles}
   >
     <DialogTitle className="bold tertiary-color">
       {isEdit ? "Edit Experience" : "Add Experience"}
     </DialogTitle>
     <DialogContent>
-      <Box sx={{ pt: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <TextField
           label="Name"
           fullWidth
@@ -75,10 +70,15 @@ export const ExperienceDialog: FC<ExperienceDialogProps> = ({
       </Box>
     </DialogContent>
     <DialogActions>
-      <Button onClick={onClose} color="primary">
+      <Button onClick={onClose} color="error" disableRipple>
         Cancel
       </Button>
-      <Button onClick={onSubmit} color="primary" variant="contained">
+      <Button
+        onClick={onSubmit}
+        color="primary"
+        variant="contained"
+        disableRipple
+      >
         {isEdit ? "Update" : "Add"}
       </Button>
     </DialogActions>
