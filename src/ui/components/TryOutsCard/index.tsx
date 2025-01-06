@@ -6,6 +6,12 @@ import {
   Typography,
   TextField,
   IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -22,6 +28,7 @@ const TryoutsManager: FC = () => {
   const [date, setDate] = useState("");
   const [tryouts, setTryouts] = useState<Tryout[]>([]);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const addTr = () => {
     if (name && date) {
@@ -40,7 +47,15 @@ const TryoutsManager: FC = () => {
 
   const deleteTr = (id: number) => {
     setDeleteId(id);
+    setOpenDialog(true);
   };
+
+  const confirmDelete = () => {
+    setTryouts(tryouts.filter((tryout) => tryout.id !== deleteId));
+    setOpenDialog(false);
+    setDeleteId(null);
+  };
+
   const cardWidth = { xs: "90%", sm: "500px", md: "632px" };
 
   return (
@@ -194,9 +209,7 @@ const TryoutsManager: FC = () => {
                 }}
               >
                 <Box sx={{ display: "flex", gap: 2 }}>
-                  <Typography sx={{ color: "white" }}>
-                    {tryout.name}
-                  </Typography>
+                  <Typography sx={{ color: "white" }}>{tryout.name}</Typography>
                   <Typography sx={{ color: "white" }}>{tryout.date}</Typography>
                 </Box>
                 <IconButton
@@ -212,6 +225,53 @@ const TryoutsManager: FC = () => {
           </Box>
         </CardContent>
       </Card>
+
+      {/* Deletion Popup Confirmation */}
+      <Dialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        PaperProps={{
+          sx: {
+            backgroundColor: "#1D2125",
+            "& .MuiDialogTitle-root": {
+              color: "white",
+              padding: "24px",
+              paddingBottom: "16px",
+            },
+            "& .MuiDialogContent-root": {
+              padding: "24px",
+              paddingTop: 0,
+              paddingBottom: "16px",
+            },
+            "& .MuiDialogContentText-root": {
+              color: "rgba(255, 255, 255, 0.7)",
+            },
+            "& .MuiDialogActions-root": {
+              padding: "24px",
+              paddingTop: "8px",
+            },
+          },
+        }}
+      >
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete? This action cannot be undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setOpenDialog(false)}
+            color="primary"
+            disableRipple
+          >
+            Cancel
+          </Button>
+          <Button onClick={confirmDelete} color="error" autoFocus disableRipple>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
