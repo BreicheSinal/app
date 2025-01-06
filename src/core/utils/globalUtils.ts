@@ -101,7 +101,21 @@ export const dispatchFetch = (
   return dispatch(fetchUserDetails(role, id));
 };
 
-export const getStoredRole = () => localStorage.getItem("role");
+export const getStoredRole = (): ValidRoleType => {
+  const role = localStorage.getItem("role");
+  const validRoles: ValidRoleType[] = [
+    "Athlete",
+    "Coach",
+    "Club",
+    "Federation",
+  ];
+
+  if (!role || !validRoles.includes(role as ValidRoleType)) {
+    throw new Error("Invalid or missing role");
+  }
+
+  return role as ValidRoleType;
+};
 export const getStoredRoleId = () => {
   const id = localStorage.getItem("specificRoleId");
   return id ? parseInt(id) : null;
