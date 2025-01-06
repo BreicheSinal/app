@@ -56,7 +56,7 @@ const TryoutsManager: FC = () => {
       try {
         setIsLoading(true);
 
-        await requestApi(`/club/tryouts/${deleteId}`, "DELETE");
+        await requestApi(`/club/deleteTr/${deleteId}`, "DELETE");
 
         dispatch(deleteTryout(deleteId));
         setOpenDialog(false);
