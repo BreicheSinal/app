@@ -1,14 +1,10 @@
 import { useState, FC } from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  TextField,
-} from "@mui/material";
+import { Box, Card, CardContent, Typography, TextField } from "@mui/material";
+
 
 const TryoutsManager: FC = () => {
   const [name, setName] = useState("");
+  const [date, setDate] = useState("");
 
   const cardWidth = { xs: "90%", sm: "500px", md: "632px" };
 
@@ -65,6 +61,43 @@ const TryoutsManager: FC = () => {
                     },
                   },
                   "& .MuiInputBase-input": {
+                    color: "white",
+                  },
+                }}
+              />
+            </Box>
+            <Box>
+              <Typography
+                variant="subtitle2"
+                sx={{
+                  color: "rgba(255, 255, 255, 0.7)",
+                  mb: 0.5,
+                  fontSize: "0.875rem",
+                }}
+              >
+                Start Date
+              </Typography>
+              <TextField
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                size="small"
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "rgba(255, 255, 255, 0.23)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "rgba(255, 255, 255, 0.23)",
+                    },
+                  },
+                  "& .MuiInputBase-input": {
+                    color: "white",
+                    "&::-webkit-calendar-picker-indicator": {
+                      filter: "invert(1)",
+                    },
+                  },
+                  "& .MuiSvgIcon-root": {
                     color: "white",
                   },
                 }}
