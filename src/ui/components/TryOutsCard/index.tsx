@@ -1,11 +1,40 @@
 import { useState, FC } from "react";
-import { Box, Card, CardContent, Typography, TextField } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  TextField,
+  IconButton,
+} from "@mui/material";
 
+import AddIcon from "@mui/icons-material/Add";
+
+interface Tryout {
+  id: number;
+  name: string;
+  date: string;
+}
 
 const TryoutsManager: FC = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
+  const [tryouts, setTryouts] = useState<Tryout[]>([]);
 
+  const addTr = () => {
+    if (name && date) {
+      setTryouts([
+        ...tryouts,
+        {
+          id: Date.now(),
+          name,
+          date,
+        },
+      ]);
+      setName("");
+      setDate("");
+    }
+  };
   const cardWidth = { xs: "90%", sm: "500px", md: "632px" };
 
   return (
@@ -102,6 +131,22 @@ const TryoutsManager: FC = () => {
                   },
                 }}
               />
+            </Box>
+            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+              <IconButton
+                disableRipple
+                onClick={addTr}
+                sx={{
+                  bgcolor: "primary.main",
+                  color: "white",
+                  "&:hover": {
+                    bgcolor: "primary.dark",
+                  },
+                  padding: "8px",
+                }}
+              >
+                <AddIcon />
+              </IconButton>
             </Box>
           </Box>
         </CardContent>
