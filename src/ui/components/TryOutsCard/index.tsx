@@ -21,6 +21,7 @@ interface Tryout {
   id: number;
   name: string;
   date: string;
+  description: string;
 }
 
 const TryoutsManager: FC = () => {
@@ -29,6 +30,7 @@ const TryoutsManager: FC = () => {
   const [tryouts, setTryouts] = useState<Tryout[]>([]);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [description, setDescription] = useState("");
 
   const addTr = () => {
     if (name && date) {
@@ -38,10 +40,12 @@ const TryoutsManager: FC = () => {
           id: Date.now(),
           name,
           date,
+          description,
         },
       ]);
       setName("");
       setDate("");
+      setDescription("");
     }
   };
 
@@ -83,7 +87,79 @@ const TryoutsManager: FC = () => {
               ADD TRY-OUT
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", gap: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box sx={{ display: "flex", gap: 2 }}>
+              <Box sx={{ flex: 1 }}>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    color: "rgba(255, 255, 255, 0.7)",
+                    mb: 0.5,
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  Try-Out Name
+                </Typography>
+                <TextField
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Name"
+                  size="small"
+                  sx={{
+                    width: "100%",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "rgba(255, 255, 255, 0.23)",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "rgba(255, 255, 255, 0.23)",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "white",
+                    },
+                  }}
+                />
+              </Box>
+              <Box>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    color: "rgba(255, 255, 255, 0.7)",
+                    mb: 0.5,
+                    fontSize: "0.875rem",
+                  }}
+                >
+                  Start Date
+                </Typography>
+                <TextField
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  size="small"
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "rgba(255, 255, 255, 0.23)",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "rgba(255, 255, 255, 0.23)",
+                      },
+                    },
+                    "& .MuiInputBase-input": {
+                      color: "white",
+                      "&::-webkit-calendar-picker-indicator": {
+                        filter: "invert(1)",
+                      },
+                    },
+                    "& .MuiSvgIcon-root": {
+                      color: "white",
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
+            {/* New Description Field */}
             <Box sx={{ flex: 1 }}>
               <Typography
                 variant="subtitle2"
@@ -93,13 +169,15 @@ const TryoutsManager: FC = () => {
                   fontSize: "0.875rem",
                 }}
               >
-                Try-Out Name
+                Description
               </Typography>
               <TextField
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Add a description"
                 size="small"
+                multiline
+                rows={2}
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -116,44 +194,7 @@ const TryoutsManager: FC = () => {
                 }}
               />
             </Box>
-            <Box>
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  color: "rgba(255, 255, 255, 0.7)",
-                  mb: 0.5,
-                  fontSize: "0.875rem",
-                }}
-              >
-                Start Date
-              </Typography>
-              <TextField
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                size="small"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.23)",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.23)",
-                    },
-                  },
-                  "& .MuiInputBase-input": {
-                    color: "white",
-                    "&::-webkit-calendar-picker-indicator": {
-                      filter: "invert(1)",
-                    },
-                  },
-                  "& .MuiSvgIcon-root": {
-                    color: "white",
-                  },
-                }}
-              />
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "flex-end" }}>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <IconButton
                 disableRipple
                 onClick={addTr}
@@ -202,15 +243,31 @@ const TryoutsManager: FC = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   bgcolor: "rgba(255, 255, 255, 0.05)",
                   borderRadius: 1,
                   p: 1,
                 }}
               >
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Typography sx={{ color: "white" }}>{tryout.name}</Typography>
-                  <Typography sx={{ color: "white" }}>{tryout.date}</Typography>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <Typography sx={{ color: "white" }}>
+                      {tryout.name}
+                    </Typography>
+                    <Typography sx={{ color: "white" }}>
+                      {tryout.date}
+                    </Typography>
+                  </Box>
+                  {tryout.description && (
+                    <Typography
+                      sx={{
+                        color: "rgba(255, 255, 255, 0.7)",
+                        fontSize: "0.875rem",
+                      }}
+                    >
+                      {tryout.description}
+                    </Typography>
+                  )}
                 </Box>
                 <IconButton
                   onClick={() => deleteTr(tryout.id)}
