@@ -1,4 +1,7 @@
+import { FC } from "react";
+
 import FeedLayout from "../../Layout/FeedLayout";
+import TryoutsManager from "../../components/TryOutsCard";
 
 import { ProfileCardView } from "../../components/ProfileCard";
 
@@ -13,7 +16,7 @@ import "./style.css";
 import CustomCard from "../../components/CustomCard";
 import { CardData } from "../../components/CustomCard";
 
-const TryOuts = () => {
+const TryOuts: FC = () => {
   const role = getStoredRole();
 
   const details = useSelector((state: RootState) =>
@@ -62,12 +65,7 @@ const TryOuts = () => {
 
           <div className="sub-cards-container flex">
             <div className="flex column">
-              <CustomCard
-                width={600}
-                data={staffData}
-                showEdit={false}
-                onEdit={() => {}}
-              />
+              <TryoutsManager />
             </div>
             <CustomCard
               width={250}
