@@ -8,6 +8,8 @@ import {
   ExperienceFormData,
 } from "../../../core/utils/globalUtils";
 
+import { ConfirmationDialog } from "../TryOutsCard/ConfirmationDialog";
+
 interface ExperienceCardProps {
   width?: number;
   experiences: Experience[];
@@ -25,9 +27,14 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
   delete: deleteExp,
   showEdit = true,
 }) => {
-  const [open, setOpen] = useState<boolean>(false);
+  console.log(experiences);
+  const [experienceDialogOpen, setExperienceDialogOpen] =
+    useState<boolean>(false);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [selectedExperience, setSelectedExperience] =
     useState<Experience | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [formData, setFormData] = useState<ExperienceFormData>({
     name: "",
     date: "",
@@ -35,7 +42,7 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
     description: "",
   });
 
-  const handleOpen = (experience?: Experience) => {
+  const handleExperienceOpen = (experience?: Experience) => {
     if (experience) {
       setSelectedExperience(experience);
       setFormData({
@@ -53,11 +60,11 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
         description: "",
       });
     }
-    setOpen(true);
+    setExperienceDialogOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleExperienceClose = () => {
+    setExperienceDialogOpen(false);
     setSelectedExperience(null);
     setFormData({
       name: "",
@@ -65,6 +72,24 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
       type: "experience",
       description: "",
     });
+  };
+
+  const handleDeleteClick = (id: number) => {
+    setDeleteId(id);
+    setConfirmDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (deleteId && deleteExp) {
+      setIsDeleting(true);
+      try {
+        await deleteExp(deleteId);
+      } finally {
+        setIsDeleting(false);
+        setConfirmDialogOpen(false);
+        setDeleteId(null);
+      }
+    }
   };
 
   const handleSubmit = () => {
@@ -76,7 +101,7 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
     } else if (addition) {
       addition(formData);
     }
-    handleClose();
+    handleExperienceClose();
   };
 
   const handleChange =
@@ -91,24 +116,33 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
 
   return (
     <ExperienceContainer width={width}>
-      <ExperienceHeader onAdd={() => handleOpen()} showEdit={showEdit} />
+      <ExperienceHeader
+        onAdd={() => handleExperienceOpen()}
+        showEdit={showEdit}
+      />
       {experiences.map((experience, index) => (
         <ExperienceItem
           key={experience.id}
           experience={experience}
           showEdit={showEdit}
-          onEdit={handleOpen}
-          onDelete={deleteExp}
+          onEdit={handleExperienceOpen}
+          onDelete={handleDeleteClick}
           isLast={index === experiences.length - 1}
         />
       ))}
       <ExperienceDialog
-        open={open}
-        onClose={handleClose}
+        open={experienceDialogOpen}
+        onClose={handleExperienceClose}
         onSubmit={handleSubmit}
         formData={formData}
         onChange={handleChange}
         isEdit={!!selectedExperience}
+      />
+      <ConfirmationDialog
+        open={confirmDialogOpen}
+        onClose={() => setConfirmDialogOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        isLoading={isDeleting}
       />
     </ExperienceContainer>
   );
