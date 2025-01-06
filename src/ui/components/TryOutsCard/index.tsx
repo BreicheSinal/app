@@ -6,24 +6,44 @@ import { RootState } from "../../../redux/store";
 import { AddTryoutForm } from "./AddTryOut";
 import { TryoutsList } from "./TryOutList";
 import { ConfirmationDialog } from "./ConfirmationDialog";
+import { requestApi } from "../../../core/utils/request";
 
 const TryoutsManager: FC = () => {
   const dispatch = useDispatch();
-  const tryouts = useSelector((state: RootState) => state.club.tryouts);
+  const tryouts = useSelector(
+    (state: RootState) => state.club.details?.tryouts
+  );
+  const clubId = useSelector((state: RootState) => state.club.details?.id);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleAdd = (tryout: {
+  const handleAdd = async (tryout: {
     name: string;
     date: string;
     description: string;
   }) => {
-    dispatch(
-      addTryout({
-        id: Date.now(),
+    try {
+      setIsLoading(true);
+
+      const response = await requestApi(`/club/tryouts`, "POST", {
         ...tryout,
-      })
-    );
+        clubId: clubId,
+      });
+
+      if (response.tryout) {
+        dispatch(
+          addTryout({
+            id: response.tryout.id,
+            ...tryout,
+          })
+        );
+      }
+    } catch (error) {
+      console.error("Error adding tryout:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDelete = (id: number) => {
@@ -31,22 +51,33 @@ const TryoutsManager: FC = () => {
     setOpenDialog(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (deleteId) {
-      dispatch(deleteTryout(deleteId));
-      setOpenDialog(false);
-      setDeleteId(null);
+      try {
+        setIsLoading(true);
+
+        await requestApi(`/club/tryouts/${deleteId}`, "DELETE");
+
+        dispatch(deleteTryout(deleteId));
+        setOpenDialog(false);
+        setDeleteId(null);
+      } catch (error) {
+        console.error("Error deleting tryout:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <Box className="flex column" sx={{ padding: "10px" }}>
-      <AddTryoutForm onAdd={handleAdd} />
-      <TryoutsList tryouts={tryouts} onDelete={handleDelete} />
+      <AddTryoutForm onAdd={handleAdd} isLoading={isLoading} />
+      <TryoutsList tryouts={tryouts!} onDelete={handleDelete} />
       <ConfirmationDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
         onConfirm={confirmDelete}
+        isLoading={isLoading}
       />
     </Box>
   );
