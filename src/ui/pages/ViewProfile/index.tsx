@@ -4,9 +4,7 @@ import { useParams } from "react-router-dom";
 import FeedLayout from "../../Layout/FeedLayout";
 import { ExperienceCardView } from "../../components/ExpCard";
 import { BioCardView } from "../../components/BioCard";
-import CustomCard from "../../components/CustomCard";
 import { ProfileCardView } from "../../components/ProfileCard";
-import { CardData } from "../../components/CustomCard";
 
 import { CircularProgress } from "@mui/material";
 
@@ -26,13 +24,15 @@ import {
   CoachDetails,
   createSetters,
   getStoredRole,
+  ValidRoleType,
 } from "../../../core/utils/globalUtils";
 
 import { RootState } from "../../../redux/store";
 import { useSelector } from "react-redux";
+import ConnectionsCard from "../../components/ConnectionCard";
 
 const ViewProfile = () => {
-  const { userId, role } = useParams<{ userId: string; role: string }>();
+  const { userId, role } = useParams<{ userId: string; role: ValidRoleType }>();
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -142,25 +142,6 @@ const ViewProfile = () => {
     );
   }
 
-  /* MOCK DATA */
-  const staffData: CardData = {
-    title: "STAFF",
-    sections: [
-      {
-        type: "list",
-        content: [
-          {
-            name: "NAME",
-            role: "ROLE",
-            content: "Alice is responsible for implementing the backend APIs.",
-          },
-          { name: "NAME", role: "ROLE" },
-          { name: "NAME", role: "ROLE" },
-        ],
-      },
-    ],
-  };
-
   return (
     <div className="feed-container">
       <FeedLayout>
@@ -186,12 +167,7 @@ const ViewProfile = () => {
                 />
               )}
             </div>
-            <CustomCard
-              width={250}
-              data={staffData}
-              showEdit={false}
-              onEdit={() => {}}
-            />
+            {userId && <ConnectionsCard currentUserId={Number(userId)} />}
           </div>
         </div>
       </FeedLayout>
