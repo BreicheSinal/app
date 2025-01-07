@@ -12,9 +12,9 @@ import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
 
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
+import ConnectionsCard from "../../components/ConnectionCard";
+
 import "./style.css";
-import CustomCard from "../../components/CustomCard";
-import { CardData } from "../../components/CustomCard";
 
 const TryOuts: FC = () => {
   const role = getStoredRole();
@@ -38,25 +38,6 @@ const TryOuts: FC = () => {
     [role, details]
   );
 
-  /* MOCK DATA */
-  const staffData: CardData = {
-    title: "STAFF",
-    sections: [
-      {
-        type: "list",
-        content: [
-          {
-            name: "NAME",
-            role: "ROLE",
-            content: "Alice is responsible for implementing the backend APIs.",
-          },
-          { name: "NAME", role: "ROLE" },
-          { name: "NAME", role: "ROLE" },
-        ],
-      },
-    ],
-  };
-
   return (
     <div className="feed-container">
       <FeedLayout>
@@ -67,12 +48,9 @@ const TryOuts: FC = () => {
             <div className="flex column">
               <TryoutsManager />
             </div>
-            <CustomCard
-              width={250}
-              data={staffData}
-              showEdit={false}
-              onEdit={() => {}}
-            />
+            {details?.user_id && (
+              <ConnectionsCard currentUserId={details?.user_id} />
+            )}
           </div>
         </div>
       </FeedLayout>
