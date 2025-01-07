@@ -20,7 +20,7 @@ export const addExperience = async (
       throw new Error("Invalid or missing user role");
     }
 
-    const endpoint = `/${role.toLowerCase()}/addExperienceCertification/${user_id}`;
+    const endpoint = `/user/addExpCert/${user_id}`;
     await requestApi(endpoint, "POST", experience);
     await dispatchFetch(role, roleId!, dispatch);
   } catch (error) {
