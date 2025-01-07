@@ -4,9 +4,7 @@ import FeedLayout from "../../Layout/FeedLayout";
 
 import { ExperienceCard } from "../../components/ExpCard";
 import { BioCard } from "../../components/BioCard";
-import CustomCard from "../../components/CustomCard";
 import { ProfileCard } from "../../components/ProfileCard";
-import { CardData } from "../../components/CustomCard";
 
 import { deleteExp } from "../../../core/utils/deleteDetails";
 
@@ -35,6 +33,9 @@ import {
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "../../../redux/store";
+
+import StaffCard from "../../components/StaffCard";
+import ConnectionsCard from "../../components/ConnectionCard";
 
 import "./style.css";
 
@@ -140,25 +141,6 @@ const Profile = () => {
     }
   };
 
-  /* MOCK DATA */
-  const staffData: CardData = {
-    title: "STAFF",
-    sections: [
-      {
-        type: "list",
-        content: [
-          {
-            name: "NAME",
-            role: "ROLE",
-            content: "Alice is responsible for implementing the backend APIs.",
-          },
-          { name: "NAME", role: "ROLE" },
-          { name: "NAME", role: "ROLE" },
-        ],
-      },
-    ],
-  };
-
   return (
     <div className="feed-container">
       <FeedLayout>
@@ -191,14 +173,19 @@ const Profile = () => {
                   delete={deleteUserExp}
                 />
               )}
-            </div>
 
-            <CustomCard
-              width={250}
-              data={staffData}
-              showEdit={true}
-              onEdit={() => {}}
-            />
+              {role === "Club" && (
+                <StaffCard
+                  clubId={details?.id || 0}
+                  width={615}
+                  showEdit={true}
+                  onEdit={() => {}}
+                />
+              )}
+            </div>
+            {details?.user_id && (
+              <ConnectionsCard currentUserId={details?.user_id} />
+            )}
           </div>
         </div>
       </FeedLayout>
