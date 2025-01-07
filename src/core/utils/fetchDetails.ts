@@ -14,6 +14,7 @@ import {
   FederationDetails,
   ValidRoleType,
   Tryout,
+  Certificate,
 } from "./globalUtils";
 
 const parseUserData = (
@@ -58,6 +59,12 @@ const parseUserData = (
           name: exp.name,
           date: exp.date,
           description: exp.description,
+        })),
+        certificates: response.certificates?.map((cert: Experience) => ({
+          id: cert.id,
+          name: cert.name,
+          date: cert.date,
+          description: cert.description,
         })),
       };
 
@@ -278,4 +285,8 @@ export const getBioData = (bio: string | null) => ({
 
 export const getExperienceData = (experiences: Experience[] = []) => ({
   experiences,
+});
+
+export const getCertificateData = (certificates: Certificate[] = []) => ({
+  certificates,
 });
