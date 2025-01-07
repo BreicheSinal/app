@@ -27,7 +27,6 @@ export const ExperienceCard: FC<ExperienceCardProps> = ({
   delete: deleteExp,
   showEdit = true,
 }) => {
-  console.log(experiences);
   const [experienceDialogOpen, setExperienceDialogOpen] =
     useState<boolean>(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
