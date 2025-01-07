@@ -3,6 +3,7 @@ import { requestApi } from "./request";
 
 import {
   Experience,
+  ValidRoleType,
   dispatchFetch,
   getStoredRole,
   getStoredRoleId,
@@ -22,7 +23,7 @@ export const editExperience = async (
 ) => {
   try {
     if (!role) throw new Error("User role or ID missing");
-    const endpoint = `/${role.toLowerCase()}/editExpCert/${exp_id}`;
+    const endpoint = `/user/editExpCert/${exp_id}`;
 
     await requestApi(endpoint, "PUT", experience);
     await dispatchFetch(role, id, dispatch);
@@ -62,7 +63,7 @@ const formatFields = (fields: { [key: string]: string | number | null }) => {
 
 export const editProfile = async (
   updatedFields: { [key: string]: string | number | null },
-  role: string,
+  role: ValidRoleType,
   dispatch: AppDispatch
 ) => {
   if (!role || !roleId) throw new Error("User role or ID missing");
