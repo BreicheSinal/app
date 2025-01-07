@@ -78,7 +78,6 @@ const CustomCard: FC<CardDataProps> = ({
                   display: "flex",
                   flexDirection: "column",
                   gap: 1,
-                  pb: 1,
                   borderBottom:
                     idx === arr.length - 1
                       ? "none"
@@ -92,7 +91,10 @@ const CustomCard: FC<CardDataProps> = ({
                     alignItems: "center",
                   }}
                 >
-                  <Typography variant="body1" sx={{ color: "#fff" }}>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: "#fff", fontSize: "14px" }}
+                  >
                     {member.name}
                   </Typography>
                   <Typography
@@ -134,13 +136,13 @@ const CustomCard: FC<CardDataProps> = ({
         sx={{
           width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",
-          maxWidth: "600px",
+          maxWidth: "615px",
           height: "auto",
           border: "none",
           borderRadius: 2,
         }}
       >
-        <CardContent sx={{ p: 2 }}>
+        <CardContent sx={{ p: 1 }}>
           <Box className="flex space-between align-center" sx={{ mb: 1 }}>
             <Typography
               variant="h6"
