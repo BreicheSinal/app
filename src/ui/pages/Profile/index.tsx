@@ -181,15 +181,16 @@ const Profile = () => {
                 onEdit={editUserBio}
                 isLoading={isLoading}
               />
-
-              <ExperienceCard
-                width={600}
-                experiences={experienceData.experiences}
-                addition={addUserExperience}
-                edit={editUserExperience}
-                showEdit={true}
-                delete={deleteUserExp}
-              />
+              {(role === "Athlete" || role === "Coach") && (
+                <ExperienceCard
+                  width={600}
+                  experiences={experienceData.experiences}
+                  addition={addUserExperience}
+                  edit={editUserExperience}
+                  showEdit={true}
+                  delete={deleteUserExp}
+                />
+              )}
             </div>
 
             <CustomCard
