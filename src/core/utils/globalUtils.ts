@@ -29,7 +29,7 @@ export interface BaseUserDetails {
   avatar?: string;
   name: string;
   bio: string | null;
-  role: string;
+  role: ValidRoleType;
 }
 
 export interface AthleteDetails extends BaseUserDetails {
@@ -47,6 +47,7 @@ export interface CoachDetails extends BaseUserDetails {
   club: string | null;
   specialty: string | null;
   experiences: Experience[] | null;
+  certificates: Certificate[] | null;
 }
 
 export interface ClubDetails extends BaseUserDetails {
@@ -79,7 +80,17 @@ export interface Experience {
   description: string;
 }
 
-export type ExperienceFormData = Omit<Experience, "id">
+export type ExperienceFormData = Omit<Experience, "id">;
+
+export interface Certificate {
+  id: number;
+  name: string;
+  date: string;
+  type: string;
+  description: string;
+}
+
+export type CertificateFormData = Omit<Certificate, "id">;
 
 export interface Tryout {
   id: number;
