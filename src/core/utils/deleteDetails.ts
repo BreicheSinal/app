@@ -10,7 +10,7 @@ export const deleteExp = async (dispatch: AppDispatch, exp_id: number) => {
   try {
     if (!role || !roleId) throw new Error("User role or ID missing");
 
-    const endpoint = `/${role.toLowerCase()}/deleteExpCert/${exp_id}`;
+    const endpoint = `/user/deleteExpCert/${exp_id}`;
     await requestApi(endpoint, "DELETE");
     dispatchFetch(role, roleId, dispatch);
   } catch (error) {
