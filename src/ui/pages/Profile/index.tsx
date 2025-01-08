@@ -21,7 +21,7 @@ import {
   editBio,
   editProfile,
 } from "../../../core/utils/editDetails";
-import { addExperience } from "../../../core/utils/addDetails";
+import { addCert, addExperience } from "../../../core/utils/addDetails";
 
 import {
   Experience,
@@ -30,6 +30,7 @@ import {
   UserDetails,
   AthleteDetails,
   CoachDetails,
+  Certificate,
 } from "../../../core/utils/globalUtils";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -134,9 +135,16 @@ const Profile = () => {
   /* adding data */
   const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
     if (!details?.user_id) {
-      throw new Error("Athlete details not found");
+      throw new Error("Athlete || Coach details not found");
     }
     await addExperience(newExperience, dispatch, details.user_id);
+  };
+
+  const addUserCert = async (newCert: Omit<Certificate, "id">) => {
+    if (!details?.user_id) {
+      throw new Error("Coach details not found");
+    }
+    await addCert(newCert, dispatch, details.user_id);
   };
 
   /* deleting data */
@@ -185,7 +193,7 @@ const Profile = () => {
                 <CertificateCard
                   width={600}
                   certificates={certificationsData.certificates}
-                  addition={addUserExperience}
+                  addition={addUserCert}
                   edit={editUserExperience}
                   showEdit={true}
                   delete={deleteUserExp}
