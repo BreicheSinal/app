@@ -40,7 +40,12 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
     const fetchConnections = async () => {
       try {
         const response = await requestApi(`/user/accepted/${currentUserId}`);
-
+        
+        if (!response) {
+          setConnections([]);
+          return;
+        }
+  
         const transformedConnections = response.connections.map(
           (conn: Connection) => {
             const otherUser =
@@ -52,15 +57,16 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
             };
           }
         );
-
+  
         setConnections(transformedConnections);
       } catch (error) {
         console.error("Error fetching connections:", error);
+        setConnections([]); 
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchConnections();
   }, [currentUserId]);
 
