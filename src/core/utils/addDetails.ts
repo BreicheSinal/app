@@ -1,6 +1,7 @@
 import { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
 import {
+  Certificate,
   Experience,
   dispatchFetch,
   getStoredRole,
@@ -25,6 +26,25 @@ export const addExperience = async (
     await dispatchFetch(role, roleId!, dispatch);
   } catch (error) {
     console.error("Error adding experience:", error);
+    throw error;
+  }
+};
+
+export const addCert = async (
+  certificate: Omit<Certificate, "id">,
+  dispatch: AppDispatch,
+  user_id: number
+) => {
+  try {
+    if (!role || !["Coach"].includes(role)) {
+      throw new Error("Invalid or missing user role");
+    }
+
+    const endpoint = `/user/addExpCert/${user_id}`;
+    await requestApi(endpoint, "POST", certificate);
+    await dispatchFetch(role, roleId!, dispatch);
+  } catch (error) {
+    console.error("Error adding certification:", error);
     throw error;
   }
 };
