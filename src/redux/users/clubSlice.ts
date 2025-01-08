@@ -41,6 +41,9 @@ const clubSlice = createSlice({
         );
       }
     },
+    resetClubState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -50,6 +53,7 @@ export const {
   setClubError,
   addTryout,
   deleteTryout,
+  resetClubState,
 } = clubSlice.actions;
 
 export default clubSlice.reducer;
