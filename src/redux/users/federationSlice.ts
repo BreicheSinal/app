@@ -29,6 +29,9 @@ const federationSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    resetFederationState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -36,5 +39,6 @@ export const {
   setFederationDetails,
   setFederationLoading,
   setFederationError,
+  resetFederationState,
 } = federationSlice.actions;
 export default federationSlice.reducer;
