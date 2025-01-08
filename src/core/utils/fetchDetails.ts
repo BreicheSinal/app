@@ -60,7 +60,7 @@ const parseUserData = (
           date: exp.date,
           description: exp.description,
         })),
-        certificates: response.certificates?.map((cert: Experience) => ({
+        certificates: response.certificate?.map((cert: Certificate) => ({
           id: cert.id,
           name: cert.name,
           date: cert.date,
@@ -103,7 +103,10 @@ export const fetchUserDetails =
 
     try {
       dispatch(setLoading(true));
-      const response = await requestApi(`/${role.toLowerCase()}/${id}`);
+      console.log(role, id);
+      const url = `/${role.toLowerCase()}/${id}`;
+      console.log(url);
+      const response = await requestApi(url);
       const userData = response[role.toLowerCase()][0];
       const details = parseUserData(role, userData, response);
 
