@@ -9,6 +9,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { requestApi } from "../../../core/utils/request";
 
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { getStoredRole } from "../../../core/utils/globalUtils";
+
 interface UserData {
   id: number;
   name: string;
@@ -35,6 +39,24 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
   const navigate = useNavigate();
   const [connections, setConnections] = useState<TransformedConnection[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const role = getStoredRole();
+
+  const details = useSelector((state: RootState) =>
+    role === "Athlete"
+      ? state.athlete.details
+      : role === "Coach"
+      ? state.coach.details
+      : role === "Club"
+      ? state.club.details
+      : state.federation.details
+  );
+
+  const navigateToProfile = (user: UserData) => {
+    console.log(user.id, details?.user_id);
+    if (user.id != details?.user_id) navigate(`/view/${user.id}/${user.role}`);
+    else navigate("/profile");
+  };
 
   useEffect(() => {
     const fetchConnections = async () => {
@@ -112,7 +134,7 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
               connections.map((user, idx) => (
                 <Box
                   key={user.id}
-                  onClick={() => navigate(`/view/${user.id}/${user.role}`)}
+                  onClick={() => navigateToProfile(user)}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
