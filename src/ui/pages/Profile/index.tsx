@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, memo, useCallback } from "react";
 
 import FeedLayout from "../../Layout/FeedLayout";
 
@@ -9,7 +9,6 @@ import { ProfileCard } from "../../components/ProfileCard";
 import { deleteExp } from "../../../core/utils/deleteDetails";
 
 import {
-  fetchClubOptions,
   getBioData,
   getProfileData,
   getExperienceData,
@@ -25,7 +24,6 @@ import { addCert, addExperience } from "../../../core/utils/addDetails";
 
 import {
   Experience,
-  ClubOption,
   getStoredRole,
   UserDetails,
   AthleteDetails,
@@ -41,12 +39,11 @@ import ConnectionsCard from "../../components/ConnectionCard";
 
 import "./style.css";
 import { CertificateCard } from "../../components/CertCard";
+import ClubsAffiliatedCard from "../../components/AfClubsCard";
 
-const Profile = () => {
+const Profile = memo(() => {
   const role = getStoredRole();
   const dispatch = useDispatch<AppDispatch>();
-
-  const [clubs, setClubs] = useState<ClubOption[]>([]);
 
   const details = useSelector((state: RootState) =>
     role === "Athlete"
@@ -68,27 +65,79 @@ const Profile = () => {
       : state.federation.loading
   );
 
-  const loadClubs = async () => {
-    try {
-      const clubOptions = await fetchClubOptions();
-      setClubs(clubOptions);
-    } catch (error) {
-      console.error("Error loading clubs:", error);
-    }
-  };
+  /* editing data */
+  const editUserBio = useCallback(
+    async (updatedBio: string) => {
+      if (!details?.user_id && !details?.id) {
+        throw new Error("Athlete details not found");
+      }
+      await editBio(updatedBio, dispatch);
+    },
+    [details?.user_id, details?.id, dispatch]
+  );
 
-  /* use effects */
-  useEffect(() => {
-    loadClubs();
-  }, []);
+  const editUserProfile = useCallback(
+    async (updatedFields: { [key: string]: string | number | null }) => {
+      try {
+        await editProfile(updatedFields, role!, dispatch);
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        throw error;
+      }
+    },
+    [role, dispatch]
+  );
+
+  const editUserExperience = useCallback(
+    async (updatedExp: Experience) => {
+      if (!details?.id) {
+        throw new Error("Athlete details not found");
+      }
+      await editExperience(updatedExp, dispatch, updatedExp.id, details.id);
+    },
+    [details?.id, dispatch]
+  );
+
+  /* adding data */
+  const addUserExperience = useCallback(
+    async (newExperience: Omit<Experience, "id">) => {
+      if (!details?.user_id) {
+        throw new Error("Athlete || Coach details not found");
+      }
+      await addExperience(newExperience, dispatch, details.user_id);
+    },
+    [details?.user_id, dispatch]
+  );
+
+  const addUserCert = useCallback(
+    async (newCert: Omit<Certificate, "id">) => {
+      if (!details?.user_id) {
+        throw new Error("Coach details not found");
+      }
+      await addCert(newCert, dispatch, details.user_id);
+    },
+    [details?.user_id, dispatch]
+  );
+
+  /* deleting data */
+  const deleteUserExp = useCallback(
+    async (expId: number) => {
+      try {
+        await deleteExp(dispatch, expId);
+      } catch (error) {
+        console.error("Failed to delete experience:", error);
+      }
+    },
+    [dispatch]
+  );
 
   /* getting data */
   const profileData = useMemo(
     () =>
       details
-        ? getProfileData(role, details as UserDetails, clubs)
+        ? getProfileData(role, details as UserDetails)
         : { title: "Loading...", fields: [] },
-    [role, details, clubs]
+    [role, details]
   );
 
   const bioData = useMemo(() => getBioData(details?.bio || ""), [details]);
@@ -106,68 +155,40 @@ const Profile = () => {
     return getCertificateData((details as CoachDetails).certificates || []);
   }, [role, details]);
 
-  /* editing data */
-  const editUserBio = async (updatedBio: string) => {
-    if (!details?.user_id && !details?.id) {
-      throw new Error("Athlete details not found");
-    }
-    await editBio(updatedBio, dispatch);
-  };
+  const profileCardProps = useMemo(
+    () => ({
+      width: 300,
+      data: profileData,
+      showEdit: true,
+      onEdit: editUserProfile,
+      isLoading,
+    }),
+    [profileData, editUserProfile, isLoading]
+  );
 
-  const editUserProfile = async (updatedFields: {
-    [key: string]: string | number | null;
-  }) => {
-    try {
-      await editProfile(updatedFields, role!, dispatch);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      throw error;
-    }
-  };
+  const staffCardProps = useMemo(
+    () => ({
+      clubId: details?.id || 0,
+      width: 615,
+      showEdit: true,
+    }),
+    [details?.id]
+  );
 
-  const editUserExperience = async (updatedExp: Experience) => {
-    if (!details?.id) {
-      throw new Error("Athlete details not found");
-    }
-    await editExperience(updatedExp, dispatch, updatedExp.id, details.id);
-  };
-
-  /* adding data */
-  const addUserExperience = async (newExperience: Omit<Experience, "id">) => {
-    if (!details?.user_id) {
-      throw new Error("Athlete || Coach details not found");
-    }
-    await addExperience(newExperience, dispatch, details.user_id);
-  };
-
-  const addUserCert = async (newCert: Omit<Certificate, "id">) => {
-    if (!details?.user_id) {
-      throw new Error("Coach details not found");
-    }
-    await addCert(newCert, dispatch, details.user_id);
-  };
-
-  /* deleting data */
-  const deleteUserExp = async (expId: number) => {
-    try {
-      await deleteExp(dispatch, expId);
-    } catch (error) {
-      console.error("Failed to delete experience:", error);
-    }
-  };
+  const clubAfCardProps = useMemo(
+    () => ({
+      federationId: details?.id || 0,
+      width: 615,
+      showEdit: true,
+    }),
+    [details?.id]
+  );
 
   return (
     <div className="feed-container">
       <FeedLayout>
         <div className="cards-container flex">
-          <ProfileCard
-            width={300}
-            data={profileData}
-            showEdit={true}
-            onEdit={editUserProfile}
-            isLoading={isLoading}
-            clubs={clubs}
-          />
+          <ProfileCard {...profileCardProps} />
 
           <div className="sub-cards-container flex">
             <div className="flex column">
@@ -200,13 +221,9 @@ const Profile = () => {
                 />
               )}
 
-              {role === "Club" && (
-                <StaffCard
-                  clubId={details?.id || 0}
-                  width={615}
-                  showEdit={true}
-                  onEdit={() => {}}
-                />
+              {role === "Club" && <StaffCard {...staffCardProps} />}
+              {role === "Federation" && (
+                <ClubsAffiliatedCard {...clubAfCardProps} />
               )}
             </div>
             {details?.user_id && (
@@ -217,6 +234,6 @@ const Profile = () => {
       </FeedLayout>
     </div>
   );
-};
+});
 
 export default Profile;
