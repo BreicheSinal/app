@@ -167,11 +167,29 @@ const NavBar: FC = () => {
                 <Typography className="icon-text">Messaging</Typography>
               </Button>
             </Box>
-            <Box className="icon-container">
-              <Button className="button" onClick={goToTryOuts}>
-                <Typography className="icon-text">Try-Outs</Typography>
-              </Button>
-            </Box>
+            {(role === "Club" ||
+              role === "Athlete" ||
+              role === "Federation") && (
+              <Box className="icon-container">
+                {role === "Club" && (
+                  <Button className="button" onClick={goToTryOuts}>
+                    <Typography className="icon-text">Try-Outs</Typography>
+                  </Button>
+                )}
+
+                {role === "Athlete" && (
+                  <Button className="button" onClick={goToMessaging}>
+                    <Typography className="icon-text">Try-Outs</Typography>
+                  </Button>
+                )}
+
+                {role === "Federation" && (
+                  <Button className="button" onClick={goToMessaging}>
+                    <Typography className="icon-text">Approvals</Typography>
+                  </Button>
+                )}
+              </Box>
+            )}
             <Box className="icon-container">
               <IconButton
                 disableRipple
