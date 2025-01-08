@@ -144,6 +144,19 @@ export const fetchClubOptions = async () => {
   }
 };
 
+export const fetchFederationOptions = async () => {
+  try {
+    const response = await requestApi("/federation/getFederations", "GET");
+    return response.federations.map((fede: Club) => ({
+      id: Number(fede.id),
+      name: fede.user.name,
+    }));
+  } catch (error) {
+    console.error("Error fetching federations:", error);
+    throw error;
+  }
+};
+
 export const fetchSearchResults = async (
   currentUserId: number,
   searchValue: string
@@ -241,14 +254,17 @@ const getProfileFields = (
       },
     ],
     Club: [
+      {
+        label: "Federation",
+        value: (details as ClubDetails).federation_id || "",
+        displayValue: (details as ClubDetails).federation || "N/A",
+        type: "select",
+        options: clubs,
+      },
       { label: "Location", value: (details as ClubDetails).location || "N/A" },
       {
         label: "Founded Year",
         value: (details as ClubDetails).founded_year || "N/A",
-      },
-      {
-        label: "Federation",
-        value: (details as ClubDetails).federation || "N/A",
       },
     ],
     Federation: [
