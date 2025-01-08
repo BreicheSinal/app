@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect, useMemo, useCallback } from "react";
 import {
   Card,
   CardContent,
@@ -19,20 +19,20 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/CheckCircleOutline";
 import PendingIcon from "@mui/icons-material/PendingOutlined";
+import { getStoredRole, ClubOption } from "../../../core/utils/globalUtils";
+import {
+  fetchClubOptions,
+  fetchFederationOptions,
+} from "../../../core/utils/fetchDetails";
 
 import "./style.css";
-
-interface Club {
-  id: number;
-  name: string;
-}
 
 interface ProfileField {
   label: string;
   value: string | number | null;
   displayValue?: string;
   type?: "text" | "select" | string;
-  options?: Club[];
+  options?: ClubOption[];
 }
 
 interface ProfileData {
@@ -51,7 +51,6 @@ interface ProfileCardProps {
     [key: string]: string | number | null;
   }) => Promise<void>;
   isLoading?: boolean;
-  clubs?: Club[];
   connectedUserId?: number;
   userId?: number;
   connectionStatus?: string;
@@ -64,51 +63,191 @@ const ProfileCard: FC<ProfileCardProps> = ({
   showEdit = false,
   onEdit,
   isLoading = false,
-  clubs = [],
 }) => {
+  const role = useMemo(() => getStoredRole(), []);
+  const [clubs, setClubs] = useState([]);
   const [open, setOpen] = useState(false);
-
   const [editedFields, setEditedFields] = useState<{
     [key: string]: string | number | null;
   }>({});
-
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoadingOptions, setIsLoadingOptions] = useState(false);
 
-  const editClick = () => {
-    const initialFields = data.fields.reduce((acc, field) => {
+  const fetchOptions = useCallback(async () => {
+    if (!role || isLoadingOptions) return;
+
+    setIsLoadingOptions(true);
+    try {
+      const options =
+        role === "Club"
+          ? await fetchFederationOptions()
+          : role === "Athlete"
+          ? await fetchClubOptions()
+          : role === "Coach"
+          ? await fetchClubOptions()
+          : [];
+      setClubs(options);
+    } catch (error) {
+      console.error("Error loading options:", error);
+    } finally {
+      setIsLoadingOptions(false);
+    }
+  }, [role, isLoadingOptions]);
+
+  useEffect(() => {
+    if (
+      (role === "Athlete" || role === "Club" || role === "Coach") &&
+      clubs.length === 0
+    ) {
+      fetchOptions();
+    }
+  }, [role, clubs.length, fetchOptions]);
+
+  const initialFields = useMemo(() => {
+    if (!data?.fields) return {};
+    return data.fields.reduce((acc, field) => {
       acc[field.label] = field.value;
       return acc;
     }, {} as { [key: string]: string | number | null });
+  }, [data?.fields]);
 
+  useEffect(() => {
+    setEditedFields(initialFields);
+  }, [initialFields]);
+
+  const editClick = useCallback(() => {
     setEditedFields(initialFields);
     setOpen(true);
-  };
+  }, [initialFields]);
 
-  const close = () => {
+  const close = useCallback(() => {
     setOpen(false);
     setIsSaving(false);
-  };
+  }, []);
 
-  const fieldChange = (label: string, value: string | number | null) => {
-    setEditedFields((prev) => ({
-      ...prev,
-      [label]: value,
-    }));
-  };
+  const fieldChange = useCallback(
+    (label: string, value: string | number | null) => {
+      setEditedFields((prev) => ({
+        ...prev,
+        [label]: value,
+      }));
+    },
+    []
+  );
 
-  const save = async () => {
-    if (onEdit) {
-      try {
-        setIsSaving(true);
-        await onEdit(editedFields);
-        setOpen(false);
-      } catch (error) {
-        console.error("Error saving profile:", error);
-      } finally {
-        setIsSaving(false);
-      }
+  const save = useCallback(async () => {
+    if (!onEdit) return;
+
+    try {
+      setIsSaving(true);
+      await onEdit(editedFields);
+      setOpen(false);
+    } catch (error) {
+      console.error("Error saving profile:", error);
+    } finally {
+      setIsSaving(false);
     }
-  };
+  }, [onEdit, editedFields]);
+
+  const renderField = useCallback((field: ProfileField, index: number) => {
+    const fieldValue =
+      field.type === "select"
+        ? field.options?.find((opt) => opt.id === Number(field.value))?.name ||
+          field.displayValue ||
+          "N/A"
+        : field.value || "N/A";
+
+    return (
+      <Box key={field.label}>
+        <Box className="flex space-between align-center" sx={{ mb: 1 }}>
+          <Box>
+            <Typography variant="subtitle2" className="tertiary-color">
+              {field.label}
+            </Typography>
+            <Typography variant="body2" className="white-color">
+              {fieldValue}
+            </Typography>
+          </Box>
+        </Box>
+        {index < data.fields.length - 1 && (
+          <Divider sx={{ backgroundColor: "white", opacity: 0.5, mb: 1 }} />
+        )}
+      </Box>
+    );
+  }, []);
+
+  const renderDialogField = useCallback(
+    (field: ProfileField) => {
+      if (field.type === "select") {
+        const allOptions = field.options || clubs;
+        const selectedOption = allOptions.find(
+          (opt) => opt.id === Number(editedFields[field.label])
+        );
+        return (
+          <Autocomplete
+            key={field.label}
+            options={allOptions}
+            getOptionLabel={(option) =>
+              typeof option === "string" ? option : option.name
+            }
+            value={selectedOption || null}
+            onChange={(_, newValue) =>
+              fieldChange(field.label, newValue ? newValue.id : null)
+            }
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            disabled={isSaving || isLoadingOptions}
+            loading={isLoadingOptions}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label={field.label}
+                fullWidth
+                margin="dense"
+                sx={{
+                  "& .MuiInputBase-input": { color: "white" },
+                  "& .MuiInputLabel-root": { color: "white" },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "white" },
+                    "&:hover fieldset": { borderColor: "white" },
+                    "&.Mui-focused fieldset": { borderColor: "white" },
+                  },
+                }}
+              />
+            )}
+            sx={{
+              "& .MuiAutocomplete-popupIndicator": { color: "white" },
+              "& .MuiAutocomplete-clearIndicator": { color: "white" },
+            }}
+            ListboxProps={{
+              style: { backgroundColor: "white", color: "#1d2125" },
+            }}
+          />
+        );
+      }
+
+      return (
+        <TextField
+          key={field.label}
+          fullWidth
+          margin="dense"
+          label={field.label}
+          value={editedFields[field.label] || ""}
+          onChange={(e) => fieldChange(field.label, e.target.value)}
+          disabled={isSaving}
+          sx={{
+            "& .MuiInputBase-input": { color: "white" },
+            "& .MuiInputLabel-root": { color: "white" },
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": { borderColor: "white" },
+              "&:hover fieldset": { borderColor: "white" },
+              "&.Mui-focused fieldset": { borderColor: "white" },
+            },
+          }}
+        />
+      );
+    },
+    [clubs, editedFields, fieldChange, isSaving, isLoadingOptions]
+  );
 
   return (
     <>
@@ -157,31 +296,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
               </Typography>
             </Box>
 
-            {data.fields.map((field, index) => (
-              <Box key={field.label}>
-                <Box className="flex space-between align-center" sx={{ mb: 1 }}>
-                  <Box>
-                    <Typography variant="subtitle2" className="tertiary-color">
-                      {field.label}
-                    </Typography>
-                    <Typography variant="body2" className="white-color">
-                      {field.type === "select"
-                        ? field.options?.find(
-                            (opt) => opt.id === Number(field.value)
-                          )?.name ||
-                          field.displayValue ||
-                          "N/A"
-                        : field.value}
-                    </Typography>
-                  </Box>
-                </Box>
-                {index < data.fields.length - 1 && (
-                  <Divider
-                    sx={{ backgroundColor: "white", opacity: 0.5, mb: 1 }}
-                  />
-                )}
-              </Box>
-            ))}
+            {data.fields.map(renderField)}
           </CardContent>
         </Card>
       </Box>
@@ -199,100 +314,9 @@ const ProfileCard: FC<ProfileCardProps> = ({
         }}
       >
         <DialogTitle className="bold tertiary-color">Edit Profile</DialogTitle>
-        <DialogContent>
-          {data.fields.map((field) =>
-            field.type === "select" ? (
-              <Autocomplete
-                key={field.label}
-                options={field.options || clubs}
-                getOptionLabel={(option) =>
-                  typeof option === "string" ? option : option.name
-                }
-                value={
-                  field.options?.find(
-                    (opt) => opt.id === Number(editedFields[field.label])
-                  ) || null
-                }
-                onChange={(_, newValue) => {
-                  fieldChange(field.label, newValue ? newValue.id : null);
-                }}
-                disabled={isSaving}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    label={field.label}
-                    fullWidth
-                    margin="dense"
-                    sx={{
-                      "& .MuiInputBase-input": {
-                        color: "white",
-                      },
-                      "& .MuiInputLabel-root": {
-                        color: "white",
-                      },
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "white",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "white",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "white",
-                        },
-                      },
-                    }}
-                  />
-                )}
-                sx={{
-                  "& .MuiAutocomplete-popupIndicator": {
-                    color: "white",
-                  },
-                  "& .MuiAutocomplete-clearIndicator": {
-                    color: "white",
-                  },
-                }}
-                ListboxProps={{
-                  style: {
-                    backgroundColor: "white",
-                    color: "#1d2125",
-                  },
-                }}
-              />
-            ) : (
-              <TextField
-                key={field.label}
-                fullWidth
-                margin="dense"
-                label={field.label}
-                value={editedFields[field.label] || ""}
-                onChange={(e) => fieldChange(field.label, e.target.value)}
-                disabled={isSaving}
-                sx={{
-                  "& .MuiInputBase-input": {
-                    color: "white",
-                  },
-                  "& .MuiInputLabel-root": {
-                    color: "white",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "white",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "white",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "white",
-                    },
-                  },
-                }}
-              />
-            )
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={close} color="primary" disabled={isSaving}>
+        <DialogContent>{data.fields.map(renderDialogField)}</DialogContent>
+        <DialogActions sx={{ pb: 3, pr: 3 }}>
+          <Button onClick={close} color="error" disabled={isSaving}>
             Cancel
           </Button>
           <Button
