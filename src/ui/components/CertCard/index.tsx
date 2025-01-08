@@ -109,7 +109,7 @@ export const CertificateCard: FC<CertificateCardProps> = ({
       setFormData({
         ...formData,
         [field]: event.target.value,
-        type: "experience",
+        type: "certification",
       });
     };
 
