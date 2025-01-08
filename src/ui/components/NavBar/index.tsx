@@ -15,21 +15,35 @@ import ChatIcon from "@mui/icons-material/Chat";
 import NoteEvent from "@mui/icons-material/EventNote";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
 
 import SearchBar from "../SearchBar";
 import { getStoredRole, createSetters } from "../../../core/utils/globalUtils";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
 import { useNavigate } from "react-router-dom";
+
+import { resetAthleteState } from "../../../redux/users/athleteSlice";
+import { resetCoachState } from "../../../redux/users/coachSlice";
+import { resetClubState } from "../../../redux/users/clubSlice";
+import { resetFederationState } from "../../../redux/users/federationSlice";
 
 import "./style.css";
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const role = getStoredRole();
   createSetters(role!);
+
+  const [profileAnchorEl, setProfileAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    useState<null | HTMLElement>(null);
 
   const currentUserId = useSelector((state: RootState) => {
     switch (role) {
@@ -46,10 +60,16 @@ const NavBar: FC = () => {
     }
   });
 
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    useState<null | HTMLElement>(null);
-
+  const isProfileMenuOpen = Boolean(profileAnchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) => {
+    setProfileAnchorEl(event.currentTarget);
+  };
+
+  const handleProfileMenuClose = () => {
+    setProfileAnchorEl(null);
+  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -64,8 +84,73 @@ const NavBar: FC = () => {
   const goToConnections = () => goTo("/");
   const goToMessaging = () => goTo("/messaging");
   const goToTryOuts = () => goTo("/tryouts");
-  const goToProfile = () => goTo("/profile");
+  const goToProfile = () => {
+    handleProfileMenuClose();
+    goTo("/profile");
+  };
   const goToFeed = () => goTo("/feed");
+  const goToLogin = () => goTo("/login");
+
+  const handleLogout = () => {
+    switch (role) {
+      case "Athlete":
+        dispatch(resetAthleteState());
+        break;
+      case "Coach":
+        dispatch(resetCoachState());
+        break;
+      case "Club":
+        dispatch(resetClubState());
+        break;
+      case "Federation":
+        dispatch(resetFederationState());
+        break;
+    }
+
+    localStorage.clear();
+
+    handleProfileMenuClose();
+    goToLogin();
+  };
+
+  const menuId = "primary-profile-menu";
+  const renderProfileMenu = (
+    <Menu
+      anchorEl={profileAnchorEl}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isProfileMenuOpen}
+      onClose={handleProfileMenuClose}
+      PaperProps={{
+        sx: {
+          bgcolor: "#1D2125",
+          color: "white",
+          "& .MuiMenuItem-root": {
+            "&:hover": {
+              bgcolor: "grey",
+            },
+          },
+        },
+      }}
+    >
+      <MenuItem onClick={goToProfile} sx={{ gap: 1.5 }}>
+        <PersonIcon fontSize="small" />
+        Profile
+      </MenuItem>
+      <MenuItem onClick={handleLogout} sx={{ gap: 1.5 }}>
+        <LogoutIcon fontSize="small" />
+        Log out
+      </MenuItem>
+    </Menu>
+  );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -195,10 +280,11 @@ const NavBar: FC = () => {
                 disableRipple
                 size="large"
                 aria-label="account of current user"
+                aria-controls={menuId}
                 aria-haspopup="true"
                 className="icon-button"
                 sx={{ color: "white" }}
-                onClick={goToProfile}
+                onClick={handleProfileMenuOpen}
               >
                 <AccountCircle sx={{ fontSize: 35 }} />
               </IconButton>
@@ -220,6 +306,7 @@ const NavBar: FC = () => {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
+      {renderProfileMenu}
     </Box>
   );
 };
