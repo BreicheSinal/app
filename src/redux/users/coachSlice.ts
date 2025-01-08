@@ -49,6 +49,9 @@ const coachSlice = createSlice({
         );
       }
     },
+    resetCoachState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -59,5 +62,6 @@ export const {
   addExperience,
   updateExperience,
   deleteExperience,
+  resetCoachState,
 } = coachSlice.actions;
 export default coachSlice.reducer;
