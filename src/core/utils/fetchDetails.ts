@@ -71,8 +71,8 @@ const parseUserData = (
     case "Club":
       return {
         ...baseDetails,
-        federation_id: data.federation || null,
-        federation: data.club?.user?.name || null,
+        federation_id: data.federation.id || null,
+        federation: data.federation?.user?.name || null,
         location: data.location || null,
         founded_year: data.founded_year || null,
         tryouts:
@@ -103,9 +103,7 @@ export const fetchUserDetails =
 
     try {
       dispatch(setLoading(true));
-      console.log(role, id);
       const url = `/${role.toLowerCase()}/${id}`;
-      console.log(url);
       const response = await requestApi(url);
       const userData = response[role.toLowerCase()][0];
       const details = parseUserData(role, userData, response);
@@ -247,6 +245,10 @@ const getProfileFields = (
       {
         label: "Founded Year",
         value: (details as ClubDetails).founded_year || "N/A",
+      },
+      {
+        label: "Federation",
+        value: (details as ClubDetails).federation || "N/A",
       },
     ],
     Federation: [
