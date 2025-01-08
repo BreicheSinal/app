@@ -49,6 +49,9 @@ const athleteSlice = createSlice({
         );
       }
     },
+    resetAthleteState: (state) => {
+      Object.assign(state, initialState);
+    },
   },
 });
 
@@ -59,6 +62,7 @@ export const {
   addExperience,
   updateExperience,
   deleteExperience,
+  resetAthleteState,
 } = athleteSlice.actions;
 
 export default athleteSlice.reducer;
