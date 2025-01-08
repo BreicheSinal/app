@@ -13,6 +13,7 @@ import {
   getBioData,
   getProfileData,
   getExperienceData,
+  getCertificateData,
 } from "../../../core/utils/fetchDetails";
 
 import {
@@ -38,6 +39,7 @@ import StaffCard from "../../components/StaffCard";
 import ConnectionsCard from "../../components/ConnectionCard";
 
 import "./style.css";
+import { CertificateCard } from "../../components/CertCard";
 
 const Profile = () => {
   const role = getStoredRole();
@@ -96,6 +98,11 @@ const Profile = () => {
     return getExperienceData(
       (details as AthleteDetails | CoachDetails).experiences || []
     );
+  }, [role, details]);
+
+  const certificationsData = useMemo(() => {
+    if (!details || role !== "Coach") return { certificates: [] };
+    return getCertificateData((details as CoachDetails).certificates || []);
   }, [role, details]);
 
   /* editing data */
@@ -167,6 +174,17 @@ const Profile = () => {
                 <ExperienceCard
                   width={600}
                   experiences={experienceData.experiences}
+                  addition={addUserExperience}
+                  edit={editUserExperience}
+                  showEdit={true}
+                  delete={deleteUserExp}
+                />
+              )}
+
+              {role === "Coach" && (
+                <CertificateCard
+                  width={600}
+                  certificates={certificationsData.certificates}
                   addition={addUserExperience}
                   edit={editUserExperience}
                   showEdit={true}
