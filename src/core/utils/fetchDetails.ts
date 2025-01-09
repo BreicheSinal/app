@@ -71,7 +71,7 @@ const parseUserData = (
     case "Club":
       return {
         ...baseDetails,
-        federation_id: data.federation.id || null,
+        federation_id: data.federation?.id || null,
         federation: data.federation?.user?.name || null,
         location: data.location || null,
         founded_year: data.founded_year || null,
@@ -122,8 +122,10 @@ export const fetchSearchedUserDetails = async (
   userId: number
 ) => {
   try {
-    const response = await requestApi(`/${role.toLowerCase()}/user/${userId}`);
+    const url = `/${role.toLowerCase()}/user/${userId}`;
+    const response = await requestApi(url);
     const userData = response[role.toLowerCase()][0];
+    
     return parseUserData(role, userData, response);
   } catch (error: any) {
     console.error(`Error fetching ${role} details:`, error);
