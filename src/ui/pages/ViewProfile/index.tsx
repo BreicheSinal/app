@@ -13,6 +13,7 @@ import {
   getProfileData,
   getExperienceData,
   fetchConnectionStatus,
+  getCertificateData,
 } from "../../../core/utils/fetchDetails";
 
 import { fetchSearchedUserDetails } from "../../../core/utils/fetchDetails";
@@ -30,6 +31,8 @@ import {
 import { RootState } from "../../../redux/store";
 import { useSelector } from "react-redux";
 import ConnectionsCard from "../../components/ConnectionCard";
+import { CertificateCardView } from "../../components/CertCard";
+import StaffCard from "../../components/StaffCard";
 
 const ViewProfile = () => {
   const { userId, role } = useParams<{ userId: string; role: ValidRoleType }>();
@@ -120,6 +123,20 @@ const ViewProfile = () => {
     );
   }, [userData]);
 
+  const certificationsData = useMemo(() => {
+    if (!userData || role !== "Coach") return { certificates: [] };
+    return getCertificateData((userData as CoachDetails).certificates || []);
+  }, [role, userData]);
+
+  const staffCardProps = useMemo(
+    () => ({
+      clubId: userData?.id || 0,
+      width: 615,
+      showEdit: false,
+    }),
+    [userData?.id]
+  );
+
   if (isLoading) {
     return (
       <div className="feed-container">
@@ -160,11 +177,24 @@ const ViewProfile = () => {
             <div className="flex column">
               <BioCardView width={600} bioText={bioData.bioText} />
 
-              {(userData?.role === "Athlete" || userData?.role === "Coach") && (
-                <ExperienceCardView
-                  width={600}
-                  experiences={experienceData.experiences}
-                />
+              {(userData?.role === "Athlete" || userData?.role === "Coach") &&
+                experienceData?.experiences?.length > 0 && (
+                  <ExperienceCardView
+                    width={600}
+                    experiences={experienceData.experiences}
+                  />
+                )}
+
+              {userData?.role === "Coach" &&
+                certificationsData?.certificates?.length > 0 && (
+                  <CertificateCardView
+                    width={600}
+                    certificates={certificationsData.certificates}
+                  />
+                )}
+
+              {userData?.role === "Club" && staffCardProps?.clubId > 0 && (
+                <StaffCard {...staffCardProps} />
               )}
             </div>
             {userId && <ConnectionsCard currentUserId={Number(userId)} />}
