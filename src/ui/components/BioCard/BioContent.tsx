@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Typography, Skeleton } from "@mui/material";
+import { Typography, Skeleton, Box } from "@mui/material";
 
 interface BioContentProps {
   bioText: string | null;
@@ -18,12 +18,11 @@ const BioContent: FC<BioContentProps> = ({ bioText, isLoading }) => {
   }
 
   return (
-    <Typography
-      variant="body2"
-      sx={{ lineHeight: 1.6, opacity: 0.9, color:"#ffff"}}
-    >
-      {bioText || "No bio available."}
-    </Typography>
+    <Box className="flex space-between align-center" sx={{ mb: 1.5, pl: 1.5 }}>
+      <Typography variant="body2" sx={{ lineHeight: 1.6, color: "#ffff" }}>
+        {bioText || "No bio available."}
+      </Typography>
+    </Box>
   );
 };
 
