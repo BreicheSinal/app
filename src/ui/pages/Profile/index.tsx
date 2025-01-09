@@ -227,7 +227,7 @@ const Profile = memo(() => {
               )}
             </div>
             {details?.user_id && (
-              <ConnectionsCard currentUserId={details?.user_id} />
+              <ConnectionsCard currentUserId={details?.user_id} width={250} />
             )}
           </div>
         </div>
