@@ -13,7 +13,7 @@ export const ExperienceHeader: FC<ExperienceHeaderProps> = ({
 }) => (
   <Box
     className="flex space-between align-center"
-    sx={{ position: "relative" }}
+    sx={{ position: "relative", mb: 1, pl: 1.5, pt: 1.5 }}
   >
     <Typography
       variant="h6"
@@ -29,8 +29,8 @@ export const ExperienceHeader: FC<ExperienceHeaderProps> = ({
         sx={{
           color: "primary.main",
           position: "absolute",
-          top: 0,
           right: 0,
+          pr: 3,
         }}
       >
         <AddIcon fontSize="small" />
