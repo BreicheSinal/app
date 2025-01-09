@@ -253,7 +253,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
     <>
       <Box className="Box flex align-start">
         <Card
-          className="secondary-bg-color"
+          className="Card secondary-bg-color"
           sx={{
             width: { xs: "90%", sm: width, md: width },
             minWidth: "300px",
@@ -411,7 +411,7 @@ const ProfileCardView: FC<ProfileCardProps> = ({
   return (
     <Box className="Box flex align-start">
       <Card
-        className="secondary-bg-color"
+        className="Card secondary-bg-color"
         sx={{
           width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",
