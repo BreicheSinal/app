@@ -16,7 +16,7 @@ const BioHeader: FC<BioHeaderProps> = ({
   return (
     <Box
       className="flex space-between align-center"
-      sx={{ position: "relative", mb: 1 }}
+      sx={{ position: "relative", p: 1.5 }}
     >
       <Typography
         variant="h6"
@@ -32,8 +32,8 @@ const BioHeader: FC<BioHeaderProps> = ({
           sx={{
             color: "primary.main",
             position: "absolute",
-            top: 0,
             right: 0,
+            m: 2,
           }}
         >
           <EditIcon fontSize="small" />
