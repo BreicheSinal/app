@@ -21,13 +21,15 @@ export const ExperienceItem: FC<ExperienceItemProps> = ({
 }) => (
   <>
     <Box
-      className="Card secondary-bg-color"
+      className="secondary-bg-color"
       sx={{
         backgroundColor: "#1d2125",
         color: "white",
         border: "none",
         borderRadius: 2,
-        padding: 2,
+        pl: 2,
+        pr: 2.5,
+        pb: 2,
       }}
     >
       <Box
