@@ -45,7 +45,6 @@ export const BioCard: FC<BioCardProps> = ({
             height: "auto",
             border: "none",
             borderRadius: 2,
-            padding: 2,
           }}
         >
           <BioHeader
@@ -88,7 +87,6 @@ export const BioCardView: FC<BioCardViewProps> = ({
           height: "auto",
           border: "none",
           borderRadius: 2,
-          padding: 2,
         }}
       >
         <BioHeader />
