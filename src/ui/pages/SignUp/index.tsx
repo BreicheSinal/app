@@ -25,11 +25,13 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("authToken");
+
   useEffect(() => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("role");
-    localStorage.removeItem("specificRoleId");
-  }, []);
+    if (token) {
+      navigate("/profile");
+    }
+  }, [navigate, token]);
 
   const validation = () => {
     let isValid = true;
