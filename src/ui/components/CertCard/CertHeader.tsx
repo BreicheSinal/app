@@ -13,7 +13,7 @@ export const CertificateHeader: FC<CertificateHeaderProps> = ({
 }) => (
   <Box
     className="flex space-between align-center"
-    sx={{ position: "relative" }}
+    sx={{ position: "relative", mb: 1, pl: 1.5, pt: 1.5 }}
   >
     <Typography
       variant="h6"
@@ -29,7 +29,7 @@ export const CertificateHeader: FC<CertificateHeaderProps> = ({
         sx={{
           color: "primary.main",
           position: "absolute",
-          top: 0,
+          pr: 3,
           right: 0,
         }}
       >
