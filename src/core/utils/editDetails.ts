@@ -56,7 +56,9 @@ const formatFields = (fields: { [key: string]: string | number | null }) => {
       acc[key === "Founded Year" ? "founded_year" : "age"] = parseInt(
         value as string
       );
-    } else acc[key.toLowerCase()] = value;
+    } else if (key === "Federation")
+      acc["federation_id"] = parseInt(value as string);
+    else acc[key.toLowerCase()] = value;
     return acc;
   }, {} as { [key: string]: string | number | null });
 };
