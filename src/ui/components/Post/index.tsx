@@ -22,7 +22,7 @@ interface PostProps {
 }
 
 const Post: FC<PostProps> = ({
-  width = 615,
+  width = 600,
   userName,
   description,
   userAvatar,
@@ -37,15 +37,21 @@ const Post: FC<PostProps> = ({
         sx={{
           width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",
-          maxWidth: "615px",
+          maxWidth: "600px",
           height: "auto",
           backgroundColor: "#1d2125",
           borderRadius: 2,
         }}
       >
-        <CardContent sx={{ p: 1 }}>
+        <CardContent
+          sx={{
+            "&:last-child": {
+              pb: 1
+            },
+          }}
+        >
           {/* User Info Section */}
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1.5 }}>
             <Avatar
               sx={{
                 width: 40,
