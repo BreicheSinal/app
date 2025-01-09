@@ -120,7 +120,7 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
             borderRadius: 2,
           }}
         >
-          <CardContent sx={{ p: 1 }}>
+          <CardContent sx={{ p: 2 }}>
             <Typography
               className="tertiary-color"
               variant="h6"
@@ -138,7 +138,7 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
                 sx={{
                   display: "flex",
                   justifyContent: "flex-start",
-                  p: 1.3,
+                  mt: 1,
                   borderRadius: 1,
                 }}
               >
@@ -146,6 +146,7 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
                   sx={{
                     color: "white",
                     fontWeight: 500,
+                    fontSize: 14,
                   }}
                 >
                   No pending connections
