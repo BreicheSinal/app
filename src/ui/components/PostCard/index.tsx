@@ -41,13 +41,12 @@ const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
           maxWidth: "600px",
           height: "auto",
           borderRadius: 2,
-          padding: 2,
           backgroundColor: "#1d2125",
         }}
       >
         <Box
           className="flex space-between align-center"
-          sx={{ display: "flex", gap: 2 }}
+          sx={{ display: "flex", gap: 2, p: 1.5 }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Avatar
@@ -81,7 +80,7 @@ const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
                     borderColor: "white",
-                    borderRadius: 5,
+                    borderRadius: 3.5,
                   },
                   "&:hover fieldset": {
                     borderColor: "white",
