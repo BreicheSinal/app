@@ -36,7 +36,10 @@ interface StaffCardProps {
 const fetchStaffMembers = async (clubId: number) => {
   try {
     const response = await requestApi(`/club/getStaff/${clubId}`, "GET");
-    return response.coaches || [];
+    if (!response) {
+      return [];
+    }
+    return response.coaches;
   } catch (error) {
     console.error("Error fetching staff members:", error);
     return [];
@@ -173,6 +176,10 @@ const StaffCard: FC<StaffCardProps> = memo(
         )),
       [staffMembers, handleRemoveClick]
     );
+
+    if (!isLoading && staffMembers.length === 0) {
+      return null;
+    }
 
     return (
       <>
