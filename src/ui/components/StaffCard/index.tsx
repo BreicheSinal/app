@@ -95,7 +95,7 @@ const StaffListItem = memo(
 );
 
 const StaffCard: FC<StaffCardProps> = memo(
-  ({ clubId, width = 250, showEdit = false }) => {
+  ({ clubId, width = 600, showEdit = false }) => {
     const [staffMembers, setStaffMembers] = useState<Coach[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
