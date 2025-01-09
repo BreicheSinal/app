@@ -19,7 +19,7 @@ export const CertContainer: FC<CertContainerProps> = ({
         maxWidth: "600px",
         height: "auto",
         borderRadius: 2,
-        padding: 2,
+        padding: 1,
       }}
     >
       {children}
