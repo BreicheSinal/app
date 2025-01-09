@@ -82,6 +82,8 @@ const CustomCard: FC<CardDataProps> = ({
                     idx === arr.length - 1
                       ? "none"
                       : "1px solid rgba(255, 255, 255, 0.2)",
+                  pb: idx === arr.length - 1 ? 0 : 0,
+                  mb: idx === arr.length - 1 ? 0 : 0,
                 }}
               >
                 <Box
@@ -123,7 +125,6 @@ const CustomCard: FC<CardDataProps> = ({
             ))}
           </Box>
         );
-
       default:
         return null;
     }
@@ -136,18 +137,25 @@ const CustomCard: FC<CardDataProps> = ({
         sx={{
           width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",
-          maxWidth: "615px",
+          maxWidth: "600px",
           height: "auto",
           border: "none",
           borderRadius: 2,
         }}
       >
-        <CardContent sx={{ p: 1 }}>
+        <CardContent
+          sx={{
+            p: 1.5,
+            "&:last-child": {
+              pb: 1.5,
+            },
+          }}
+        >
           <Box className="flex space-between align-center" sx={{ mb: 1 }}>
             <Typography
               variant="h6"
               className="tertiary-color"
-              sx={{ fontWeight: "bold", letterSpacing: "0.5px" }}
+              sx={{ fontWeight: "bold", letterSpacing: "0.5px", mb: 1 }}
             >
               {data.title}
             </Typography>
@@ -155,7 +163,7 @@ const CustomCard: FC<CardDataProps> = ({
               <IconButton
                 onClick={() => onEdit && onEdit(0)}
                 size="small"
-                sx={{ color: "primary.main" }}
+                sx={{ color: "primary.main", mb: 1 }}
               >
                 <EditIcon fontSize="small" />
               </IconButton>
