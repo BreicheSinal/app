@@ -64,7 +64,9 @@ const ViewProfile = () => {
     try {
       setConnectionStatus("pending");
 
-      await createConnectionRequest(currentUserId!, Number(userId));
+      const connectedUserId = Number(userId);
+      const user_Id = currentUserId;
+      await createConnectionRequest(connectedUserId, user_Id!);
 
       const newStatus = await fetchConnectionStatus(
         currentUserId!,
