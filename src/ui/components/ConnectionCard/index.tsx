@@ -33,9 +33,13 @@ interface TransformedConnection {
 
 interface ConnectionsCardProps {
   currentUserId: number;
+  width: number;
 }
 
-const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
+const ConnectionsCard: FC<ConnectionsCardProps> = ({
+  currentUserId,
+  width = 250,
+}) => {
   const navigate = useNavigate();
   const [connections, setConnections] = useState<TransformedConnection[]>([]);
   const [loading, setLoading] = useState(true);
@@ -62,12 +66,12 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
     const fetchConnections = async () => {
       try {
         const response = await requestApi(`/user/accepted/${currentUserId}`);
-        
+
         if (!response) {
           setConnections([]);
           return;
         }
-  
+
         const transformedConnections = response.connections.map(
           (conn: Connection) => {
             const otherUser =
@@ -79,16 +83,16 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
             };
           }
         );
-  
+
         setConnections(transformedConnections);
       } catch (error) {
         console.error("Error fetching connections:", error);
-        setConnections([]); 
+        setConnections([]);
       } finally {
         setLoading(false);
       }
     };
-  
+
     fetchConnections();
   }, [currentUserId]);
 
@@ -112,15 +116,22 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({ currentUserId }) => {
       <Card
         className="Card secondary-bg-color"
         sx={{
-          width: { xs: "90%", sm: 300, md: 300 },
+          width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",
-          maxWidth: "615px",
+          maxWidth: "600px",
           height: "auto",
           border: "none",
           borderRadius: 2,
         }}
       >
-        <CardContent sx={{ p: 1 }}>
+        <CardContent
+          sx={{
+            p: 1.5,
+            "&:last-child": {
+              pb: 1.5,
+            },
+          }}
+        >
           <Typography
             variant="h6"
             className="tertiary-color"
