@@ -81,6 +81,7 @@ const parseUserData = (
             name: tr.name,
             date: tr.date,
             description: tr.description,
+            meetingUrl: tr.meetingUrl,
           })) || null,
       };
 
@@ -125,7 +126,7 @@ export const fetchSearchedUserDetails = async (
     const url = `/${role.toLowerCase()}/user/${userId}`;
     const response = await requestApi(url);
     const userData = response[role.toLowerCase()][0];
-    
+
     return parseUserData(role, userData, response);
   } catch (error: any) {
     console.error(`Error fetching ${role} details:`, error);
