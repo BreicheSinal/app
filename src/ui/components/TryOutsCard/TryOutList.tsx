@@ -7,6 +7,7 @@ interface Tryout {
   name: string;
   date: string;
   description: string;
+  meetingUrl: string;
 }
 
 interface TryoutsListProps {
@@ -65,6 +66,9 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
                     {tryout.description}
                   </Typography>
                 )}
+                <Typography sx={{ color: "white" }}>
+                  Link: {tryout.meetingUrl}
+                </Typography>
               </Box>
               <IconButton
                 onClick={() => onDelete(tryout.id)}
