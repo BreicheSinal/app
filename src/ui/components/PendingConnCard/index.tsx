@@ -177,20 +177,6 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
                         <Button
                           disableRipple
                           variant="contained"
-                          color="success"
-                          size="small"
-                          onClick={() =>
-                            handleConnectionAction(
-                              Number(connection.user.id),
-                              "accepted"
-                            )
-                          }
-                        >
-                          Accept
-                        </Button>
-                        <Button
-                          disableRipple
-                          variant="contained"
                           color="error"
                           size="small"
                           onClick={() =>
@@ -201,6 +187,20 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
                           }
                         >
                           Reject
+                        </Button>
+                        <Button
+                          disableRipple
+                          variant="contained"
+                          color="success"
+                          size="small"
+                          onClick={() =>
+                            handleConnectionAction(
+                              Number(connection.user.id),
+                              "accepted"
+                            )
+                          }
+                        >
+                          Accept
                         </Button>
                       </Box>
                     </ListItem>
