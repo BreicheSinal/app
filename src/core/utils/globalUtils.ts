@@ -97,6 +97,7 @@ export interface Tryout {
   name: string;
   date: string;
   description: string;
+  meetingUrl: string;
 }
 
 export interface Club {
