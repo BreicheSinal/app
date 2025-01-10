@@ -35,6 +35,7 @@ const TryoutsManager: FC = () => {
         dispatch(
           addTryout({
             id: response.tryout.id,
+            meetingUrl: response.tryout.meetingUrl,
             ...tryout,
           })
         );
