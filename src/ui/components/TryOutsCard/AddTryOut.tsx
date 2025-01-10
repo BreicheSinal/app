@@ -8,23 +8,35 @@ import {
   IconButton,
   CircularProgress,
 } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import AddIcon from "@mui/icons-material/Add";
+import dayjs from "dayjs";
 
 interface AddTryoutFormProps {
-  onAdd: (tryout: { name: string; date: string; description: string }) => void;
+  onAdd: (tryout: {
+    name: string;
+    date: string;
+    description: string;
+  }) => void;
   isLoading: boolean;
 }
 
 export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
   const [name, setName] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<dayjs.Dayjs | null>(dayjs());
   const [description, setDescription] = useState("");
 
   const handleSubmit = () => {
     if (name && date && !isLoading) {
-      onAdd({ name, date, description });
+      onAdd({
+        name,
+        date: date.format("YYYY/MM/DD hh:mm:ss A"),
+        description,
+      });
       setName("");
-      setDate("");
+      setDate(dayjs());
       setDescription("");
     }
   };
@@ -98,29 +110,69 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
               >
                 Start Date
               </Typography>
-              <TextField
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                size="small"
-                disabled={isLoading}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.23)",
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  value={date}
+                  onChange={(newValue) => setDate(newValue || dayjs())}
+                  views={[
+                    "year",
+                    "month",
+                    "day",
+                    "hours",
+                    "minutes",
+                    "seconds",
+                  ]}
+                  disabled={isLoading}
+                  sx={{
+                    width: "220px",
+                    "& .MuiInputBase-input": {
+                      color: "white",
+                      padding: "11px 14px",
+                      fontSize: "0.8rem",
                     },
-                    "&:hover fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.23)",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "rgba(255, 255, 255, 0.23)",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "rgba(255, 255, 255, 0.23)",
+                      },
                     },
-                  },
-                  "& .MuiInputBase-input": {
-                    color: "white",
-                    "&::-webkit-calendar-picker-indicator": {
-                      filter: "invert(1)",
+                    "& .MuiSvgIcon-root": {
+                      color: "white",
                     },
-                  },
-                }}
-              />
+                  }}
+                  slotProps={{
+                    textField: {
+                      size: "small",
+                    },
+                    popper: {
+                      sx: {
+                        "& .MuiPaper-root": {
+                          backgroundColor: "#1a1a1a",
+                          color: "white",
+                        },
+                        "& .MuiPickersDay-root": {
+                          color: "white",
+                          fontSize: "0.875rem",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.1)",
+                          },
+                          "&.Mui-selected": {
+                            backgroundColor: "#1976d2",
+                          },
+                        },
+                        "& .MuiDayCalendar-weekDayLabel": {
+                          color: "white",
+                        },
+                        "& .MuiIconButton-root": {
+                          color: "white",
+                        },
+                      },
+                    },
+                  }}
+                />
+              </LocalizationProvider>
             </Box>
           </Box>
           <Box sx={{ flex: 1 }}>
