@@ -31,6 +31,7 @@ import { resetClubState } from "../../../redux/users/clubSlice";
 import { resetFederationState } from "../../../redux/users/federationSlice";
 
 import "./style.css";
+import { resetTryOutsState } from "../../../redux/users/tryOutSlice";
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
@@ -107,6 +108,8 @@ const NavBar: FC = () => {
         dispatch(resetFederationState());
         break;
     }
+
+    dispatch(resetTryOutsState());
 
     localStorage.clear();
 
