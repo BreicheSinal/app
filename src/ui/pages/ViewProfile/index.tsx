@@ -199,7 +199,7 @@ const ViewProfile = () => {
                 <StaffCard {...staffCardProps} />
               )}
             </div>
-            {userId && <ConnectionsCard currentUserId={Number(userId)} />}
+            {userId && <ConnectionsCard currentUserId={Number(userId)} width={250}/>}
           </div>
         </div>
       </FeedLayout>
