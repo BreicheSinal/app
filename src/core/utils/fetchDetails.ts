@@ -15,9 +15,10 @@ import {
   ValidRoleType,
   Tryout,
   Certificate,
+  AthleteTryOut,
 } from "./globalUtils";
 
-import { setTryOuts, ViewTryOuts } from "../../redux/users/tryOutSlice";
+import { setTryOuts } from "../../redux/users/tryOutSlice";
 
 const parseUserData = (
   roleType: ValidRoleType,
@@ -47,6 +48,17 @@ const parseUserData = (
           name: exp.name,
           date: exp.date,
           description: exp.description,
+        })),
+        tryOuts: response.tryOuts?.map((tr: AthleteTryOut) => ({
+          id: tr.id,
+          status: tr.status,
+          trId: tr.trId,
+          name: tr.name,
+          date: tr.date,
+          description: tr.description,
+          club_id: tr.club_id,
+          club_name: tr.club_name,
+          club_user_id: tr.club_user_id,
         })),
       };
 
@@ -224,12 +236,14 @@ export const fetchTryOuts = async (dispatch: AppDispatch) => {
     const response = await requestApi(url);
 
     if (response.message === "Fetched TryOuts Successfully") {
-      const formattedTryOuts = response.tryOuts.map((tryout: ViewTryOuts) => ({
-        ...tryout,
-        id: Number(tryout.id),
-        club_id: Number(tryout.club_id),
-        club_user_id: Number(tryout.club_user_id),
-      }));
+      const formattedTryOuts = response.tryOuts.map(
+        (tryout: AthleteTryOut) => ({
+          ...tryout,
+          id: Number(tryout.id),
+          club_id: Number(tryout.club_id),
+          club_user_id: Number(tryout.club_user_id),
+        })
+      );
 
       dispatch(setTryOuts(formattedTryOuts));
     }
