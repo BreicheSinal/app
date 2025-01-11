@@ -1,5 +1,12 @@
 import { FC } from "react";
-import { Box, Card, CardContent, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Typography,
+  Link,
+  IconButton,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Tryout {
@@ -66,9 +73,25 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
                     {tryout.description}
                   </Typography>
                 )}
-                <Typography sx={{ color: "white" }}>
-                  Link: {tryout.meetingUrl}
-                </Typography>
+                <Box>
+                  <Typography component="span" sx={{ color: "white" }}>
+                    Link:{" "}
+                  </Typography>
+                  <Link
+                    href={tryout.meetingUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      color: "#9ac6ff",
+                      textDecoration: "none",
+                      "&:hover": {
+                        textDecoration: "underline",
+                      },
+                    }}
+                  >
+                    {tryout.meetingUrl}
+                  </Link>
+                </Box>
               </Box>
               <IconButton
                 onClick={() => onDelete(tryout.id)}
