@@ -37,7 +37,7 @@ const PasswordField: FC<PasswordFieldProps> = ({ value, onChange, error }) => {
               <IconButton
                 onClick={togglePasswordVisibility}
                 edge="end"
-                sx={{ color: "white" }}
+                sx={{ color: "#1D2125" }}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
@@ -45,12 +45,13 @@ const PasswordField: FC<PasswordFieldProps> = ({ value, onChange, error }) => {
           ),
         }}
         sx={{
-          input: { color: "#ffffff" },
+          input: { color: "#1D2125" },
           backgroundColor: "#393939",
           "& .MuiOutlinedInput-root": {
             "& fieldset": { borderColor: "white" },
             "&:hover fieldset": { borderColor: "white" },
             "&.Mui-focused fieldset": { borderColor: "white" },
+            
           },
         }}
       />
