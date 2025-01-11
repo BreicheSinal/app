@@ -156,7 +156,7 @@ const SignUp = () => {
 
         <ButtonLink
           onClick={navigateToLogIn}
-          text="Already have an account? Log in"
+          text="Already have an account? Login"
         />
       </form>
     </SignUpLayout>
