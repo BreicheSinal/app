@@ -12,7 +12,7 @@ const SubmitButton: FC<SubmitButtonProps> = ({ text }) => {
         <Button
           type="submit"
           variant="contained"
-          sx={{ backgroundColor: "#2684FF" }}
+          sx={{ backgroundColor: "#2684FF", textTransform: "none" }}
         >
           {text}
         </Button>
