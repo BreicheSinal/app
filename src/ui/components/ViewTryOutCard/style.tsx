@@ -91,6 +91,21 @@ export const tryoutsStyles = {
     },
   },
 
+  appliedButton: {
+    color: "success.main",
+    borderColor: "success.main",
+    padding: "8px 16px",
+    borderRadius: 1,
+    textTransform: "none",
+    minWidth: "80px",
+    cursor: "default",
+    "&:hover": {
+      backgroundColor: "transparent",
+      borderColor: "success.main",
+      color: "success.main",
+    },
+  },
+
   link: {
     color: "primary.light",
     textDecoration: "none",
