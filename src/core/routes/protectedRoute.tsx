@@ -28,8 +28,8 @@ const ProtectedRoute: FC = () => {
 
   const initialize = useCallback(async () => {
     if (!details) {
-      await initializeUserData(navigate, dispatch);
       await fetchTryOuts(dispatch);
+      await initializeUserData(navigate, dispatch);
     }
     setIsInitialized(true);
   }, [details, navigate, dispatch]);
