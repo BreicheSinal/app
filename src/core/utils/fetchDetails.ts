@@ -17,6 +17,8 @@ import {
   Certificate,
 } from "./globalUtils";
 
+import { setTryOuts, ViewTryOuts } from "../../redux/users/tryOutSlice";
+
 const parseUserData = (
   roleType: ValidRoleType,
   data: any,
@@ -211,6 +213,27 @@ export const fetchConnectionStatus = async (
 
     return response.connection.status;
   } catch (error) {
+    console.error("Error fetching connection status:", error);
+    return null;
+  }
+};
+
+export const fetchTryOuts = async (dispatch: AppDispatch) => {
+  try {
+    const url = `/user/tryOuts`;
+    const response = await requestApi(url);
+
+    if (response.message === "Fetched TryOuts Successfully") {
+      const formattedTryOuts = response.tryOuts.map((tryout: ViewTryOuts) => ({
+        ...tryout,
+        id: Number(tryout.id),
+        club_id: Number(tryout.club_id),
+        club_user_id: Number(tryout.club_user_id),
+      }));
+
+      dispatch(setTryOuts(formattedTryOuts));
+    }
+  } catch (error: any) {
     console.error("Error fetching connection status:", error);
     return null;
   }
