@@ -114,7 +114,7 @@ const LogIn = () => {
           <Typography sx={{ color: "red", mt: 1 }}>{generalError}</Typography>
         )}
 
-        <SubmitButton text="Log In" />
+        <SubmitButton text="Login" />
 
         <ButtonLink
           onClick={navigateToSignUp}
