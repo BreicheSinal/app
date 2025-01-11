@@ -1,4 +1,5 @@
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch, RootState } from "../../redux/store";
+import { createSelector } from "@reduxjs/toolkit";
 
 import { fetchUserDetails } from "./fetchDetails";
 
@@ -204,3 +205,8 @@ export const createSetters = (
   if (!setters) throw new Error("Invalid role");
   return setters;
 };
+
+export const selectAthleteTryoutIds = createSelector(
+  (state: RootState) => state.athlete.details?.tryOuts,
+  (tryouts) => tryouts?.map((tryout) => Number(tryout.trId)) || []
+);
