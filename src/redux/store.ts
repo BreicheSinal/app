@@ -4,6 +4,7 @@ import athleteReducer from "./users/athleteSlice";
 import coachReducer from "./users/coachSlice";
 import clubReducer from "./users/clubSlice";
 import federationReducer from "./users/federationSlice";
+import tryOutsReducer from "./users/tryOutSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     coach: coachReducer,
     club: clubReducer,
     federation: federationReducer,
+    tryOuts: tryOutsReducer,
   },
 });
 
