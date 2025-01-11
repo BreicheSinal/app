@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { Box, Card, CardContent, Typography, Link } from "@mui/material";
 import { Button } from "@mui/material";
-import { ViewTryOuts } from "../../../redux/users/tryOutSlice";
 import { getStyle } from "./style";
+import { AthleteTryOut } from "../../../core/utils/globalUtils";
 
 interface TryoutsListProps {
-  tryouts: ViewTryOuts[];
+  tryouts: AthleteTryOut[];
   onApply?: (id: number) => void;
 }
 
@@ -46,7 +46,7 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onApply }) => {
                 </Typography>
 
                 <Box sx={getStyle("tryoutInfo")}>
-                <Box sx={getStyle("tryoutInfo")}>
+                  <Box sx={getStyle("tryoutInfo")}>
                     <Typography component="span" sx={getStyle("infoLabel")}>
                       Name:
                     </Typography>
