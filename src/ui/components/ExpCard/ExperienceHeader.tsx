@@ -30,7 +30,7 @@ export const ExperienceHeader: FC<ExperienceHeaderProps> = ({
           color: "primary.main",
           position: "absolute",
           right: 0,
-          pr: 3,
+          mr: 2,
         }}
       >
         <AddIcon fontSize="small" />
