@@ -49,6 +49,12 @@ const athleteSlice = createSlice({
         );
       }
     },
+    addApplication: (state, action) => {
+      if (state.details) {
+        const tryOuts = state.details.tryOuts || [];
+        state.details.tryOuts = [...tryOuts, action.payload];
+      }
+    },
     resetAthleteState: (state) => {
       Object.assign(state, initialState);
     },
@@ -62,6 +68,7 @@ export const {
   addExperience,
   updateExperience,
   deleteExperience,
+  addApplication,
   resetAthleteState,
 } = athleteSlice.actions;
 
