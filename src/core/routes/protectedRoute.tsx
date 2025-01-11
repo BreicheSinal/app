@@ -5,13 +5,14 @@ import { RootState, AppDispatch } from "../../redux/store";
 import { initializeUserData } from "../utils/initialize";
 import { getStoredRole } from "../utils/globalUtils";
 import { CircularProgress } from "@mui/material";
+import { fetchTryOuts } from "../utils/fetchDetails";
 
 const ProtectedRoute: FC = () => {
   const token = localStorage.getItem("authToken");
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  
+
   const [isInitialized, setIsInitialized] = useState(false);
 
   const role = getStoredRole();
@@ -28,6 +29,7 @@ const ProtectedRoute: FC = () => {
   const initialize = useCallback(async () => {
     if (!details) {
       await initializeUserData(navigate, dispatch);
+      await fetchTryOuts(dispatch);
     }
     setIsInitialized(true);
   }, [details, navigate, dispatch]);
