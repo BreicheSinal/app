@@ -81,6 +81,7 @@ const NavBar: FC = () => {
 
   const goTo = (path: string) => navigate(path);
 
+  const goToViewTryOuts = () => goTo("/view/tryouts");
   const goToConnections = () => goTo("/connections");
   const goToMessaging = () => goTo("/messaging");
   const goToTryOuts = () => goTo("/tryouts");
@@ -263,7 +264,7 @@ const NavBar: FC = () => {
                 )}
 
                 {role === "Athlete" && (
-                  <Button className="button" onClick={goToMessaging}>
+                  <Button className="button" onClick={goToViewTryOuts}>
                     <Typography className="icon-text">Try-Outs</Typography>
                   </Button>
                 )}
