@@ -23,6 +23,19 @@ import {
   setFederationLoading,
 } from "../../redux/users/federationSlice";
 
+export interface AthleteTryOut {
+  id: number;
+  status: string;
+  trId: number;
+  name: string;
+  date: string;
+  description: string;
+  meetingUrl: string;
+  club_id: number;
+  club_name: string;
+  club_user_id: number;
+}
+
 export interface BaseUserDetails {
   id: number;
   user_id: number;
@@ -40,6 +53,7 @@ export interface AthleteDetails extends BaseUserDetails {
   height: number | null;
   weight: number | null;
   experiences: Experience[] | null;
+  tryOuts: AthleteTryOut[] | null;
 }
 
 export interface CoachDetails extends BaseUserDetails {
