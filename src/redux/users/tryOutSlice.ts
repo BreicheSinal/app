@@ -1,18 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AthleteTryOut } from "../../core/utils/globalUtils";
 
-export interface ViewTryOuts {
-  id: number;
-  name: string;
-  date: string;
-  description: string;
-  meetingUrl: string;
-  club_id: number;
-  club_user_id: number;
-  club_name: string;
+export interface TryOutApplication {
+  athlete_id: number;
+  try_out_id: number;
+  status: "pending" | "accepted" | "rejected";
 }
 
 interface TryOutState {
-  tryOuts: ViewTryOuts[];
+  tryOuts: AthleteTryOut[];
 }
 
 const initialState: TryOutState = {
