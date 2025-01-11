@@ -56,6 +56,7 @@ const parseUserData = (
           name: tr.name,
           date: tr.date,
           description: tr.description,
+          meetingUrl: tr.meetingUrl,
           club_id: tr.club_id,
           club_name: tr.club_name,
           club_user_id: tr.club_user_id,
