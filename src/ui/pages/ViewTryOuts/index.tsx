@@ -11,9 +11,10 @@ import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
 
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
-import "./style.css";
 import ViewTryouts from "../../components/ViewTryOutCard";
+import { MyTryouts } from "../../components/ViewTryOutCard/MyTryOutList";
 
+import "./style.css";
 
 const ViewTryOuts: FC = () => {
   const role = getStoredRole();
@@ -48,6 +49,7 @@ const ViewTryOuts: FC = () => {
               <ViewTryouts />
             </div>
           </div>
+          <MyTryouts />
         </div>
       </FeedLayout>
     </div>
