@@ -24,7 +24,7 @@ const ViewTryouts: FC = () => {
     }
   };
   return (
-    <Box className="flex column" sx={{ padding: "10px" }}>
+    <Box className="flex column" sx={{ padding: "10px 22px 12px 10px" }}>
       <TryoutsList tryouts={tryOuts} onApply={apply} />
     </Box>
   );
