@@ -18,14 +18,14 @@ const RoleField: FC<RoleFieldProps> = ({ value, onChange, error }) => {
         onChange={onChange}
         error={error}
         sx={{
-          input: { color: "#ffffff" },
+          input: { color: "#1D2125" },
           backgroundColor: "#393939",
           "& .MuiOutlinedInput-root": {
             "& fieldset": { borderColor: "white" },
             "&:hover fieldset": { borderColor: "white" },
             "&.Mui-focused fieldset": { borderColor: "white" },
-            "& .MuiSelect-icon": { color: "#ffffff" },
-            "& .MuiInputBase-input": { color: "#ffffff" },
+            "& .MuiSelect-icon": { color: "#1D2125" },
+            "& .MuiInputBase-input": { color: "#1D2125" },
           },
         }}
       >
