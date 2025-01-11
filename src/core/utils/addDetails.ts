@@ -7,6 +7,7 @@ import {
   getStoredRole,
   getStoredRoleId,
 } from "./globalUtils";
+import { addApplication } from "../../redux/users/athleteSlice";
 
 const role = getStoredRole();
 const roleId = getStoredRoleId();
@@ -61,6 +62,31 @@ export const createConnectionRequest = async (
     return requestApi(`/user/${connectedUserId}`, "POST", { userId });
   } catch (error) {
     console.error("Error creating connection:", error);
+    throw error;
+  }
+};
+
+export const applyToTryOut = async (
+  dispatch: AppDispatch,
+  athlete_id: number,
+  try_out_id: number
+) => {
+  try {
+    console.log(athlete_id, try_out_id);
+    const url = "/athlete/tryout/apply";
+    const data = {
+      athlete_id,
+      try_out_id,
+      status: "pending",
+    };
+
+    const response = await requestApi(url, "POST", data);
+
+    dispatch(addApplication(response.createdTryOut));
+
+    return response;
+  } catch (error) {
+    console.error("Error applying to tryout:", error);
     throw error;
   }
 };
