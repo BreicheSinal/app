@@ -21,12 +21,22 @@ const EmailField: FC<EmailFieldProps> = ({ value, onChange, error }) => {
         variant="outlined"
         error={error}
         sx={{
-          input: { color: "#ffffff" },
+          input: { color: "#1D2125" },
           backgroundColor: "#393939",
           "& .MuiOutlinedInput-root": {
             "& fieldset": { borderColor: "white" },
             "&:hover fieldset": { borderColor: "white" },
             "&.Mui-focused fieldset": { borderColor: "white" },
+            "& input:-webkit-autofill": {
+              "-webkit-box-shadow": "0 0 0 30px #393939 inset !important",
+              "-webkit-text-fill-color": "#1D2125 !important",
+            },
+            "& input:-webkit-autofill:hover": {
+              "-webkit-box-shadow": "0 0 0 30px #393939 inset !important",
+            },
+            "& input:-webkit-autofill:focus": {
+              "-webkit-box-shadow": "0 0 0 30px #393939 inset !important",
+            },
           },
         }}
       />
