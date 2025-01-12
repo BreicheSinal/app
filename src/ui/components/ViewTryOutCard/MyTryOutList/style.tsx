@@ -2,7 +2,7 @@ const myTryoutsStyles = {
   container: {
     width: "315px",
     minWidth: "315px",
-    height: "auto",
+    height: "fit-content",
     border: "none",
     borderRadius: 2,
     mt: 1,
