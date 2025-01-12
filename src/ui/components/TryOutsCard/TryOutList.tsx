@@ -45,18 +45,7 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
             TRY-OUTS
           </Typography>
         </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-            bgcolor: "rgba(255, 255, 255, 0.05)",
-            transition: "background-color 0.2s ease-in-out",
-            "&:hover": {
-              bgcolor: "rgba(255, 255, 255, 0.08)",
-            },
-          }}
-        >
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {tryouts.map((tryout) => (
             <Box
               key={tryout.id}
@@ -66,13 +55,50 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
                 alignItems: "flex-start",
                 bgcolor: "rgba(255, 255, 255, 0.05)",
                 borderRadius: 1,
-                p: 1,
+                p: 2,
+                transition: "background-color 0.2s ease-in-out",
+                "&:hover": {
+                  bgcolor: "rgba(255, 255, 255, 0.08)",
+                },
               }}
             >
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-                <Box sx={{ display: "flex", gap: 2 }}>
-                  <Typography sx={{ color: "white" }}>{tryout.name}</Typography>
-                  <Typography sx={{ color: "white" }}>{tryout.date}</Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                  width: "100%",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                >
+                  <Box sx={{ display: "flex", gap: 2 }}>
+                    <Typography sx={{ color: "white" }}>
+                      {tryout.name}
+                    </Typography>
+                    <Typography sx={{ color: "white" }}>
+                      {tryout.date}
+                    </Typography>
+                  </Box>
+                  <IconButton
+                    onClick={() => onDelete(tryout.id)}
+                    size="small"
+                    sx={{
+                      color: "error.main",
+                      "&:hover": {
+                        bgcolor: "rgba(244, 67, 54, 0.08)",
+                      },
+                    }}
+                    disableRipple
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
                 </Box>
                 {tryout.description && (
                   <Typography
@@ -104,14 +130,6 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
                   </Link>
                 </Box>
               </Box>
-              <IconButton
-                onClick={() => onDelete(tryout.id)}
-                size="small"
-                sx={{ color: "error.main" }}
-                disableRipple
-              >
-                <DeleteIcon fontSize="small" />
-              </IconButton>
             </Box>
           ))}
         </Box>
