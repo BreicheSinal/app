@@ -133,6 +133,7 @@ export const MyTryouts: FC = () => {
                       size="small"
                       onClick={() => toggleDetails(tryout.id.toString())}
                       sx={{ minWidth: 100, textTransform: "none" }}
+                      disableRipple
                     >
                       {expandedTryouts[tryout.id]
                         ? "Show Less"
@@ -144,7 +145,7 @@ export const MyTryouts: FC = () => {
                         color: "success.main",
                       }}
                     >
-                      Applied ✓
+                      {tryout.status.toUpperCase()}
                     </Typography>
                   </Box>
                 </Box>
