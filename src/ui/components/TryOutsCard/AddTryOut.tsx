@@ -15,11 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 
 interface AddTryoutFormProps {
-  onAdd: (tryout: {
-    name: string;
-    date: string;
-    description: string;
-  }) => void;
+  onAdd: (tryout: { name: string; date: string; description: string }) => void;
   isLoading: boolean;
 }
 
@@ -52,6 +48,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
         border: "none",
         borderRadius: 2,
         mb: 2,
+        mr: 1.5,
       }}
     >
       <CardContent sx={{ p: 2 }}>
