@@ -2,7 +2,10 @@ import { FC, useState } from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { Button } from "@mui/material";
 import { getStyle } from "./style";
-import { AthleteTryOut, selectAthleteTryoutIds } from "../../../../core/utils/globalUtils";
+import {
+  AthleteTryOut,
+  selectAthleteTryoutIds,
+} from "../../../../core/utils/globalUtils";
 import { useSelector } from "react-redux";
 
 interface TryoutsListProps {
@@ -95,19 +98,21 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onApply }) => {
                 )}
               </Box>
 
-              <Button
-                variant="outlined"
-                sx={
-                  isApplied(tryout.id)
-                    ? getStyle("appliedButton")
-                    : getStyle("applyButton")
-                }
-                onClick={() => handleApply(tryout.id)}
-                disabled={isApplied(tryout.id)}
-                disableRipple
-              >
-                {isApplied(tryout.id) ? "Applied" : "Apply"}
-              </Button>
+              <Box sx={getStyle("tryoutButton")}>
+                <Button
+                  variant="outlined"
+                  sx={
+                    isApplied(tryout.id)
+                      ? getStyle("appliedButton")
+                      : getStyle("applyButton")
+                  }
+                  onClick={() => handleApply(tryout.id)}
+                  disabled={isApplied(tryout.id)}
+                  disableRipple
+                >
+                  {isApplied(tryout.id) ? "Applied" : "Apply"}
+                </Button>
+              </Box>
             </Box>
           ))}
         </Box>
