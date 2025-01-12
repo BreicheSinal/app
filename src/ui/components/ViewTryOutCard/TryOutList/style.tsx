@@ -28,7 +28,7 @@ export const tryoutsStyles = {
   tryoutsList: {
     display: "flex",
     flexDirection: "column",
-    gap: 1,
+    gap: 2,
   },
 
   tryoutItem: {
@@ -37,7 +37,6 @@ export const tryoutsStyles = {
     alignItems: "flex-start",
     bgcolor: "rgba(255, 255, 255, 0.05)",
     borderRadius: 1,
-    p: 1,
     transition: "background-color 0.2s ease-in-out",
     "&:hover": {
       bgcolor: "rgba(255, 255, 255, 0.08)",
@@ -48,6 +47,14 @@ export const tryoutsStyles = {
     display: "flex",
     flexDirection: "column",
     gap: 1,
+    p: 1.5,
+    paddingRight: 2,
+    flex: 1,
+  },
+
+  tryoutButton: {
+    padding: 1.5,
+    paddingLeft: 0,
   },
 
   tryoutInfo: {
@@ -105,14 +112,6 @@ export const tryoutsStyles = {
       backgroundColor: "transparent",
       borderColor: "success.main",
       color: "success.main",
-    },
-  },
-
-  link: {
-    color: "primary.light",
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline",
     },
   },
 } as const;
