@@ -45,7 +45,18 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
             TRY-OUTS
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+            bgcolor: "rgba(255, 255, 255, 0.05)",
+            transition: "background-color 0.2s ease-in-out",
+            "&:hover": {
+              bgcolor: "rgba(255, 255, 255, 0.08)",
+            },
+          }}
+        >
           {tryouts.map((tryout) => (
             <Box
               key={tryout.id}
