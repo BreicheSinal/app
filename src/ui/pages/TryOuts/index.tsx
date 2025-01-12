@@ -12,7 +12,7 @@ import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
 
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
-import ConnectionsCard from "../../components/ConnectionCard";
+import { ClubApplications } from "../../components/TryOutsCard/Applications";
 
 import "./style.css";
 
@@ -48,9 +48,7 @@ const TryOuts: FC = () => {
             <div className="flex column">
               <TryoutsManager />
             </div>
-            {details?.user_id && (
-              <ConnectionsCard currentUserId={details?.user_id} width={250} />
-            )}
+            {details?.user_id && <ClubApplications clubId={details?.id} />}
           </div>
         </div>
       </FeedLayout>
