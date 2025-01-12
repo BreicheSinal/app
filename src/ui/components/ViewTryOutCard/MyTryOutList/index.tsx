@@ -69,8 +69,8 @@ export const MyTryouts: FC = () => {
                   border: 1,
                   borderColor: "divider",
                   borderRadius: 1,
-                  p: 2,
-                  mb: 2,
+                  p: 1.5,
+                  mb: 1.5,
                 }}
               >
                 <Box sx={getStyle("tryoutContent")}>
@@ -87,17 +87,17 @@ export const MyTryouts: FC = () => {
                     </Typography>
                   </Box>
 
-                  <Box>
-                    <Typography component="span" sx={getStyle("infoLabel")}>
-                      Date:
-                    </Typography>
-                    <Typography component="span" sx={getStyle("infoValue")}>
-                      {formatDate(tryout.date)}
-                    </Typography>
-                  </Box>
-
                   {expandedTryouts[tryout.id] && (
                     <>
+                      <Box>
+                        <Typography component="span" sx={getStyle("infoLabel")}>
+                          Date:
+                        </Typography>
+                        <Typography component="span" sx={getStyle("infoValue")}>
+                          {formatDate(tryout.date)}
+                        </Typography>
+                      </Box>
+
                       {tryout.description && (
                         <Typography sx={getStyle("description")}>
                           {tryout.description}
@@ -125,7 +125,7 @@ export const MyTryouts: FC = () => {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      mt: 2,
+                      mt: 1,
                     }}
                   >
                     <Button
