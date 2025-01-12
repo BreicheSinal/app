@@ -9,9 +9,7 @@ const myApplicationsStyles = {
     mr: 0.8,
   },
   cardContent: {
-    p: 1.5,
-    ml: 1,
-    mr: 1,
+    p: 2,
   },
   headerBox: {
     mb: 1.5,
@@ -23,14 +21,12 @@ const myApplicationsStyles = {
   tryoutsList: {
     display: "flex",
     flexDirection: "column",
-    gap: 1,
   },
   tryoutItem: {
     display: "flex",
     flexDirection: "column",
     bgcolor: "rgba(255, 255, 255, 0.05)",
     borderRadius: 1,
-    p: 1,
     transition: "background-color 0.2s ease-in-out",
     "&:hover": {
       bgcolor: "rgba(255, 255, 255, 0.08)",
@@ -44,10 +40,6 @@ const myApplicationsStyles = {
   clubName: {
     color: "white",
     fontWeight: "bold",
-  },
-  applicantsList: {
-    mt: 1,
-    pl: 2,
   },
   applicantItem: {
     display: "flex",
