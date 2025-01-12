@@ -23,7 +23,6 @@ const myTryoutsStyles = {
   tryoutsList: {
     display: "flex",
     flexDirection: "column",
-    gap: 1,
   },
   tryoutItem: {
     display: "flex",
@@ -57,8 +56,6 @@ const myTryoutsStyles = {
   description: {
     color: "rgba(255, 255, 255, 0.7)",
     fontSize: "0.875rem",
-    mt: 1,
-    mb: 1,
   },
   link: {
     ml: 1,
