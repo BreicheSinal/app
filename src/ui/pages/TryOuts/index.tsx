@@ -12,7 +12,7 @@ import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
 
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
-import { ClubApplications } from "../../components/TryOutsCard/Applications";
+import ClubApplications from "../../components/TryOutsCard/ApplicationsCard";
 
 import "./style.css";
 
