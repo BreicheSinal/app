@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-import { getStyle } from "./style";
+import { getStatusColor, getStyle } from "./style";
 import { AthleteTryOut } from "../../../../core/utils/globalUtils";
 
 export const MyTryouts: FC = () => {
@@ -17,6 +17,7 @@ export const MyTryouts: FC = () => {
     (state: RootState) => state.athlete.details?.tryOuts || []
   );
 
+  console.log(athleteTryouts);
   const [expandedTryouts, setExpandedTryouts] = useState<{
     [key: string]: boolean;
   }>({});
@@ -104,19 +105,24 @@ export const MyTryouts: FC = () => {
                         </Typography>
                       )}
 
-                      <Box>
-                        <Typography component="span" sx={getStyle("infoLabel")}>
-                          Link:
-                        </Typography>
-                        <Link
-                          href={tryout.meetingUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          sx={getStyle("link")}
-                        >
-                          Join Meeting
-                        </Link>
-                      </Box>
+                      {tryout.status === "accepted" && (
+                        <Box>
+                          <Typography
+                            component="span"
+                            sx={getStyle("infoLabel")}
+                          >
+                            Link:
+                          </Typography>
+                          <Link
+                            href={tryout.meetingUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={getStyle("link")}
+                          >
+                            Join Meeting
+                          </Link>
+                        </Box>
+                      )}
                     </>
                   )}
 
@@ -142,7 +148,7 @@ export const MyTryouts: FC = () => {
                     <Typography
                       sx={{
                         ...getStyle("status"),
-                        color: "success.main",
+                        color: getStatusColor(tryout.status),
                       }}
                     >
                       {tryout.status.toUpperCase()}
