@@ -8,7 +8,7 @@ import { getStyle } from "./style";
 
 interface Application {
   id: string;
-  status: string;
+  status: "pending" | "accepted" | "rejected";
   athleteId: string;
   athlete_userId: string;
   athlete_name: string;
@@ -27,13 +27,14 @@ const ClubApplications: FC<{ clubId: number }> = ({ clubId }) => {
     const fetchApplications = async () => {
       try {
         const response = await requestApi(`club/applications/${clubId}`);
-        // Group applications by tryout ID
         const grouped = response.applications.reduce(
           (acc: GroupedApplications, app: Application) => {
-            if (!acc[app.trId]) {
-              acc[app.trId] = [];
+            if (app.status !== "rejected") {
+              if (!acc[app.trId]) {
+                acc[app.trId] = [];
+              }
+              acc[app.trId].push(app);
             }
-            acc[app.trId].push(app);
             return acc;
           },
           {}
@@ -50,7 +51,81 @@ const ClubApplications: FC<{ clubId: number }> = ({ clubId }) => {
   const handleResponse = async (
     applicationId: string,
     action: "accepted" | "rejected"
-  ) => {};
+  ) => {
+    try {
+      const response = await requestApi(
+        `club/update/applications/${applicationId}`,
+        "PUT",
+        {
+          action,
+        }
+      );
+
+      console.log(response);
+
+      setApplications((prev) => {
+        const updated = { ...prev };
+
+        Object.keys(updated).forEach((tryoutId) => {
+          updated[tryoutId] = updated[tryoutId].map((app) => {
+            if (app.id === applicationId) {
+              return { ...app, status: action };
+            }
+            return app;
+          });
+
+          if (action === "rejected") {
+            updated[tryoutId] = updated[tryoutId].filter(
+              (app) => app.id !== applicationId
+            );
+          }
+
+          if (updated[tryoutId].length === 0) {
+            delete updated[tryoutId];
+          }
+        });
+
+        return updated;
+      });
+    } catch (error) {
+      console.error(`Failed to ${action} application:`, error);
+    }
+  };
+
+  const renderApplicationActions = (app: Application) => {
+    if (app.status === "pending") {
+      return (
+        <Box sx={getStyle("buttonGroup")}>
+          <IconButton
+            size="small"
+            sx={getStyle("rejectButton")}
+            onClick={() => handleResponse(app.id, "rejected")}
+            disableRipple
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+          <IconButton
+            size="small"
+            sx={getStyle("acceptButton")}
+            onClick={() => handleResponse(app.id, "accepted")}
+            disableRipple
+          >
+            <CheckIcon fontSize="small" />
+          </IconButton>
+        </Box>
+      );
+    } else if (app.status === "accepted") {
+      return (
+        <Box sx={getStyle("acceptedStatus")}>
+          <CheckIcon fontSize="small" sx={{ color: "green" }} />
+          <Typography variant="body2" sx={{ color: "green", ml: 1 }}>
+            Approved
+          </Typography>
+        </Box>
+      );
+    }
+    return null;
+  };
 
   return (
     <Card className="secondary-bg-color" sx={getStyle("container")}>
@@ -91,30 +166,13 @@ const ClubApplications: FC<{ clubId: number }> = ({ clubId }) => {
                     {apps[0].tr_club_name}
                   </Typography>
 
-                  <Box sx={getStyle("applicantsList")}>
+                  <Box>
                     {apps.map((app) => (
                       <Box key={app.id} sx={getStyle("applicantItem")}>
                         <Typography sx={getStyle("athleteName")}>
                           {app.athlete_name}
                         </Typography>
-                        <Box sx={getStyle("buttonGroup")}>
-                          <IconButton
-                            size="small"
-                            sx={getStyle("rejectButton")}
-                            onClick={() => handleResponse(app.id, "rejected")}
-                            disableRipple
-                          >
-                            <CloseIcon fontSize="small" />
-                          </IconButton>
-                          <IconButton
-                            size="small"
-                            sx={getStyle("acceptButton")}
-                            onClick={() => handleResponse(app.id, "accepted")}
-                            disableRipple
-                          >
-                            <CheckIcon fontSize="small" />
-                          </IconButton>
-                        </Box>
+                        {renderApplicationActions(app)}
                       </Box>
                     ))}
                   </Box>
