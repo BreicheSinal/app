@@ -27,9 +27,9 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
     <Card
       className="secondary-bg-color"
       sx={{
-        width: { xs: "90%", sm: "500px", md: "632px" },
+        width: { xs: "90%", sm: "500px", md: "600px" },
         minWidth: "300px",
-        maxWidth: "632px",
+        maxWidth: "600px",
         height: "auto",
         border: "none",
         borderRadius: 2,
