@@ -60,7 +60,7 @@ const updateConnectionStatus = async (
 };
 
 const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
-  ({ userId, width = 615 }) => {
+  ({ userId, width = 600 }) => {
     const [pendingConnections, setPendingConnections] = useState<Connection[]>(
       []
     );
