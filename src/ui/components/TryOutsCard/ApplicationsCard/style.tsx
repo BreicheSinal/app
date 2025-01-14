@@ -69,6 +69,11 @@ const myApplicationsStyles = {
       bgcolor: "rgba(244, 67, 54, 0.08)",
     },
   },
+  acceptedStatus: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
 } as const;
 
 export const getStyle = (key: keyof typeof myApplicationsStyles) =>
