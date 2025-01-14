@@ -1,11 +1,8 @@
 import FeedLayout from "../../Layout/FeedLayout";
 
-import CustomCard from "../../components/CustomCard";
 import { ProfileCardView } from "../../components/ProfileCard";
 import PostCard from "../../components/PostCard";
 import Post from "../../components/Post";
-
-import { CardData } from "../../components/CustomCard";
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -14,25 +11,7 @@ import { RootState } from "../../../redux/store";
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
 import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
-
-/* MOCK DATA */
-const staffData: CardData = {
-  title: "STAFF",
-  sections: [
-    {
-      type: "list",
-      content: [
-        {
-          name: "NAME",
-          role: "ROLE",
-          content: "Alice is responsible for implementing the backend APIs.",
-        },
-        { name: "NAME", role: "ROLE" },
-        { name: "NAME", role: "ROLE" },
-      ],
-    },
-  ],
-};
+import ConnectionsCard from "../../components/ConnectionCard";
 
 const handleLike = async () => {};
 const handleComment = async () => {};
@@ -77,12 +56,12 @@ const Feed = () => {
                 onComment={() => handleComment()}
               />
             </div>
-            <CustomCard
-              width={250}
-              data={staffData}
-              showEdit={false}
-              onEdit={() => {}}
-            />
+            {details?.user_id && (
+              <ConnectionsCard
+                currentUserId={Number(details?.user_id)}
+                width={250}
+              />
+            )}
           </div>
         </div>
       </FeedLayout>
