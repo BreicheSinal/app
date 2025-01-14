@@ -66,7 +66,6 @@ const myTryoutsStyles = {
     },
   },
   status: {
-    color: "success.main",
     fontSize: "0.875rem",
     fontWeight: "medium",
     mt: 1,
@@ -76,3 +75,14 @@ const myTryoutsStyles = {
 // Helper function to get styles
 export const getStyle = (key: keyof typeof myTryoutsStyles) =>
   myTryoutsStyles[key];
+
+export const getStatusColor = (status: string) => {
+  switch (status.toLowerCase()) {
+    case "rejected":
+      return "error.main";
+    case "accepted":
+      return "success.main";
+    default:
+      return "primary.main";
+  }
+};
