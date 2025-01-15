@@ -55,6 +55,20 @@ const athleteSlice = createSlice({
         state.details.tryOuts = [...tryOuts, action.payload];
       }
     },
+    addAthletePost: (state, action) => {
+      console.log("Adding post:", action.payload); 
+      if (state.details) {
+        const posts = state.details.posts || [];
+        state.details.posts = [...posts, action.payload];
+      }
+    },
+    deletePost: (state, action) => {
+      if (state.details?.posts) {
+        state.details.posts = state.details.posts.filter(
+          (post) => post.id !== action.payload
+        );
+      }
+    },
     resetAthleteState: (state) => {
       Object.assign(state, initialState);
     },
@@ -69,6 +83,8 @@ export const {
   updateExperience,
   deleteExperience,
   addApplication,
+  addAthletePost,
+  deletePost,
   resetAthleteState,
 } = athleteSlice.actions;
 
