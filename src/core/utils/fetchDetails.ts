@@ -16,6 +16,7 @@ import {
   Tryout,
   Certificate,
   AthleteTryOut,
+  Post,
 } from "./globalUtils";
 
 import { setTryOuts } from "../../redux/users/tryOutSlice";
@@ -61,6 +62,15 @@ const parseUserData = (
           club_name: tr.club_name,
           club_user_id: tr.club_user_id,
         })),
+        posts: response.posts?.map((pst: Post) => ({
+          user_id: pst.user_id,
+          user_name: pst.user_name,
+          id: pst.id,
+          description: pst.description,
+          likes_count: pst.user_id,
+          comments_count: pst.user_id,
+          images: pst.images || null,
+        })),
       };
 
     case "Coach":
@@ -81,6 +91,7 @@ const parseUserData = (
           date: cert.date,
           description: cert.description,
         })),
+        posts: response.posts,
       };
 
     case "Club":
@@ -98,6 +109,7 @@ const parseUserData = (
             description: tr.description,
             meetingUrl: tr.meetingUrl,
           })) || null,
+        posts: response.posts,
       };
 
     case "Federation":
@@ -106,6 +118,7 @@ const parseUserData = (
         location: data.location || null,
         country: data.country || null,
         founded_year: data.founded_year || null,
+        posts: response.posts,
       };
 
     default:
