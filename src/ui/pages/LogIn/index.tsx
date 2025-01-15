@@ -118,7 +118,7 @@ const LogIn = () => {
 
         <ButtonLink
           onClick={navigateToSignUp}
-          text="Don't have an account? Sign up"
+          text="Don't have an account? Sign Up"
         />
       </form>
     </SignUpLayout>
