@@ -41,6 +41,19 @@ const clubSlice = createSlice({
         );
       }
     },
+    addClubPost: (state, action) => {
+      if (state.details) {
+        const posts = state.details.posts || [];
+        state.details.posts = [action.payload, ...posts];
+      }
+    },
+    deletePost: (state, action) => {
+      if (state.details?.posts) {
+        state.details.posts = state.details.posts.filter(
+          (post) => post.id !== action.payload
+        );
+      }
+    },
     resetClubState: (state) => {
       Object.assign(state, initialState);
     },
@@ -53,6 +66,8 @@ export const {
   setClubError,
   addTryout,
   deleteTryout,
+  addClubPost,
+  deletePost,
   resetClubState,
 } = clubSlice.actions;
 
