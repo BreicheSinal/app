@@ -18,11 +18,11 @@ const UsernameField: FC<UsernameFieldProps> = ({ value, onChange, error }) => {
         fullWidth
         value={value}
         onChange={onChange}
-        variant="outlined"
+        placeholder="Full Name"
         error={error}
         sx={{
-          input: { color: "#1D2125" },
-          backgroundColor: "#393939",
+          input: { color: "white" },
+          backgroundColor: "#1D2125",
           "& .MuiOutlinedInput-root": {
             "& fieldset": { borderColor: "white" },
             "&:hover fieldset": { borderColor: "white" },
