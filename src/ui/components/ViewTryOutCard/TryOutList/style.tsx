@@ -85,18 +85,16 @@ export const tryoutsStyles = {
   },
 
   applyButton: {
-    color: "primary.main",
-    borderColor: "primary.main",
+    backgroundColor: "primary.main",
+    color: "common.white",
     padding: "8px 16px",
     borderRadius: 1,
     textTransform: "none",
     minWidth: "80px",
     transition: "all 0.2s ease-in-out",
     "&:hover": {
-      backgroundColor: "primary.main",
-      borderColor: "primary.main",
-      color: "common.black",
-      opacity: 1,
+      backgroundColor: "primary.dark",
+      opacity: 0.9,
     },
   },
 
