@@ -5,6 +5,10 @@ import {
   EmojiEmotions as EmojiIcon,
 } from "@mui/icons-material";
 
+import { getStoredRole } from "../../../core/utils/globalUtils";
+import { RootState } from "../../../redux/store";
+import { useSelector } from "react-redux";
+
 interface PostCardProps {
   width: number;
 }
@@ -12,6 +16,28 @@ interface PostCardProps {
 const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
   const [post, setPost] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  const role = getStoredRole();
+
+  const details = useSelector((state: RootState) => {
+    switch (role) {
+      case "Athlete":
+        return state.athlete.details;
+      case "Coach":
+        return state.coach.details;
+      case "Club":
+        return state.club.details;
+      case "Federation":
+        return state.federation.details;
+      default:
+        return null;
+    }
+  });
+
+  const getInitial = () => {
+    if (!details?.name) return "U";
+    return details.name[0].toUpperCase();
+  };
 
   const onFocus = () => {
     setIsExpanded(true);
@@ -56,7 +82,7 @@ const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
                 height: 40,
               }}
             >
-              U
+              {getInitial()}
             </Avatar>
           </Box>
 
