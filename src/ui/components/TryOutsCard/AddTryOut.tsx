@@ -41,9 +41,9 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
     <Card
       className="secondary-bg-color"
       sx={{
-        width: { xs: "90%", sm: "500px", md: "600px" },
+        width: { xs: "90%", sm: "500px", md: "615px" },
         minWidth: "300px",
-        maxWidth: "600px",
+        maxWidth: "615px",
         height: "auto",
         border: "none",
         borderRadius: 2,
