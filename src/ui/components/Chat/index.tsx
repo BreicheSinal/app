@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { ChatUser, ChatMessage, useChat } from "../../../core/hooks/chatHook";
 import {
   connect,
@@ -13,7 +13,6 @@ import ChatList from "./ChatList";
 import ChatHeader from "./ChatHeader";
 import ChatMessageList from "./ChatMessageList";
 import ChatInput from "./ChatInput";
-import ChatSearch from "./ChatSearch";
 
 interface ChatComponentProps {
   users: ChatUser[];
@@ -112,32 +111,23 @@ const ChatComponent: FC<ChatComponentProps> = ({
     }
   };
 
-  const searchUserSelect = async (searchUser: {
-    id: number;
-    name: string;
-    chatID: number;
-  }) => {
-    const newChatUser: ChatUser = {
-      id: searchUser.id,
-      name: searchUser.name,
-      chatID: searchUser.chatID,
-      lastMessage: "",
-      time: new Date().toISOString(),
-    };
+  const handleNewChat = async (newUser: ChatUser) => {
+    setChatUsers((prevUsers) => {
+      if (!prevUsers.some((user) => user.id === newUser.id)) {
+        return [...prevUsers, newUser];
+      }
+      return prevUsers;
+    });
 
-    if (!chatUsers.some((user) => user.id === searchUser.id)) {
-      setChatUsers((prev) => [newChatUser, ...prev]);
-    }
-
+    setSelectedUser(newUser);
     if (onUserSelect) {
       try {
-        await onUserSelect(newChatUser);
+        await onUserSelect(newUser);
       } catch (error) {
-        console.error("Error selecting new user:", error);
+        console.error("Error fetching messages for user:", error);
       }
     }
-
-    setSelectedUser(newChatUser);
+    setLocalMessages([]);
   };
 
   return (
@@ -160,28 +150,12 @@ const ChatComponent: FC<ChatComponentProps> = ({
           flexDirection: "column",
         }}
       >
-        <Typography
-          variant="h6"
-          sx={{
-            color: "#90caf9",
-            p: 2,
-            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-            fontWeight: 600,
-          }}
-        >
-          Chats
-        </Typography>
-
-        <ChatSearch
-          currentUserId={currentUser.id}
-          onSelectUser={searchUserSelect}
-        />
-
         <ChatList
           users={chatUsers}
           currentUser={currentUser}
           selectedUser={selectedUser}
           onUserSelect={userClick}
+          onNewChat={handleNewChat}
         />
       </Box>
 
@@ -192,7 +166,12 @@ const ChatComponent: FC<ChatComponentProps> = ({
           currentUser={currentUser}
           selectedUser={selectedUser}
         />
-        <ChatInput message={message} setMessage={setMessage} onSend={send} />
+        <ChatInput
+          message={message}
+          setMessage={setMessage}
+          onSend={send}
+          disabled={!selectedUser}
+        />
       </Box>
     </Box>
   );
