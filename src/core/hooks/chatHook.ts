@@ -48,7 +48,6 @@ export const useChat = (currentUserId: number) => {
         setLoading(true);
         const url = `/user/chats/messages?chatID=${chatID}&userId=${currentUserId}`;
         const response = await requestApi(url, "GET");
-        console.log(url, response);
 
         const messagesList = response?.messages || [];
 
@@ -78,13 +77,64 @@ export const useChat = (currentUserId: number) => {
     }
   }, [currentUserId, fetchChats]);
 
+  const selectUser = useCallback(
+    (user: ChatUser) => {
+      console.log("Selecting user with chatID:", user.chatID);
+      if (user.chatID) {
+        setSelectedChat(user.chatID);
+        fetchMessages(user.chatID);
+      } else {
+        setMessages([]); 
+        setSelectedChat(null);
+      }
+    },
+    [fetchMessages]
+  );
+
+  const addNewChat = useCallback((newUser: ChatUser) => {
+    setUsers((prevUsers) => {
+      if (!prevUsers.some((user) => user.id === newUser.id)) {
+        return [...prevUsers, newUser];
+      }
+      return prevUsers;
+    });
+
+    if (newUser.chatID) {
+      setSelectedChat(newUser.chatID);
+      setMessages([]); 
+    }
+  }, []);
+
   const sendMessage = async (message: string, chatId: number) => {
     if (!message?.trim() || !chatId) return;
 
     try {
       setLoading(true);
 
+      const tempMessage: ChatMessage = {
+        id: Date.now(), 
+        senderId: currentUserId,
+        receiverId: users.find((u) => u.chatID === chatId)?.id || 0,
+        content: message,
+        timestamp: new Date().toISOString(),
+        chatID: chatId,
+      };
+
+      setMessages((prev) => [...prev, tempMessage]);
+
       await sendSocketMessage(chatId, message);
+
+      setUsers((prev) =>
+        prev.map((user) =>
+          user.chatID === chatId
+            ? {
+                ...user,
+                lastMessage: message,
+                time: new Date().toISOString(),
+              }
+            : user
+        )
+      );
     } catch (err) {
       setError("Failed to send message");
       console.error(err);
@@ -99,15 +149,9 @@ export const useChat = (currentUserId: number) => {
     selectedChat,
     loading,
     error,
-    selectUser: useCallback(
-      (user: ChatUser) => {
-        console.log("Selecting user with chatID:", user.chatID);
-        setSelectedChat(user.chatID!);
-        fetchMessages(user.chatID!);
-      },
-      [fetchMessages]
-    ),
+    selectUser,
     sendMessage,
     fetchChats,
+    addNewChat,
   };
 };
