@@ -168,6 +168,7 @@ const ViewProfile = () => {
           <ProfileCardView
             width={300}
             data={profileData}
+            role={role}
             showConnect={true}
             connectedUserId={Number(userId)}
             userId={currentUserId!}
