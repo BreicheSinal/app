@@ -57,6 +57,7 @@ const Connections = memo(() => {
             width={300}
             data={profileData}
             showConnect={false}
+            role={role}
             userId={details?.user_id}
           />
 
