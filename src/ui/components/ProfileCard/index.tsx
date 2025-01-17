@@ -25,6 +25,8 @@ import {
   fetchFederationOptions,
 } from "../../../core/utils/fetchDetails";
 
+import { BadgeCheck } from "lucide-react";
+
 import "./style.css";
 
 interface ProfileField {
@@ -55,6 +57,7 @@ interface ProfileCardProps {
   userId?: number;
   connectionStatus?: string;
   onConnect?: () => Promise<void>;
+  role?: string;
 }
 
 const ProfileCard: FC<ProfileCardProps> = ({
@@ -249,19 +252,55 @@ const ProfileCard: FC<ProfileCardProps> = ({
     [clubs, editedFields, fieldChange, isSaving, isLoadingOptions]
   );
 
+  const roleColors = {
+    Athlete: { color: "#FF4444", bgColor: "#ff44441a" },
+    Coach: { color: "#3385FF", bgColor: "#3385ff1a" },
+    Club: { color: "#9966FF", bgColor: "#9966ff1a" },
+    Federation: { color: "#33CC77", bgColor: "#33cc771a" },
+  };
+
+  const getBadgeConfig = useCallback((role: string) => {
+    return (
+      roleColors[role as keyof typeof roleColors] || {
+        color: "#9ac6ff",
+        bgColor: "#9ac6ff1a",
+      }
+    );
+  }, []);
+
   return (
     <>
       <Box className="Box flex align-start">
         <Card
           className="Card secondary-bg-color"
           sx={{
+            backgroundColor: getBadgeConfig(role).bgColor,
             width: { xs: "90%", sm: width, md: width },
             minWidth: "300px",
             maxWidth: "600px",
             height: "auto",
           }}
         >
-          <Box className="banner full-width relative-position primary-bg-color">
+          <Box
+            className="banner full-width relative-position"
+            sx={{
+              backgroundColor: getBadgeConfig(role).bgColor,
+              position: "relative",
+              overflow: "visible",
+            }}
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <BadgeCheck size={24} color={getBadgeConfig(role).color} />
+            </Box>
             <Avatar
               className="absolute-position"
               sx={{
@@ -270,6 +309,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
                 top: "100%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
+                border: "4px solid #1d2125",
               }}
             >
               {data.avatar}
@@ -339,6 +379,7 @@ const ProfileCardView: FC<ProfileCardProps> = ({
   showConnect = false,
   connectionStatus,
   onConnect,
+  role,
 }) => {
   const renderConnectButton = () => {
     switch (connectionStatus) {
@@ -408,6 +449,22 @@ const ProfileCardView: FC<ProfileCardProps> = ({
     }
   };
 
+  const roleColors = {
+    Athlete: { color: "#FF4444", bgColor: "#ff44441a" },
+    Coach: { color: "#3385FF", bgColor: "#3385ff1a" },
+    Club: { color: "#9966FF", bgColor: "#9966ff1a" },
+    Federation: { color: "#33CC77", bgColor: "#33cc771a" },
+  };
+
+  const getBadgeConfig = useCallback((role: string) => {
+    return (
+      roleColors[role as keyof typeof roleColors] || {
+        color: "#9ac6ff",
+        bgColor: "#9ac6ff1a",
+      }
+    );
+  }, []);
+
   return (
     <Box className="Box flex align-start">
       <Card
@@ -419,7 +476,26 @@ const ProfileCardView: FC<ProfileCardProps> = ({
           height: "auto",
         }}
       >
-        <Box className="banner full-width relative-position primary-bg-color">
+        <Box
+          className="banner full-width relative-position"
+          sx={{
+            backgroundColor: getBadgeConfig(role!).bgColor,
+            position: "relative",
+            overflow: "visible",
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <BadgeCheck size={24} color={getBadgeConfig(role!).color} />
+          </Box>
           <Avatar
             className="absolute-position"
             sx={{
@@ -428,6 +504,7 @@ const ProfileCardView: FC<ProfileCardProps> = ({
               top: "100%",
               left: "50%",
               transform: "translate(-50%, -50%)",
+              border: "4px solid #1d2125",
             }}
           >
             {data.avatar}
