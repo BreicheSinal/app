@@ -100,7 +100,7 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onApply }) => {
 
               <Box sx={getStyle("tryoutButton")}>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   sx={
                     isApplied(tryout.id)
                       ? getStyle("appliedButton")
