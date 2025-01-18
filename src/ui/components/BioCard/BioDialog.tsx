@@ -48,6 +48,7 @@ const BioDialog: FC<BioDialogProps> = ({
         "& .MuiDialog-paper": {
           backgroundColor: "#1d2125",
           color: "white",
+          zIndex: (theme) => theme.zIndex.modal + 1,
         },
       }}
     >
