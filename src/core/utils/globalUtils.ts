@@ -27,6 +27,7 @@ import {
   setFederationError,
   setFederationLoading,
 } from "../../redux/users/federationSlice";
+import { Trophy } from "../../ui/components/Trophy/MyTrophies";
 
 export interface AthleteTryOut {
   id: number;
@@ -70,6 +71,7 @@ export interface AthleteDetails extends BaseUserDetails {
   experiences: Experience[] | null;
   tryOuts: AthleteTryOut[] | null;
   posts: Post[] | null;
+  trophies: Trophy[] | null;
 }
 
 export interface CoachDetails extends BaseUserDetails {
