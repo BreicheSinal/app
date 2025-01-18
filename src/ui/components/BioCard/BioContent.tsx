@@ -18,10 +18,10 @@ const BioContent: FC<BioContentProps> = ({ bioText, isLoading }) => {
   }
 
   return (
-    <Box className="flex space-between align-center" sx={{ mb: 1.5, pl: 1.5 }}>
+    <Box className="flex space-between align-center">
       <Typography
         variant="body2"
-        sx={{ lineHeight: 1.6, color: "#ffff", mr: 0.5 }}
+        sx={{ lineHeight: 1.6, color: "#ffff", mt: 1 }}
       >
         {bioText || "No bio available."}
       </Typography>
