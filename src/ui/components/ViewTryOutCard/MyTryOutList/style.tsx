@@ -83,6 +83,6 @@ export const getStatusColor = (status: string) => {
     case "accepted":
       return "success.main";
     default:
-      return "primary.main";
+      return "#ffa726";
   }
 };
