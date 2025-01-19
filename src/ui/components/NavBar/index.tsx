@@ -18,6 +18,7 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import { Trophy } from "lucide-react";
+import { Edit3 } from "lucide-react";
 
 import SearchBar from "../SearchBar";
 import { getStoredRole, createSetters } from "../../../core/utils/globalUtils";
@@ -30,9 +31,9 @@ import { resetAthleteState } from "../../../redux/users/athleteSlice";
 import { resetCoachState } from "../../../redux/users/coachSlice";
 import { resetClubState } from "../../../redux/users/clubSlice";
 import { resetFederationState } from "../../../redux/users/federationSlice";
+import { resetTryOutsState } from "../../../redux/users/tryOutSlice";
 
 import "./style.css";
-import { resetTryOutsState } from "../../../redux/users/tryOutSlice";
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
@@ -158,6 +159,12 @@ const NavBar: FC = () => {
           Trophies
         </MenuItem>
       )}
+      {role == "Club" && (
+        <MenuItem onClick={goToTrophies} sx={{ gap: 1.5 }}>
+          <Edit3 size={16} />
+          Notes Editor
+        </MenuItem>
+      )}
       <MenuItem onClick={handleLogout} sx={{ gap: 1.5 }}>
         <LogoutIcon fontSize="small" />
         Log out
@@ -181,51 +188,78 @@ const NavBar: FC = () => {
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
+      PaperProps={{
+        sx: {
+          bgcolor: "#1D2125",
+          color: "white",
+          "& .MuiMenuItem-root": {
+            fontSize: "0.875rem",
+            "&:hover": {
+              bgcolor: "grey",
+            },
+            "& p": {
+              fontSize: "0.875rem",
+              margin: 0,
+            },
+          },
+        },
+      }}
     >
-      <MenuItem onClick={goToProfile}>
+      <MenuItem onClick={goToProfile} sx={{ gap: 1 }}>
         <IconButton
           disableRipple
-          size="large"
+          size="small"
           aria-label="account of current user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
           onClick={goToProfile}
         >
-          <AccountCircle />
+          <AccountCircle fontSize="small" />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
-      <MenuItem onClick={goToConnections}>
-        <IconButton
-          size="large"
-          aria-label="show 4 new mails"
-          color="inherit"
-          onClick={goToConnections}
-        >
-          <PeopleIcon />
+      <MenuItem onClick={goToConnections} sx={{ gap: 1 }}>
+        <IconButton size="small" color="inherit" onClick={goToConnections}>
+          <PeopleIcon fontSize="small" />
         </IconButton>
         <p>Connections</p>
       </MenuItem>
-      <MenuItem onClick={goToMessaging}>
+      <MenuItem onClick={goToMessaging} sx={{ gap: 1 }}>
         <IconButton
-          size="large"
+          size="small"
           aria-label="show 17 new notifications"
           color="inherit"
           onClick={goToMessaging}
         >
-          <Badge badgeContent={17} color="error">
-            <ChatIcon />
+          <Badge color="error">
+            <ChatIcon fontSize="small" />
           </Badge>
         </IconButton>
         <p>Messaging</p>
       </MenuItem>
-      <MenuItem onClick={goToTryOuts}>
-        <IconButton size="large" color="inherit" onClick={goToTryOuts}>
+      <MenuItem onClick={goToTryOuts} sx={{ gap: 1 }}>
+        <IconButton size="small" color="inherit" onClick={goToTryOuts}>
           <NoteEvent />
         </IconButton>
         <p>Try-Outs</p>
       </MenuItem>
+      {role == "Club" && (
+        <MenuItem onClick={goToNoteEditor} sx={{ gap: 1 }}>
+          <IconButton size="small" color="inherit" onClick={goToNoteEditor}>
+            <Edit3 size={20} />
+          </IconButton>
+          <p>Notes Editor</p>
+        </MenuItem>
+      )}
+      {role == "Athlete" && (
+        <MenuItem onClick={goToTrophies} sx={{ gap: 1 }}>
+          <IconButton size="small" color="inherit" onClick={goToTrophies}>
+            <Trophy size={20} />
+          </IconButton>
+          <p>Trophies</p>
+        </MenuItem>
+      )}
     </Menu>
   );
 
@@ -318,6 +352,7 @@ const NavBar: FC = () => {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               className="icon-button"
+              color="inherit"
             >
               <MoreIcon className="more-icon" />
             </IconButton>
