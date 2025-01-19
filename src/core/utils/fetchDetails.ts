@@ -20,11 +20,13 @@ import {
 } from "./globalUtils";
 
 import { setTryOuts } from "../../redux/users/tryOutSlice";
+import { Trophy } from "../../ui/components/Trophy/MyTrophies";
 
 const parseUserData = (
   roleType: ValidRoleType,
   data: any,
-  response: any
+  response: any,
+  trophyRes?: any
 ): UserDetails => {
   const baseDetails: BaseUserDetails = {
     id: parseInt(data.id),
@@ -70,6 +72,12 @@ const parseUserData = (
           likes_count: pst.user_id,
           comments_count: pst.user_id,
           images: pst.images || null,
+        })),
+        trophies: trophyRes.map((trop: Trophy) => ({
+          id: trop.id,
+          name: trop.name,
+          description: trop.description,
+          status: trop.status,
         })),
       };
 
@@ -133,11 +141,28 @@ export const fetchUserDetails =
     try {
       dispatch(setLoading(true));
       const url = `/${role.toLowerCase()}/${id}`;
-      const response = await requestApi(url);
-      const userData = response[role.toLowerCase()][0];
-      const details = parseUserData(role, userData, response);
 
-      dispatch(setDetails(details as any));
+      if (role == "Athlete" && id == 5) {
+        const address = import.meta.env.VITE_PRIVATE_KEY;
+
+        const trophyUrl = `/trophies/owner/${address}`;
+        let trophyRes = await requestApi(trophyUrl);
+        if (!trophyRes) trophyRes = [];
+
+        const response = await requestApi(url);
+        const userData = response[role.toLowerCase()][0];
+
+        const details = parseUserData(role, userData, response, trophyRes);
+
+        dispatch(setDetails(details as any));
+      } else {
+        const trophyRes: never[] = [];
+        const response = await requestApi(url);
+        const userData = response[role.toLowerCase()][0];
+        const details = parseUserData(role, userData, response, trophyRes);
+
+        dispatch(setDetails(details as any));
+      }
     } catch (error: any) {
       console.error(`Error fetching ${role} details:`, error);
       dispatch(setError(error.message || `Failed to fetch ${role} details`));
@@ -152,10 +177,27 @@ export const fetchSearchedUserDetails = async (
 ) => {
   try {
     const url = `/${role.toLowerCase()}/user/${userId}`;
-    const response = await requestApi(url);
-    const userData = response[role.toLowerCase()][0];
 
-    return parseUserData(role, userData, response);
+    if (role == "Athlete" && userId == 6) {
+      const address = import.meta.env.VITE_PRIVATE_KEY;
+
+      const trophyUrl = `/trophies/owner/${address}`;
+      let trophyRes = await requestApi(trophyUrl);
+
+      if (!trophyRes) trophyRes = [];
+
+      const response = await requestApi(url);
+      const userData = response[role.toLowerCase()][0];
+
+      return parseUserData(role, userData, response, trophyRes);
+    } else {
+      const trophyRes: never[] = [];
+
+      const response = await requestApi(url);
+      const userData = response[role.toLowerCase()][0];
+
+      return parseUserData(role, userData, response, trophyRes);
+    }
   } catch (error: any) {
     console.error(`Error fetching ${role} details:`, error);
     throw new Error(error.message || `Failed to fetch ${role} details`);
@@ -364,4 +406,8 @@ export const getExperienceData = (experiences: Experience[] = []) => ({
 
 export const getCertificateData = (certificates: Certificate[] = []) => ({
   certificates,
+});
+
+export const getTrophiesData = (trophies: Trophy[] = []) => ({
+  trophies,
 });
