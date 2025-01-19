@@ -17,6 +17,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
+import { Trophy } from "lucide-react";
 
 import SearchBar from "../SearchBar";
 import { getStoredRole, createSetters } from "../../../core/utils/globalUtils";
@@ -91,7 +92,7 @@ const NavBar: FC = () => {
     handleProfileMenuClose();
     goTo("/profile");
   };
-  const goToFeed = () => goTo("/feed");
+  const goToTrophies = () => goTo("/trophies");
   const goToLogin = () => goTo("/login");
 
   const handleLogout = () => {
@@ -150,6 +151,12 @@ const NavBar: FC = () => {
         <PersonIcon fontSize="small" />
         Profile
       </MenuItem>
+      {role == "Athlete" && (
+        <MenuItem onClick={goToTrophies} sx={{ gap: 1.5 }}>
+          <Trophy size={16} />
+          Trophies
+        </MenuItem>
+      )}
       <MenuItem onClick={handleLogout} sx={{ gap: 1.5 }}>
         <LogoutIcon fontSize="small" />
         Log out
@@ -231,7 +238,7 @@ const NavBar: FC = () => {
             edge="start"
             aria-label="open drawer"
             className="icon-button"
-            onClick={goToFeed}
+            onClick={goToProfile}
           >
             <img
               src="../../../../src/assets/icons/AthLink_noBG1.png"
