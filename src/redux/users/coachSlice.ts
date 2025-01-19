@@ -62,9 +62,7 @@ const coachSlice = createSlice({
         );
       }
     },
-    resetCoachState: (state) => {
-      Object.assign(state, initialState);
-    },
+    resetCoachState: () => initialState,
   },
 });
 
