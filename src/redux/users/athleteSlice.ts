@@ -56,7 +56,6 @@ const athleteSlice = createSlice({
       }
     },
     addAthletePost: (state, action) => {
-      console.log("Adding post:", action.payload); 
       if (state.details) {
         const posts = state.details.posts || [];
         state.details.posts = [...posts, action.payload];
@@ -67,6 +66,12 @@ const athleteSlice = createSlice({
         state.details.posts = state.details.posts.filter(
           (post) => post.id !== action.payload
         );
+      }
+    },
+    addTrophy: (state, action) => {
+      if (state.details) {
+        const trophies = state.details.trophies || [];
+        state.details.trophies = [...trophies, action.payload];
       }
     },
     resetAthleteState: (state) => {
@@ -85,6 +90,7 @@ export const {
   addApplication,
   addAthletePost,
   deletePost,
+  addTrophy,
   resetAthleteState,
 } = athleteSlice.actions;
 
