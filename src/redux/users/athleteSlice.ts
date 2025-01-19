@@ -74,9 +74,7 @@ const athleteSlice = createSlice({
         state.details.trophies = [...trophies, action.payload];
       }
     },
-    resetAthleteState: (state) => {
-      Object.assign(state, initialState);
-    },
+    resetAthleteState: () => initialState,
   },
 });
 
