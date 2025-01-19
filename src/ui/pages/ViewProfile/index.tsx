@@ -14,6 +14,7 @@ import {
   getExperienceData,
   fetchConnectionStatus,
   getCertificateData,
+  getTrophiesData,
 } from "../../../core/utils/fetchDetails";
 
 import { fetchSearchedUserDetails } from "../../../core/utils/fetchDetails";
@@ -33,6 +34,7 @@ import { useSelector } from "react-redux";
 import ConnectionsCard from "../../components/ConnectionCard";
 import { CertificateCardView } from "../../components/CertCard";
 import StaffCard from "../../components/StaffCard";
+import { ViewVMyTrophies } from "../../components/Trophy/ViewMyTrophies";
 
 const ViewProfile = () => {
   const { userId, role } = useParams<{ userId: string; role: ValidRoleType }>();
@@ -125,6 +127,11 @@ const ViewProfile = () => {
     );
   }, [userData]);
 
+  const trophiesData = useMemo(() => {
+    if (!userData || userData.role !== "Athlete") return { trophies: [] };
+    return getTrophiesData((userData as AthleteDetails).trophies || []);
+  }, [userData]);
+
   const certificationsData = useMemo(() => {
     if (!userData || role !== "Coach") return { certificates: [] };
     return getCertificateData((userData as CoachDetails).certificates || []);
@@ -196,12 +203,18 @@ const ViewProfile = () => {
                   />
                 )}
 
+              {userData?.role === "Athlete" && (
+                <ViewVMyTrophies trophies={trophiesData.trophies} />
+              )}
+
               {userData?.role === "Club" && staffCardProps?.clubId > 0 && (
                 <StaffCard {...staffCardProps} />
               )}
             </div>
-            {userId && <ConnectionsCard currentUserId={Number(userId)} width={250}/>}
           </div>
+          {userId && (
+            <ConnectionsCard currentUserId={Number(userId)} width={250} />
+          )}
         </div>
       </FeedLayout>
     </div>
