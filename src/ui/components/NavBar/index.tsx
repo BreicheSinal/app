@@ -23,7 +23,6 @@ import { Edit3 } from "lucide-react";
 import SearchBar from "../SearchBar";
 import { getStoredRole, createSetters } from "../../../core/utils/globalUtils";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
 
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +30,7 @@ import { resetAthleteState } from "../../../redux/users/athleteSlice";
 import { resetCoachState } from "../../../redux/users/coachSlice";
 import { resetClubState } from "../../../redux/users/clubSlice";
 import { resetFederationState } from "../../../redux/users/federationSlice";
-import { resetTryOutsState } from "../../../redux/users/tryOutSlice";
+import { resetAllState, RootState } from "../../../redux/store";
 
 import "./style.css";
 
@@ -113,7 +112,7 @@ const NavBar: FC = () => {
         break;
     }
 
-    dispatch(resetTryOutsState());
+    dispatch(resetAllState());
 
     localStorage.clear();
 
