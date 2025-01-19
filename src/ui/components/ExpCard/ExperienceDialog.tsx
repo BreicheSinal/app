@@ -42,7 +42,11 @@ export const ExperienceDialog: FC<ExperienceDialogProps> = ({
     <DialogTitle className="bold tertiary-color">
       {isEdit ? "Edit Experience" : "Add Experience"}
     </DialogTitle>
-    <DialogContent>
+    <DialogContent
+      sx={{
+        pt: "4px !important",
+      }}
+    >
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
         <TextField
           label="Name"
