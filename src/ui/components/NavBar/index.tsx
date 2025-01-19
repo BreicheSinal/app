@@ -82,6 +82,7 @@ const NavBar: FC = () => {
 
   const goTo = (path: string) => navigate(path);
 
+  const goToApprovals = () => goTo("/approvals");
   const goToViewTryOuts = () => goTo("/view/tryouts");
   const goToConnections = () => goTo("/connections");
   const goToMessaging = () => goTo("/messaging");
@@ -273,7 +274,7 @@ const NavBar: FC = () => {
                 )}
 
                 {role === "Federation" && (
-                  <Button className="button" onClick={goToMessaging}>
+                  <Button className="button" onClick={goToApprovals}>
                     <Typography className="icon-text">Approvals</Typography>
                   </Button>
                 )}
