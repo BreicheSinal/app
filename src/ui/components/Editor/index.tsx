@@ -1,15 +1,39 @@
-import { FC, useState } from "react";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import { FC, useState, SyntheticEvent } from "react";
+import { Box, Typography, TextField, Button, Tabs, Tab } from "@mui/material";
 import { FileEdit, Send, Loader2, RefreshCw } from "lucide-react";
 import { requestApi } from "../../../core/utils/request";
-import { editorStyles } from "./style";
 import ErrorAlert from "./ErrorAlert";
+
+import { styles } from "./style";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+const TabPanel: FC<TabPanelProps> = ({ children, value, index }) => (
+  <Box
+    role="tabpanel"
+    hidden={value !== index}
+    id={`editor-tabpanel-${index}`}
+    aria-labelledby={`editor-tab-${index}`}
+    sx={{ flex: 1, display: "flex", flexDirection: "column" }}
+  >
+    {value === index && children}
+  </Box>
+);
 
 const Editor: FC = () => {
   const [notes, setNotes] = useState("");
   const [processedNotes, setProcessedNotes] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabChange = (_: SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
 
   const processNotes = async () => {
     setIsLoading(true);
@@ -23,34 +47,53 @@ const Editor: FC = () => {
       });
 
       setProcessedNotes(data.processedNotes);
+      setActiveTab(1);
     } catch (error) {
-      if (error === "Too many requests from this IP, please try again later") {
+      if (error === "Too many requests. Please try again later") {
         setError(
           "You've reached the maximum number of requests. Please try again in an hour."
         );
       } else {
         setError("An error occurred while processing your notes.");
       }
-
-      setProcessedNotes("");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Box sx={editorStyles.container}>
-      {/* Error Alert Overlay */}
+    <Box sx={styles.container}>
       {error && <ErrorAlert message={error} onClose={() => setError(null)} />}
 
-      {/* Editor Section */}
-      <Box sx={editorStyles.editorSection}>
-        <Box sx={editorStyles.editorHeader}>
-          <FileEdit size={24} color="#60a5fa" />
-          <Typography variant="h6" sx={editorStyles.editorTitle}>
-            Sports Notes Editor
-          </Typography>
-        </Box>
+      <Box sx={styles.header}>
+        <Tabs value={activeTab} onChange={handleTabChange} sx={styles.tabs}>
+          <Tab
+            icon={<FileEdit size={20} />}
+            iconPosition="start"
+            label="Editor"
+            sx={styles.tab}
+          />
+          <Tab
+            icon={<RefreshCw size={20} />}
+            iconPosition="start"
+            label="Processed"
+            sx={styles.tab}
+          />
+        </Tabs>
+        <Button
+          variant="contained"
+          disabled={isLoading || !notes.trim()}
+          onClick={processNotes}
+          startIcon={
+            isLoading ? <Loader2 className="animate-spin" /> : <Send />
+          }
+          sx={styles.processButton}
+        >
+          {isLoading ? "Processing..." : "Process"}
+        </Button>
+      </Box>
+
+      <TabPanel value={activeTab} index={0}>
         <TextField
           multiline
           fullWidth
@@ -58,49 +101,27 @@ const Editor: FC = () => {
 Example:
 - Game observations
 - Player statistics
-- Team strategies"
+- Team strategies
+- Match highlights"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          sx={editorStyles.textField}
+          sx={styles.textField}
         />
-      </Box>
+      </TabPanel>
 
-      {/* Processed Notes Section */}
-      <Box sx={editorStyles.processedSection}>
-        <Box sx={editorStyles.processedHeader}>
-          <Box sx={editorStyles.editorHeader}>
-            <RefreshCw size={24} color="#4ade80" />
-            <Typography variant="h6" sx={editorStyles.editorTitle}>
-              Processed Notes
-            </Typography>
-          </Box>
-          <Button
-            variant="contained"
-            disabled={isLoading || !notes.trim()}
-            onClick={processNotes}
-            startIcon={
-              isLoading ? <Loader2 className="animate-spin" /> : <Send />
-            }
-            sx={editorStyles.processButton}
-          >
-            {isLoading ? "Processing..." : "Process Notes"}
-          </Button>
-        </Box>
-
-        <Box sx={editorStyles.processedContent}>
+      <TabPanel value={activeTab} index={1}>
+        <Box sx={styles.processedContent}>
           {processedNotes ? (
-            <Typography sx={editorStyles.processedText}>
-              {processedNotes}
-            </Typography>
+            <Typography sx={styles.processedText}>{processedNotes}</Typography>
           ) : (
-            <Box sx={editorStyles.emptyState}>
+            <Box sx={styles.emptyState}>
               <Typography sx={{ color: "#71717a", fontSize: "1.1rem" }}>
                 Processed notes will appear here...
               </Typography>
             </Box>
           )}
         </Box>
-      </Box>
+      </TabPanel>
     </Box>
   );
 };
