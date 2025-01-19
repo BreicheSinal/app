@@ -1,20 +1,12 @@
-import FeedLayout from "../../Layout/FeedLayout";
-
-import { ProfileCardView } from "../../components/ProfileCard";
-import PostCard from "../../components/PostCard";
-//import Post from "../../components/Post";
-
 import { useMemo } from "react";
+import FeedLayout from "../../Layout/FeedLayout";
+import { ProfileCardView } from "../../components/ProfileCard";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
-
 import { getProfileData } from "../../../core/utils/fetchDetails";
-
 import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
-import ConnectionsCard from "../../components/ConnectionCard";
-
-//const handleLike = async () => {};
-//const handleComment = async () => {};
+import TrophiesManager from "../../components/Trophy";
+import { MyTrophies } from "../../components/Trophy/MyTrophies";
 
 const Feed = () => {
   const role = getStoredRole();
@@ -29,7 +21,6 @@ const Feed = () => {
       : state.federation.details
   );
 
-  /* getting data */
   const profileData = useMemo(
     () =>
       details
@@ -51,23 +42,10 @@ const Feed = () => {
 
           <div className="sub-cards-container flex">
             <div className="flex column">
-              <PostCard width={600} />
-              {/** <Post
-                width={600}
-                userName="Name"
-                //image="../../../../src/assets/icons/AthLink_noBG1.png"
-                description="Qorem ipsum dolor sit amet, consectetur adipiscing elit..."
-                onLike={() => handleLike()}
-                onComment={() => handleComment()}
-              />*/}
+              <TrophiesManager role={role} />
             </div>
-            {details?.user_id && (
-              <ConnectionsCard
-                currentUserId={Number(details?.user_id)}
-                width={250}
-              />
-            )}
           </div>
+          <MyTrophies />
         </div>
       </FeedLayout>
     </div>
