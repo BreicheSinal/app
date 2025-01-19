@@ -14,6 +14,7 @@ import Messaging from "../ui/pages/Messaging";
 import TryOuts from "../ui/pages/TryOuts";
 import Connections from "../ui/pages/Connections";
 import ViewTryOuts from "../ui/pages/ViewTryOuts";
+import Approvals from "../ui/pages/Approvals";
 
 import ProtectedRoute from "../core/routes/protectedRoute";
 
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/tryouts" element={<TryOuts />} />
             <Route path="/connections" element={<Connections />} />
             <Route path="/view/tryouts" element={<ViewTryOuts />} />
+            <Route path="/approvals" element={<Approvals />} />
           </Route>
 
           <Route path="*" element={<ErrorPage />} />
