@@ -1,0 +1,25 @@
+.feed-container {
+    background-color: #393939;
+    min-height: 100vh;
+  }
+  
+  .sub-cards-container {
+    flex-direction: row;
+  }
+  
+  @media (max-width: 768px) {
+    .cards-container {
+      flex-direction: column;
+    }
+  
+    .sub-cards-container {
+      flex-direction: column;
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1400px) {
+    .sub-cards-container {
+      flex-direction: column;
+    }
+  }
+  
