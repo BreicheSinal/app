@@ -42,9 +42,7 @@ const federationSlice = createSlice({
         );
       }
     },
-    resetFederationState: (state) => {
-      Object.assign(state, initialState);
-    },
+    resetFederationState: () => initialState,
   },
 });
 
