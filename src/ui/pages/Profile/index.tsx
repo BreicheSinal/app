@@ -40,6 +40,7 @@ import ConnectionsCard from "../../components/ConnectionCard";
 import "./style.css";
 import { CertificateCard } from "../../components/CertCard";
 import ClubsAffiliatedCard from "../../components/AfClubsCard";
+import { ViewMyTrophies } from "../../components/Trophy/ViewMyTrophies";
 
 const Profile = memo(() => {
   const role = getStoredRole();
@@ -189,11 +190,10 @@ const Profile = memo(() => {
       <FeedLayout>
         <div className="cards-container flex">
           <ProfileCard {...profileCardProps} />
-
           <div className="sub-cards-container flex">
             <div className="flex column">
               <BioCard
-                width={600}
+                width={595}
                 bioText={bioData.bioText}
                 showEdit={true}
                 onEdit={editUserBio}
@@ -201,7 +201,7 @@ const Profile = memo(() => {
               />
               {(role === "Athlete" || role === "Coach") && (
                 <ExperienceCard
-                  width={600}
+                  width={603}
                   experiences={experienceData.experiences}
                   addition={addUserExperience}
                   edit={editUserExperience}
@@ -209,6 +209,8 @@ const Profile = memo(() => {
                   delete={deleteUserExp}
                 />
               )}
+
+              {role === "Athlete" && <ViewMyTrophies />}
 
               {role === "Coach" && (
                 <CertificateCard
@@ -225,11 +227,12 @@ const Profile = memo(() => {
               {role === "Federation" && (
                 <ClubsAffiliatedCard {...clubAfCardProps} />
               )}
+              <div style={{ height: "50px" }}></div>
             </div>
-            {details?.user_id && (
-              <ConnectionsCard currentUserId={details?.user_id} width={250} />
-            )}
           </div>
+          {details?.user_id && (
+            <ConnectionsCard currentUserId={details?.user_id} width={245} />
+          )}
         </div>
       </FeedLayout>
     </div>
