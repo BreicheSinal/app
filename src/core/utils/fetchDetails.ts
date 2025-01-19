@@ -127,6 +127,12 @@ const parseUserData = (
         country: data.country || null,
         founded_year: data.founded_year || null,
         posts: response.posts,
+        trophies: trophyRes.map((trop: Trophy) => ({
+          id: trop.id,
+          name: trop.name,
+          description: trop.description,
+          status: trop.status,
+        })),
       };
 
     default:
@@ -142,7 +148,7 @@ export const fetchUserDetails =
       dispatch(setLoading(true));
       const url = `/${role.toLowerCase()}/${id}`;
 
-      if (role == "Athlete" && id == 5) {
+      if ((role == "Athlete" && id == 5) || role == "Federation") {
         const address = import.meta.env.VITE_PRIVATE_KEY;
 
         const trophyUrl = `/trophies/owner/${address}`;
