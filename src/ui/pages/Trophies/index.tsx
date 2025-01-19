@@ -8,7 +8,7 @@ import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
 import TrophiesManager from "../../components/Trophy";
 import { MyTrophies } from "../../components/Trophy/MyTrophies";
 
-const Feed = () => {
+const Trophies = () => {
   const role = getStoredRole();
 
   const details = useSelector((state: RootState) =>
@@ -52,4 +52,4 @@ const Feed = () => {
   );
 };
 
-export default Feed;
+export default Trophies;
