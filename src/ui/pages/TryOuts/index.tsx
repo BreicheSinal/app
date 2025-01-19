@@ -42,7 +42,12 @@ const TryOuts: FC = () => {
     <div className="feed-container">
       <FeedLayout>
         <div className="cards-container flex">
-          <ProfileCardView width={300} data={profileData} showConnect={false} />
+          <ProfileCardView
+            width={300}
+            data={profileData}
+            showConnect={false}
+            role={role}
+          />
 
           <div className="sub-cards-container flex">
             <div className="flex column">
