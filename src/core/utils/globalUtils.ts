@@ -97,6 +97,7 @@ export interface FederationDetails extends BaseUserDetails {
   country: string | null;
   founded_year: number | null;
   posts: Post[] | null;
+  trophies: Trophy[] | null;
 }
 
 export type UserDetails =
