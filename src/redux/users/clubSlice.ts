@@ -54,9 +54,7 @@ const clubSlice = createSlice({
         );
       }
     },
-    resetClubState: (state) => {
-      Object.assign(state, initialState);
-    },
+    resetClubState: () => initialState,
   },
 });
 
