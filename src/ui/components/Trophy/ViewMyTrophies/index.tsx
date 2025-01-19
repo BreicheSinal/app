@@ -32,7 +32,7 @@ export const ViewMyTrophies: FC = () => {
   const trophies = useSelector(selectApprovedTrophies);
 
   const handleAddClick = () => {
-    navigate("/feed");
+    navigate("/trophies");
   };
 
   return (
