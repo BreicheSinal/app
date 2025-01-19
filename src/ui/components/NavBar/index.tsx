@@ -83,6 +83,7 @@ const NavBar: FC = () => {
 
   const goTo = (path: string) => navigate(path);
 
+  const goToNoteEditor = () => goTo("/editor");
   const goToApprovals = () => goTo("/approvals");
   const goToViewTryOuts = () => goTo("/view/tryouts");
   const goToConnections = () => goTo("/connections");
@@ -238,7 +239,13 @@ const NavBar: FC = () => {
             edge="start"
             aria-label="open drawer"
             className="icon-button"
-            onClick={goToProfile}
+            onClick={() => {
+              if (role === "Club") {
+                goToNoteEditor();
+              } else {
+                goToProfile();
+              }
+            }}
           >
             <img
               src="../../../../src/assets/icons/AthLink_noBG1.png"
