@@ -72,7 +72,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
                   fontSize: "0.875rem",
                 }}
               >
-                Try-Out Name
+                Try-Out Name <span style={{ color: "#f44336" }}>*</span>
               </Typography>
               <TextField
                 value={name}
@@ -80,6 +80,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
                 placeholder="Name"
                 size="small"
                 disabled={isLoading}
+                required
                 sx={{
                   width: "100%",
                   "& .MuiOutlinedInput-root": {
@@ -105,7 +106,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
                   fontSize: "0.875rem",
                 }}
               >
-                Start Date
+                Start Date <span style={{ color: "#f44336" }}>*</span>
               </Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateTimePicker
@@ -117,7 +118,6 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
                     "day",
                     "hours",
                     "minutes",
-                    "seconds",
                   ]}
                   disabled={isLoading}
                   sx={{
@@ -142,6 +142,7 @@ export const AddTryoutForm: FC<AddTryoutFormProps> = ({ onAdd, isLoading }) => {
                   slotProps={{
                     textField: {
                       size: "small",
+                      required: true,
                     },
                     popper: {
                       sx: {
