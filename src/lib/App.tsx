@@ -9,7 +9,7 @@ import LogIn from "../ui/pages/LogIn";
 import ViewProfile from "../ui/pages/ViewProfile";
 import Profile from "../ui/pages/Profile";
 import ErrorPage from "../ui/pages/ErrorPage";
-import Feed from "../ui/pages/Feed";
+import Trophies from "../ui/pages/Trophies";
 import Messaging from "../ui/pages/Messaging";
 import TryOuts from "../ui/pages/TryOuts";
 import Connections from "../ui/pages/Connections";
@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/login" element={<LogIn />} />
 
           <Route element={<ProtectedRoute />}>
-            <Route path="/feed" element={<Feed />} />
+            <Route path="/trophies" element={<Trophies />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/view/:userId/:role" element={<ViewProfile />} />
             <Route path="/messaging" element={<Messaging />} />
