@@ -15,7 +15,8 @@ import TryOuts from "../ui/pages/TryOuts";
 import Connections from "../ui/pages/Connections";
 import ViewTryOuts from "../ui/pages/ViewTryOuts";
 import Approvals from "../ui/pages/Approvals";
-
+import NoteEditor from "../ui/pages/NoteEditor";
+ 
 import ProtectedRoute from "../core/routes/protectedRoute";
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="/connections" element={<Connections />} />
             <Route path="/view/tryouts" element={<ViewTryOuts />} />
             <Route path="/approvals" element={<Approvals />} />
+            <Route path="/editor" element={<NoteEditor  />} />
           </Route>
 
           <Route path="*" element={<ErrorPage />} />
