@@ -112,7 +112,7 @@ export const TryoutsList: FC<TryoutsListProps> = ({ tryouts, onDelete }) => {
                 )}
                 <Box>
                   <Typography component="span" sx={{ color: "white" }}>
-                    Link:{" "}
+                    Link:
                   </Typography>
                   <Link
                     href={tryout.meetingUrl}

@@ -5,21 +5,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { getProfileData } from "../../../core/utils/fetchDetails";
 import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
-import TrophiesManager from "../../components/Trophy";
-import { MyTrophies } from "../../components/Trophy/MyTrophies";
+import ConnectionsCard from "../../components/ConnectionCard";
+import TrophyApprovalsCard from "../../components/ApprovalsCard";
 
 const Approvals = () => {
   const role = getStoredRole();
 
-  const details = useSelector((state: RootState) =>
-    role === "Athlete"
-      ? state.athlete.details
-      : role === "Coach"
-      ? state.coach.details
-      : role === "Club"
-      ? state.club.details
-      : state.federation.details
-  );
+  const details = useSelector((state: RootState) => state.federation.details);
 
   const profileData = useMemo(
     () =>
@@ -39,13 +31,14 @@ const Approvals = () => {
             role={role}
             showConnect={false}
           />
-
           <div className="sub-cards-container flex">
             <div className="flex column">
-              <TrophiesManager role={role} />
+              <TrophyApprovalsCard />
             </div>
           </div>
-          <MyTrophies />
+          {details?.user_id && (
+            <ConnectionsCard currentUserId={details?.user_id} width={245} />
+          )}
         </div>
       </FeedLayout>
     </div>
