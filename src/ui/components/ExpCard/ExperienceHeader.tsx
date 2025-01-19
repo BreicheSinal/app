@@ -13,7 +13,7 @@ export const ExperienceHeader: FC<ExperienceHeaderProps> = ({
 }) => (
   <Box
     className="flex space-between align-center"
-    sx={{ position: "relative", mb: 1, pl: 1.5, pt: 1.5 }}
+    sx={{ position: "relative", mb: 1, pl: 1 }}
   >
     <Typography
       variant="h6"
