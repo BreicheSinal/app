@@ -1,20 +1,4 @@
-import { SxProps, Theme } from "@mui/material";
-
-interface EditorStyles {
-  container: SxProps<Theme>;
-  editorSection: SxProps<Theme>;
-  editorHeader: SxProps<Theme>;
-  editorTitle: SxProps<Theme>;
-  textField: SxProps<Theme>;
-  processedSection: SxProps<Theme>;
-  processedHeader: SxProps<Theme>;
-  processButton: SxProps<Theme>;
-  processedContent: SxProps<Theme>;
-  emptyState: SxProps<Theme>;
-  processedText: SxProps<Theme>;
-}
-
-export const editorStyles: EditorStyles = {
+export const styles = {
   container: {
     display: "flex",
     height: "80vh",
@@ -24,33 +8,35 @@ export const editorStyles: EditorStyles = {
     borderRadius: 2,
     boxShadow: 3,
     flexDirection: "column",
-    gap: 2,
     p: 3,
-    mt: 1,
+    mt: 2,
     mb: 1,
   },
 
-  editorSection: {
-    flex: 1,
-    bgcolor: "#27272a",
-    borderRadius: 2,
-    p: 2,
+  header: {
     display: "flex",
-    flexDirection: "column",
-    border: "1px solid #3f3f46",
-  },
-
-  editorHeader: {
-    display: "flex",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 1,
     mb: 2,
-    pl: 1,
+    borderBottom: "1px solid #3f3f46",
   },
 
-  editorTitle: {
+  tabs: {
+    minHeight: "48px",
+    "& .MuiTabs-indicator": {
+      backgroundColor: "#60a5fa",
+    },
+  },
+
+  tab: {
     color: "#e4e4e7",
-    fontWeight: 600,
+    minHeight: "48px",
+    textTransform: "none",
+    fontSize: "1rem",
+    fontWeight: 500,
+    "&.Mui-selected": {
+      color: "#60a5fa",
+    },
   },
 
   textField: {
@@ -78,28 +64,8 @@ export const editorStyles: EditorStyles = {
     },
   },
 
-  processedSection: {
-    flex: 1,
-    bgcolor: "#27272a",
-    borderRadius: 2,
-    p: 2,
-    display: "flex",
-    flexDirection: "column",
-    border: "1px solid #3f3f46",
-    maxHeight: "50%",
-    minHeight: "300px",
-  },
-
-  processedHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    mb: 2,
-    px: 1,
-    flexShrink: 0,
-  },
-
   processButton: {
+    mb: 1,
     bgcolor: "#2563eb",
     "&:hover": {
       bgcolor: "#1d4ed8",
