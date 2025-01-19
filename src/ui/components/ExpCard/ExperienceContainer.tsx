@@ -16,10 +16,10 @@ export const ExperienceContainer: FC<ExperienceContainerProps> = ({
       sx={{
         width: { xs: "90%", sm: width, md: width },
         minWidth: "300px",
-        maxWidth: "600px",
+        maxWidth: "615px",
         height: "auto",
         borderRadius: 2,
-        padding: 1,
+        p: 1.5,
       }}
     >
       {children}
