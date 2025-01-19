@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useMemo } from "react";
 import { Box, Card, CardContent, Typography, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
@@ -21,6 +21,12 @@ export const MyTrophies: FC = () => {
   const [expandedTrophies, setExpandedTrophies] = useState<{
     [key: string]: boolean;
   }>({});
+
+  const filteredTrophies = useMemo(() => {
+    return trophies.filter(
+      (trophy) => trophy.status == 0 || trophy.status == 2
+    );
+  }, [trophies]);
 
   const getOrCreateDate = (trophyId: number) => {
     if (!trophyDates[trophyId]) {
@@ -63,12 +69,12 @@ export const MyTrophies: FC = () => {
         </Box>
 
         <Box sx={getStyle("tryoutsList")}>
-          {trophies.length === 0 ? (
+          {filteredTrophies.length === 0 ? (
             <Typography sx={getStyle("infoValue")}>
-              No trophies requested yet
+              No pending or rejected trophies
             </Typography>
           ) : (
-            trophies.map((trophy: Trophy) => (
+            filteredTrophies.map((trophy: Trophy) => (
               <Box
                 key={trophy.id}
                 sx={{
