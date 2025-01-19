@@ -67,10 +67,10 @@ const Connections = memo(() => {
                 <PendingConnectionCard userId={details?.user_id} />
               )}
             </div>
-            {details?.user_id && (
-              <ConnectionsCard currentUserId={details?.user_id} width={250} />
-            )}
           </div>
+          {details?.user_id && (
+            <ConnectionsCard currentUserId={details?.user_id} width={250} />
+          )}
         </div>
       </FeedLayout>
     </div>
