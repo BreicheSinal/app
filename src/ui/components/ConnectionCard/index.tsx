@@ -112,9 +112,9 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({
   }
 
   return (
-    <Box className="Box flex align-start">
+    <Box className="flex align-start">
       <Card
-        className="Card secondary-bg-color"
+        className="secondary-bg-color"
         sx={{
           width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",
@@ -122,6 +122,9 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({
           height: "auto",
           border: "none",
           borderRadius: 2,
+          mt: 1,
+          pr: 1,
+          pl: 1,
         }}
       >
         <CardContent
