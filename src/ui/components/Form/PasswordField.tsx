@@ -28,6 +28,7 @@ const PasswordField: FC<PasswordFieldProps> = ({ value, onChange, error }) => {
         className="input-fields"
         fullWidth
         type={showPassword ? "text" : "password"}
+        autoComplete="current-password"
         value={value}
         onChange={onChange}
         placeholder="Password"

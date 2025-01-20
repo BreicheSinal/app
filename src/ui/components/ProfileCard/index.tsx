@@ -274,7 +274,6 @@ const ProfileCard: FC<ProfileCardProps> = ({
         <Card
           className="Card secondary-bg-color"
           sx={{
-            backgroundColor: getBadgeConfig(role).bgColor,
             width: { xs: "90%", sm: width, md: width },
             minWidth: "300px",
             maxWidth: "600px",

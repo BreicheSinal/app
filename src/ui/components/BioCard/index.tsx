@@ -39,7 +39,7 @@ export const BioCard: FC<BioCardProps> = ({
         <Box
           className="secondary-bg-color"
           sx={{
-            width: { xs: "90%", sm: width, md: width },
+            width: { xs: "87%", sm: width, md: width },
             minWidth: "300px",
             maxWidth: "600px",
             height: "auto",
@@ -49,7 +49,6 @@ export const BioCard: FC<BioCardProps> = ({
             pb: 2,
             pr: 2,
             pl: 2,
-            mr: 1.5,
           }}
         >
           <BioHeader

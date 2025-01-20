@@ -28,14 +28,14 @@ const UsernameField: FC<UsernameFieldProps> = ({ value, onChange, error }) => {
             "&:hover fieldset": { borderColor: "white" },
             "&.Mui-focused fieldset": { borderColor: "white" },
             "& input:-webkit-autofill": {
-              "-webkit-box-shadow": "0 0 0 30px #393939 inset !important",
-              "-webkit-text-fill-color": "#1D2125 !important",
+              WebkitBoxShadow: "0 0 0 30px #393939 inset !important",
+              WebkitTextFillColor: "#1D2125 !important",
             },
             "& input:-webkit-autofill:hover": {
-              "-webkit-box-shadow": "0 0 0 30px #393939 inset !important",
+              WebkitBoxShadow: "0 0 0 30px #393939 inset !important",
             },
             "& input:-webkit-autofill:focus": {
-              "-webkit-box-shadow": "0 0 0 30px #393939 inset !important",
+              WebkitBoxShadow: "0 0 0 30px #393939 inset !important",
             },
           },
         }}

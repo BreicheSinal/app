@@ -14,12 +14,12 @@ export const CertContainer: FC<CertContainerProps> = ({
     <Box
       className="Card secondary-bg-color"
       sx={{
-        width: { xs: "90%", sm: width, md: width },
+        width: { xs: "89%", sm: width, md: width },
         minWidth: "300px",
-        maxWidth: "600px",
+        maxWidth: "615px",
         height: "auto",
         borderRadius: 2,
-        padding: 1,
+        p: 1.5,
       }}
     >
       {children}

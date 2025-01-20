@@ -19,6 +19,7 @@ const EmailField: FC<EmailFieldProps> = ({ value, onChange, error }) => {
         value={value}
         onChange={onChange}
         placeholder="Email"
+        autoComplete="email"
         error={error}
         sx={{
           input: { color: "white" },
@@ -28,14 +29,14 @@ const EmailField: FC<EmailFieldProps> = ({ value, onChange, error }) => {
             "&:hover fieldset": { borderColor: "white" },
             "&.Mui-focused fieldset": { borderColor: "white" },
             "& input:-webkit-autofill": {
-              "-webkit-box-shadow": "0 0 0 30px #1D2125 inset !important",
-              "-webkit-text-fill-color": "#FFFFFF !important",
+              WebkitBoxShadow: "0 0 0 30px #1D2125 inset !important",
+              WebkitTextFillColor: "#FFFFFF !important",
             },
             "& input:-webkit-autofill:hover": {
-              "-webkit-box-shadow": "0 0 0 30px #1D2125 inset !important",
+              WebkitBoxShadow: "0 0 0 30px #1D2125 inset !important",
             },
             "& input:-webkit-autofill:focus": {
-              "-webkit-box-shadow": "0 0 0 30px #1D2125 inset !important",
+              WebkitBoxShadow: "0 0 0 30px #1D2125 inset !important",
             },
           },
         }}

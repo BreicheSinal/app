@@ -14,7 +14,7 @@ export const ExperienceContainer: FC<ExperienceContainerProps> = ({
     <Box
       className="Card secondary-bg-color"
       sx={{
-        width: { xs: "90%", sm: width, md: width },
+        width: { xs: "89%", sm: width, md: width },
         minWidth: "300px",
         maxWidth: "615px",
         height: "auto",

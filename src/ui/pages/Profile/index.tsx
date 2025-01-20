@@ -37,10 +37,11 @@ import { RootState, AppDispatch } from "../../../redux/store";
 import StaffCard from "../../components/StaffCard";
 import ConnectionsCard from "../../components/ConnectionCard";
 
-import "./style.css";
 import { CertificateCard } from "../../components/CertCard";
 import ClubsAffiliatedCard from "../../components/AfClubsCard";
 import { ViewMyTrophies } from "../../components/Trophy/ViewMyTrophies";
+
+import "./style.css";
 
 const Profile = memo(() => {
   const role = getStoredRole();
@@ -214,7 +215,7 @@ const Profile = memo(() => {
 
               {role === "Coach" && (
                 <CertificateCard
-                  width={600}
+                  width={603}
                   certificates={certificationsData.certificates}
                   addition={addUserCert}
                   edit={editUserExperience}
@@ -227,12 +228,13 @@ const Profile = memo(() => {
               {role === "Federation" && (
                 <ClubsAffiliatedCard {...clubAfCardProps} />
               )}
-              <div style={{ height: "50px" }}></div>
+              <div style={{ height: "5px" }}></div>
             </div>
+            {details?.user_id && (
+              <ConnectionsCard currentUserId={details?.user_id} width={245} />
+            )}
+            <div style={{ height: "25px" }}></div>
           </div>
-          {details?.user_id && (
-            <ConnectionsCard currentUserId={details?.user_id} width={245} />
-          )}
         </div>
       </FeedLayout>
     </div>

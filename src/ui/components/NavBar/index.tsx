@@ -159,7 +159,7 @@ const NavBar: FC = () => {
         </MenuItem>
       )}
       {role == "Club" && (
-        <MenuItem onClick={goToTrophies} sx={{ gap: 1.5 }}>
+        <MenuItem onClick={goToNoteEditor} sx={{ gap: 1.5 }}>
           <Edit3 size={16} />
           Notes Editor
         </MenuItem>
@@ -237,12 +237,22 @@ const NavBar: FC = () => {
         </IconButton>
         <p>Messaging</p>
       </MenuItem>
-      <MenuItem onClick={goToTryOuts} sx={{ gap: 1 }}>
-        <IconButton size="small" color="inherit" onClick={goToTryOuts}>
-          <NoteEvent />
-        </IconButton>
-        <p>Try-Outs</p>
-      </MenuItem>
+      {role == "Club" && (
+        <MenuItem onClick={goToTryOuts} sx={{ gap: 1 }}>
+          <IconButton size="small" color="inherit" onClick={goToTryOuts}>
+            <NoteEvent />
+          </IconButton>
+          <p>Try-Outs</p>
+        </MenuItem>
+      )}
+      {role == "Athlete" && (
+        <MenuItem onClick={goToViewTryOuts} sx={{ gap: 1 }}>
+          <IconButton size="small" color="inherit" onClick={goToViewTryOuts}>
+            <NoteEvent />
+          </IconButton>
+          <p>Try-Outs</p>
+        </MenuItem>
+      )}
       {role == "Club" && (
         <MenuItem onClick={goToNoteEditor} sx={{ gap: 1 }}>
           <IconButton size="small" color="inherit" onClick={goToNoteEditor}>
