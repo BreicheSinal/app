@@ -57,7 +57,6 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({
   );
 
   const navigateToProfile = (user: UserData) => {
-    console.log(user.id, details?.user_id);
     if (user.id != details?.user_id) navigate(`/view/${user.id}/${user.role}`);
     else navigate("/profile");
   };
@@ -116,7 +115,7 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({
       <Card
         className="secondary-bg-color"
         sx={{
-          width: { xs: "90%", sm: width, md: width },
+          width: { xs: "86%", sm: width, md: width },
           minWidth: "300px",
           maxWidth: "600px",
           height: "auto",
@@ -125,6 +124,7 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({
           mt: 1,
           pr: 1,
           pl: 1,
+          ml: 1.5,
         }}
       >
         <CardContent

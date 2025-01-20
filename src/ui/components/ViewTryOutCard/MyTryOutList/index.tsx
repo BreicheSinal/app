@@ -17,7 +17,6 @@ export const MyTryouts: FC = () => {
     (state: RootState) => state.athlete.details?.tryOuts || []
   );
 
-  console.log(athleteTryouts);
   const [expandedTryouts, setExpandedTryouts] = useState<{
     [key: string]: boolean;
   }>({});

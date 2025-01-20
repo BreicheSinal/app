@@ -79,14 +79,11 @@ const ChatComponent: FC<ChatComponentProps> = ({
 
   useEffect(() => {
     onNewMessage((newMessage) => {
-      console.log(newMessage.senderId, currentUser.id);
       if (
         selectedUser &&
         newMessage.chatID === selectedUser.chatID &&
         newMessage.senderId !== currentUser.id
       ) {
-        console.log("Message received in component:", newMessage);
-
         setLocalMessages((prev) => [...prev, newMessage]);
       }
     });

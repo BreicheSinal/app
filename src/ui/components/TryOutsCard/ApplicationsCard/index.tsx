@@ -53,15 +53,9 @@ const ClubApplications: FC<{ clubId: number }> = ({ clubId }) => {
     action: "accepted" | "rejected"
   ) => {
     try {
-      const response = await requestApi(
-        `club/update/applications/${applicationId}`,
-        "PUT",
-        {
-          action,
-        }
-      );
-
-      console.log(response);
+      await requestApi(`club/update/applications/${applicationId}`, "PUT", {
+        action,
+      });
 
       setApplications((prev) => {
         const updated = { ...prev };

@@ -39,7 +39,8 @@ const Editor: FC = () => {
     setIsLoading(true);
     setError(null);
 
-    const systemPrompt = import.meta.env.VITE_SYSTEM_PROMPT;
+    const systemPrompt =
+      "You are an AI assistant that specializes in simplifying and structuring sports-related notes. When provided with raw or unorganized sports content, your role is to rewrite it in clear, concise, and easily understandable English. Organize the information logically, include bullet points or sections if needed, and ensure readability for a general audience. Avoid jargon or overly technical terms unless explicitly necessary";
     try {
       const data = await requestApi("/notes/process", "POST", {
         notes,

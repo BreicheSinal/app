@@ -27,20 +27,17 @@ const fetchPendingTrophies = async () => {
   try {
     const address = import.meta.env.VITE_PRIVATE_KEY;
     const response = await requestApi(`/trophies/owner/${address}`, "GET");
-    console.log("Raw response:", response);
 
     if (!response) {
       return [];
     }
 
     const trophies = Array.isArray(response) ? response : [];
-    console.log("Trophies before filter:", trophies);
 
     const pendingTrophies = trophies.filter((trophy) => {
       return String(trophy.status) === "0";
     });
 
-    console.log("Pending trophies after filter:", pendingTrophies);
     return pendingTrophies;
   } catch (error) {
     console.error("Error fetching pending trophies:", error);
@@ -73,7 +70,6 @@ const TrophyApprovalsCard: FC<ApprovalCardProps> = memo(({ width = 600 }) => {
   const loadPendingTrophies = useCallback(async () => {
     setIsLoading(true);
     const trophies = await fetchPendingTrophies();
-    console.log(trophies);
     setPendingTrophies(trophies);
     setIsLoading(false);
   }, []);
@@ -114,7 +110,7 @@ const TrophyApprovalsCard: FC<ApprovalCardProps> = memo(({ width = 600 }) => {
   );
 
   return (
-    <Box className="Box flex align-start">
+    <Box className="Box flex align-start" sx={{ mr: 1.5 }}>
       <Card
         className="Card secondary-bg-color"
         sx={{
@@ -175,6 +171,14 @@ const TrophyApprovalsCard: FC<ApprovalCardProps> = memo(({ width = 600 }) => {
                     }}
                   >
                     <Box>
+                      <Typography
+                        className="white-color"
+                        sx={{ opacity: 0.7, fontSize: "0.875rem", mr: 5 }}
+                      >
+                        Sinal Breiche
+                      </Typography>
+                    </Box>
+                    <Box>
                       <Typography className="white-color">
                         {trophy.name}
                       </Typography>
@@ -185,7 +189,7 @@ const TrophyApprovalsCard: FC<ApprovalCardProps> = memo(({ width = 600 }) => {
                         {trophy.description}
                       </Typography>
                     </Box>
-                    <Box sx={{ display: "flex", gap: 1 }}>
+                    <Box sx={{ display: "flex", gap: 1, ml: 5 }}>
                       <Button
                         disableRipple
                         variant="contained"

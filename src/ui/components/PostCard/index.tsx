@@ -51,7 +51,6 @@ const PostCard: FC<PostCardProps> = ({ width = 600 }) => {
 
   const handlePost = () => {
     if (post.trim()) {
-      console.log("Posting:", post);
       setPost("");
       setIsExpanded(false);
     }

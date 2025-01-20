@@ -79,12 +79,11 @@ export const useChat = (currentUserId: number) => {
 
   const selectUser = useCallback(
     (user: ChatUser) => {
-      console.log("Selecting user with chatID:", user.chatID);
       if (user.chatID) {
         setSelectedChat(user.chatID);
         fetchMessages(user.chatID);
       } else {
-        setMessages([]); 
+        setMessages([]);
         setSelectedChat(null);
       }
     },
@@ -101,7 +100,7 @@ export const useChat = (currentUserId: number) => {
 
     if (newUser.chatID) {
       setSelectedChat(newUser.chatID);
-      setMessages([]); 
+      setMessages([]);
     }
   }, []);
 
@@ -112,7 +111,7 @@ export const useChat = (currentUserId: number) => {
       setLoading(true);
 
       const tempMessage: ChatMessage = {
-        id: Date.now(), 
+        id: Date.now(),
         senderId: currentUserId,
         receiverId: users.find((u) => u.chatID === chatId)?.id || 0,
         content: message,

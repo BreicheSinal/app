@@ -2,7 +2,6 @@ import { FC, useEffect, useState, useCallback, memo } from "react";
 import { requestApi } from "../../../core/utils/request";
 import {
   Box,
-  Card,
   CardContent,
   Typography,
   Button,
@@ -10,6 +9,8 @@ import {
   ListItem,
   CircularProgress,
 } from "@mui/material";
+
+import "./style.css";
 
 interface User {
   id: string;
@@ -28,10 +29,8 @@ interface PendingConnectionCardProps {
 const fetchPendingConnections = async (userId: number) => {
   try {
     const response = await requestApi(`/user/pending/${userId}`, "GET");
-    console.log("API Response:", response);
 
     if (!response || !response.connections) {
-      console.log("No connections in response");
       return [];
     }
 
@@ -70,7 +69,6 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
       setIsLoading(true);
       try {
         const response = await fetchPendingConnections(userId);
-        console.log("Fetched connections:", response);
         if (response) {
           setPendingConnections(response);
         } else {
@@ -91,7 +89,6 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
 
     const handleConnectionAction = useCallback(
       async (user_Id: number, status: "accepted" | "rejected") => {
-        //console.log(connectedUserId, userId, status);
         const connectedUserId = userId;
         const success = await updateConnectionStatus(
           connectedUserId,
@@ -99,7 +96,6 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
           status
         );
 
-        console.log(success);
         if (success) {
           setPendingConnections((prev) =>
             prev.filter((conn) => Number(conn.user.id) !== user_Id)
@@ -111,7 +107,7 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
 
     return (
       <Box className="Box flex align-start">
-        <Card
+        <Box
           className="Card secondary-bg-color"
           sx={{
             width: { xs: "90%", sm: width, md: width },
@@ -120,7 +116,7 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
             borderRadius: 2,
           }}
         >
-          <CardContent sx={{ p: 2 }}>
+          <CardContent>
             <Typography
               className="tertiary-color"
               variant="h6"
@@ -209,7 +205,7 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
               </List>
             )}
           </CardContent>
-        </Card>
+        </Box>
       </Box>
     );
   }

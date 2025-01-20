@@ -25,13 +25,9 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("authToken");
-
   useEffect(() => {
-    if (token) {
-      navigate("/profile");
-    }
-  }, [navigate, token]);
+    localStorage.clear();
+  });
 
   const validation = () => {
     let isValid = true;
@@ -85,8 +81,6 @@ const SignUp = () => {
         password,
         roles,
       });
-
-      console.log("User registered:", response);
 
       if (response.token) {
         localStorage.setItem("authToken", response.token);

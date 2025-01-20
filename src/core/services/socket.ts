@@ -18,7 +18,6 @@ export const connect = (userId: number): Promise<void> => {
     });
 
     socket.on("connect", () => {
-      console.log("Connected to socket server with ID:", socket?.id);
       socket?.emit("join", userId);
       resolve();
     });
@@ -26,10 +25,6 @@ export const connect = (userId: number): Promise<void> => {
     socket.on("connect_error", (error) => {
       console.error("Socket connection error:", error);
       reject(error);
-    });
-
-    socket.on("newMessage", (data) => {
-      console.log("Socket received message:", data);
     });
   });
 };
@@ -46,7 +41,6 @@ export const sendSocketMessage = async (chatId: number, message: string) => {
     throw new Error("Socket not connected. Cannot send message.");
   }
   socket.emit("sendMessage", { chatId, message });
-  console.log("msg sent!");
 };
 
 export const onNewMessage = (callback: (data: ChatMessage) => void) => {

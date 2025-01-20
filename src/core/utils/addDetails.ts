@@ -72,7 +72,6 @@ export const applyToTryOut = async (
   try_out_id: number
 ) => {
   try {
-    console.log(athlete_id, try_out_id);
     const url = "/athlete/tryout/apply";
     const data = {
       athlete_id,
