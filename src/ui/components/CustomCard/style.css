@@ -1,0 +1,9 @@
+.Box {
+  padding: 10px;
+}
+
+.Card {
+  box-shadow: none !important;
+  border: 1px solid rgba(185, 185, 185, 0.5);
+  padding: 8px;
+}
