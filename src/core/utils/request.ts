@@ -11,6 +11,8 @@ export const requestApi = async (
   data?: any
 ) => {
   try {
+    const token = localStorage.getItem("authToken");
+
     const config = {
       url,
       method,
@@ -18,6 +20,7 @@ export const requestApi = async (
       headers: {
         "Content-Type":
           data instanceof FormData ? "multipart/form-data" : "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
     };
 
