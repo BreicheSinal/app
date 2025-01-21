@@ -1,16 +1,10 @@
-import { AppDispatch } from "../../redux/store";
+import store, { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
-import {
-  Certificate,
-  Experience,
-  dispatchFetch,
-  getStoredRole,
-  getStoredRoleId,
-} from "./globalUtils";
+import { Certificate, Experience, dispatchFetch } from "./globalUtils";
 import { addApplication } from "../../redux/users/athleteSlice";
 
-const role = getStoredRole();
-const roleId = getStoredRoleId();
+const state = store.getState();
+const { role, roleId } = state.auth;
 
 export const addExperience = async (
   experience: Omit<Experience, "id">,

@@ -1,10 +1,10 @@
-import { AppDispatch } from "../../redux/store";
+import store, { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
 
-import { getStoredRole, getStoredRoleId, dispatchFetch } from "./globalUtils";
+import { dispatchFetch } from "./globalUtils";
 
-const role = getStoredRole();
-const roleId = getStoredRoleId();
+const state = store.getState();
+const { role, roleId } = state.auth;
 
 export const deleteExp = async (dispatch: AppDispatch, exp_id: number) => {
   try {

@@ -1,13 +1,13 @@
-import { dispatchFetch, getStoredRole, getStoredRoleId } from "./globalUtils";
+import { dispatchFetch } from "./globalUtils";
 import { NavigateFunction } from "react-router-dom";
-import { AppDispatch } from "../../redux/store";
+import store, { AppDispatch } from "../../redux/store";
 
 export const initializeUserData = (
   navigate: NavigateFunction,
   dispatch: AppDispatch
 ) => {
-  const role = getStoredRole();
-  const roleId = getStoredRoleId();
+  const state = store.getState();
+  const { role, roleId } = state.auth;
 
   if (!role || !roleId) {
     navigate("/login");
