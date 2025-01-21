@@ -3,19 +3,21 @@ import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../redux/store";
 import { initializeUserData } from "../utils/initialize";
-import { getStoredRole } from "../utils/globalUtils";
+import { ValidRoleType } from "../utils/globalUtils";
 import { CircularProgress } from "@mui/material";
 import { fetchTryOuts } from "../utils/fetchDetails";
+import { setAuthState, setInitialized } from "../../redux/users/authSlice";
 
 const ProtectedRoute: FC = () => {
-  const token = localStorage.getItem("authToken");
-
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const role = getStoredRole();
+  const { role, roleId, isInitialized } = useSelector(
+    (state: RootState) => state.auth
+  );
+
   const details = useSelector((state: RootState) =>
     role === "Athlete"
       ? state.athlete.details
@@ -26,25 +28,60 @@ const ProtectedRoute: FC = () => {
       : state.federation.details
   );
 
-  const initialize = useCallback(async () => {
-    if (!details) {
-      await fetchTryOuts(dispatch);
-      await initializeUserData(navigate, dispatch);
+  const initializeAuth = useCallback(async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const storedRole = localStorage.getItem("role") as ValidRoleType;
+      const storedRoleId = localStorage.getItem("specificRoleId");
+
+      if (!token) {
+        throw new Error("No auth token found");
+      }
+
+      if (storedRole && storedRoleId) {
+        dispatch(
+          setAuthState({
+            role: storedRole,
+            roleId: parseInt(storedRoleId),
+          })
+        );
+      }
+
+      if (!details) {
+        await fetchTryOuts(dispatch);
+        await initializeUserData(navigate, dispatch);
+      }
+
+      dispatch(setInitialized(true));
+    } catch (error) {
+      console.error("Initialization error:", error);
+      localStorage.clear();
+      navigate("/login");
+    } finally {
+      setIsLoading(false);
     }
-    setIsInitialized(true);
-  }, [details, navigate, dispatch]);
+  }, [dispatch, navigate, details]);
 
   useEffect(() => {
-    if (token) {
-      initialize();
-    }
-  }, [token, initialize]);
+    initializeAuth();
+  }, [initializeAuth]);
 
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
+  useEffect(() => {
+    const handleStorageChange = (event: StorageEvent) => {
+      if (
+        event.key === "role" ||
+        event.key === "specificRoleId" ||
+        event.key === "authToken"
+      ) {
+        initializeAuth();
+      }
+    };
 
-  if (!isInitialized) {
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, [initializeAuth]);
+
+  if (isLoading || !isInitialized) {
     return (
       <div
         style={{
@@ -57,6 +94,10 @@ const ProtectedRoute: FC = () => {
         <CircularProgress />
       </div>
     );
+  }
+
+  if (!role || !roleId) {
+    return <Navigate to="/login" />;
   }
 
   return <Outlet />;

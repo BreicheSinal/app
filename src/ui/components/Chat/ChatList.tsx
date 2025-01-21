@@ -12,7 +12,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { ChatUser } from "../../../core/hooks/chatHook";
+import { ChatUser } from "../../../core/hooks/useChat";
 import ChatDialog from "./ChatDialog";
 import ChatSearch from "./ChatSearch";
 

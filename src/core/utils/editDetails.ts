@@ -1,16 +1,12 @@
-import { AppDispatch } from "../../redux/store";
+import store, { AppDispatch } from "../../redux/store";
 import { requestApi } from "./request";
 
 import {
   Experience,
   ValidRoleType,
   dispatchFetch,
-  getStoredRole,
-  getStoredRoleId,
 } from "./globalUtils";
 
-const role = getStoredRole();
-const roleId = getStoredRoleId();
 
 const getEndpoint = (role: string, roleId: number) =>
   `/${role.toLowerCase()}/editProfile/${roleId}`;
@@ -21,6 +17,9 @@ export const editExperience = async (
   exp_id: number,
   id: number
 ) => {
+  const state = store.getState();
+    const { role } = state.auth;
+
   try {
     if (!role) throw new Error("User role or ID missing");
     const endpoint = `/user/editExpCert/${exp_id}`;
@@ -35,6 +34,9 @@ export const editExperience = async (
 
 export const editBio = async (updatedBio: string, dispatch: AppDispatch) => {
   try {
+    const state = store.getState();
+    const { role, roleId } = state.auth;
+
     if (!role || !roleId) throw new Error("User role or ID missing");
 
     const endpoint = `/${role.toLowerCase()}/editBio/${roleId}`;
@@ -68,6 +70,9 @@ export const editProfile = async (
   role: ValidRoleType,
   dispatch: AppDispatch
 ) => {
+  const state = store.getState();
+    const { roleId } = state.auth;
+    
   if (!role || !roleId) throw new Error("User role or ID missing");
 
   const formattedFields = formatFields(updatedFields);

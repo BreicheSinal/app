@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Box, Typography, Avatar } from "@mui/material";
-import { ChatUser } from "../../../core/hooks/chatHook";
+import { ChatUser } from "../../../core/hooks/useChat";
 
 interface ChatHeaderProps {
   selectedUser: ChatUser | null;

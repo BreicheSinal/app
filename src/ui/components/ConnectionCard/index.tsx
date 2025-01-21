@@ -10,8 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { requestApi } from "../../../core/utils/request";
 
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { getStoredRole } from "../../../core/utils/globalUtils";
+import store, { RootState } from "../../../redux/store";
 
 interface UserData {
   id: number;
@@ -44,7 +43,8 @@ const ConnectionsCard: FC<ConnectionsCardProps> = ({
   const [connections, setConnections] = useState<TransformedConnection[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const role = getStoredRole();
+  const state = store.getState();
+  const { role } = state.auth;
 
   const details = useSelector((state: RootState) =>
     role === "Athlete"

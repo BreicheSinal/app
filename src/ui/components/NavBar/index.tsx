@@ -21,7 +21,7 @@ import { Trophy } from "lucide-react";
 import { Edit3 } from "lucide-react";
 
 import SearchBar from "../SearchBar";
-import { getStoredRole, createSetters } from "../../../core/utils/globalUtils";
+import { createSetters } from "../../../core/utils/globalUtils";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
@@ -30,15 +30,16 @@ import { resetAthleteState } from "../../../redux/users/athleteSlice";
 import { resetCoachState } from "../../../redux/users/coachSlice";
 import { resetClubState } from "../../../redux/users/clubSlice";
 import { resetFederationState } from "../../../redux/users/federationSlice";
-import { resetAllState, RootState } from "../../../redux/store";
+import store, { resetAllState, RootState } from "../../../redux/store";
 
 import "./style.css";
 
 const NavBar: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const role = getStoredRole();
+  
+  const state = store.getState();
+  const { role } = state.auth;
   createSetters(role!);
 
   const [profileAnchorEl, setProfileAnchorEl] = useState<null | HTMLElement>(

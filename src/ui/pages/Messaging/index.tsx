@@ -2,18 +2,19 @@ import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import NavBar from "../../components/NavBar";
 import ChatComponent from "../../components/Chat";
-import { RootState } from "../../../redux/store";
-import { getStoredRole } from "../../../core/utils/globalUtils";
-import { useChat } from "../../../core/hooks/chatHook";
+import store, { RootState } from "../../../redux/store";
+import { useChat } from "../../../core/hooks/useChat";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
 import { useState } from "react";
 
 const Messaging = () => {
   const [showError, setShowError] = useState(true);
-  const roleCurrentUser = getStoredRole();
+  const state = store.getState();
+  const { role } = state.auth;
+
   const currentUser = useSelector((state: RootState) => {
-    switch (roleCurrentUser) {
+    switch (role) {
       case "Athlete":
         return state.athlete.details;
       case "Coach":
@@ -85,10 +86,10 @@ const Messaging = () => {
 
       <Box
         sx={{
-          flexGrow: 4, 
+          flexGrow: 4,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center", 
+          justifyContent: "center",
         }}
       >
         <Box sx={{ width: "100%", maxWidth: "1200px" }}>

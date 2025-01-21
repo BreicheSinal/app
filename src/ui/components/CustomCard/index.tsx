@@ -135,9 +135,9 @@ const CustomCard: FC<CardDataProps> = ({
       <Card
         className="Card secondary-bg-color"
         sx={{
-          width: { xs: "90%", sm: width, md: width },
+          width: { xs: "87%", sm: width, md: width },
           minWidth: "300px",
-          maxWidth: "600px",
+          maxWidth: "611px",
           height: "auto",
           border: "none",
           borderRadius: 2,

@@ -1,5 +1,5 @@
 import { io, Socket } from "socket.io-client";
-import { ChatMessage } from "../hooks/chatHook";
+import { ChatMessage } from "../hooks/useChat";
 
 export let socket: Socket | null = null;
 

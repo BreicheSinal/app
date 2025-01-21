@@ -2,14 +2,15 @@ import { useMemo } from "react";
 import FeedLayout from "../../Layout/FeedLayout";
 import { ProfileCardView } from "../../components/ProfileCard";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import store, { RootState } from "../../../redux/store";
 import { getProfileData } from "../../../core/utils/fetchDetails";
-import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
+import { UserDetails } from "../../../core/utils/globalUtils";
 import ConnectionsCard from "../../components/ConnectionCard";
 import TrophyApprovalsCard from "../../components/ApprovalsCard";
 
 const Approvals = () => {
-  const role = getStoredRole();
+  const state = store.getState();
+  const { role } = state.auth;
 
   const details = useSelector((state: RootState) => state.federation.details);
 
@@ -28,7 +29,7 @@ const Approvals = () => {
           <ProfileCardView
             width={300}
             data={profileData}
-            role={role}
+            role={role!}
             showConnect={false}
           />
           <div className="sub-cards-container flex">

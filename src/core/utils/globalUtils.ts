@@ -159,16 +159,6 @@ export const dispatchFetch = (
   return dispatch(fetchUserDetails(role, id));
 };
 
-export const getStoredRole = (): ValidRoleType => {
-  const role = localStorage.getItem("role");
-
-  return role as ValidRoleType;
-};
-export const getStoredRoleId = () => {
-  const id = localStorage.getItem("specificRoleId");
-  return id ? parseInt(id) : null;
-};
-
 type SetterMap = {
   Athlete: {
     setLoading: typeof setAthleteLoading;

@@ -19,7 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/CheckCircleOutline";
 import PendingIcon from "@mui/icons-material/PendingOutlined";
-import { getStoredRole, ClubOption } from "../../../core/utils/globalUtils";
+import { ClubOption } from "../../../core/utils/globalUtils";
 import {
   fetchClubOptions,
   fetchFederationOptions,
@@ -28,6 +28,7 @@ import {
 import { BadgeCheck } from "lucide-react";
 
 import "./style.css";
+import store from "../../../redux/store";
 
 interface ProfileField {
   label: string;
@@ -67,7 +68,9 @@ const ProfileCard: FC<ProfileCardProps> = ({
   onEdit,
   isLoading = false,
 }) => {
-  const role = useMemo(() => getStoredRole(), []);
+  const state = store.getState();
+  const { role } = state.auth;
+
   const [clubs, setClubs] = useState([]);
   const [open, setOpen] = useState(false);
   const [editedFields, setEditedFields] = useState<{
@@ -283,7 +286,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
           <Box
             className="banner full-width relative-position"
             sx={{
-              backgroundColor: getBadgeConfig(role).bgColor,
+              backgroundColor: getBadgeConfig(role!).bgColor,
               position: "relative",
               overflow: "visible",
             }}
@@ -298,7 +301,7 @@ const ProfileCard: FC<ProfileCardProps> = ({
                 gap: "8px",
               }}
             >
-              <BadgeCheck size={24} color={getBadgeConfig(role).color} />
+              <BadgeCheck size={24} color={getBadgeConfig(role!).color} />
             </Box>
             <Avatar
               className="absolute-position"

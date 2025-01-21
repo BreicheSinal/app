@@ -7,8 +7,8 @@ import { ProfileCardView } from "../../components/ProfileCard";
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import { getStoredRole, UserDetails } from "../../../core/utils/globalUtils";
+import store, { RootState } from "../../../redux/store";
+import { UserDetails } from "../../../core/utils/globalUtils";
 
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
@@ -17,7 +17,8 @@ import ClubApplications from "../../components/TryOutsCard/ApplicationsCard";
 import "./style.css";
 
 const TryOuts: FC = () => {
-  const role = getStoredRole();
+  const state = store.getState();
+  const { role } = state.auth;
 
   const details = useSelector((state: RootState) =>
     role === "Athlete"
@@ -46,7 +47,7 @@ const TryOuts: FC = () => {
             width={300}
             data={profileData}
             showConnect={false}
-            role={role}
+            role={role!}
           />
 
           <div className="sub-cards-container flex">

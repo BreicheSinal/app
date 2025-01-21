@@ -6,8 +6,6 @@ import { ExperienceCardView } from "../../components/ExpCard";
 import { BioCardView } from "../../components/BioCard";
 import { ProfileCardView } from "../../components/ProfileCard";
 
-import { CircularProgress } from "@mui/material";
-
 import {
   getBioData,
   getProfileData,
@@ -25,7 +23,6 @@ import {
   AthleteDetails,
   CoachDetails,
   createSetters,
-  getStoredRole,
   ValidRoleType,
 } from "../../../core/utils/globalUtils";
 
@@ -35,8 +32,13 @@ import ConnectionsCard from "../../components/ConnectionCard";
 import { CertificateCardView } from "../../components/CertCard";
 import StaffCard from "../../components/StaffCard";
 import { ViewVMyTrophies } from "../../components/Trophy/ViewMyTrophies";
+import InitialLoader from "../../components/LoadingSpinner";
+import { CircularProgress } from "@mui/material";
+import ClubsAffiliatedCard from "../../components/AfClubsCard";
 
 const ViewProfile = () => {
+  const { role: authRole } = useSelector((state: RootState) => state.auth);
+
   const { userId, role } = useParams<{ userId: string; role: ValidRoleType }>();
   const [userData, setUserData] = useState<UserDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,11 +46,10 @@ const ViewProfile = () => {
 
   const [connectionStatus, setConnectionStatus] = useState<string | null>(null);
 
-  const roleCurrentUser = getStoredRole();
-  createSetters(roleCurrentUser!);
+  createSetters(authRole!);
 
   const currentUserId = useSelector((state: RootState) => {
-    switch (roleCurrentUser) {
+    switch (authRole) {
       case "Athlete":
         return state.athlete.details?.user_id;
       case "Coach":
@@ -146,6 +147,15 @@ const ViewProfile = () => {
     [userData?.id]
   );
 
+  const clubAfCardProps = useMemo(
+    () => ({
+      federationId: userData?.id || 0,
+      width: 615,
+      showEdit: false,
+    }),
+    [userData?.id]
+  );
+
   if (isLoading) {
     return (
       <div className="feed-container">
@@ -169,55 +179,62 @@ const ViewProfile = () => {
   }
 
   return (
-    <div className="feed-container">
-      <FeedLayout>
-        <div className="cards-container flex">
-          <ProfileCardView
-            width={300}
-            data={profileData}
-            role={role}
-            showConnect={true}
-            connectedUserId={Number(userId)}
-            userId={currentUserId!}
-            connectionStatus={connectionStatus!}
-            onConnect={connect}
-          />
+    <>
+      <InitialLoader />
+      <div className="feed-container">
+        <FeedLayout>
+          <div className="cards-container flex">
+            <ProfileCardView
+              width={300}
+              data={profileData}
+              role={role}
+              showConnect={true}
+              connectedUserId={Number(userId)}
+              userId={currentUserId!}
+              connectionStatus={connectionStatus!}
+              onConnect={connect}
+            />
 
-          <div className="sub-cards-container flex">
-            <div className="flex column">
-              <BioCardView width={600} bioText={bioData.bioText} />
+            <div className="sub-cards-container flex">
+              <div className="flex column">
+                <BioCardView width={595} bioText={bioData.bioText} />
 
-              {(userData?.role === "Athlete" || userData?.role === "Coach") &&
-                experienceData?.experiences?.length > 0 && (
-                  <ExperienceCardView
-                    width={600}
-                    experiences={experienceData.experiences}
-                  />
+                {(userData?.role === "Athlete" || userData?.role === "Coach") &&
+                  experienceData?.experiences?.length > 0 && (
+                    <ExperienceCardView
+                      width={603}
+                      experiences={experienceData.experiences}
+                    />
+                  )}
+
+                {userData?.role === "Coach" &&
+                  certificationsData?.certificates?.length > 0 && (
+                    <CertificateCardView
+                      width={603}
+                      certificates={certificationsData.certificates}
+                    />
+                  )}
+
+                {userData?.role === "Athlete" && (
+                  <ViewVMyTrophies trophies={trophiesData.trophies} />
                 )}
 
-              {userData?.role === "Coach" &&
-                certificationsData?.certificates?.length > 0 && (
-                  <CertificateCardView
-                    width={600}
-                    certificates={certificationsData.certificates}
-                  />
+                {userData?.role === "Club" && staffCardProps?.clubId > 0 && (
+                  <StaffCard {...staffCardProps} />
                 )}
 
-              {userData?.role === "Athlete" && (
-                <ViewVMyTrophies trophies={trophiesData.trophies} />
-              )}
-
-              {userData?.role === "Club" && staffCardProps?.clubId > 0 && (
-                <StaffCard {...staffCardProps} />
-              )}
+                {role === "Federation" && (
+                  <ClubsAffiliatedCard {...clubAfCardProps} />
+                )}
+              </div>
             </div>
+            {userId && (
+              <ConnectionsCard currentUserId={Number(userId)} width={250} />
+            )}
           </div>
-          {userId && (
-            <ConnectionsCard currentUserId={Number(userId)} width={250} />
-          )}
-        </div>
-      </FeedLayout>
-    </div>
+        </FeedLayout>
+      </div>
+    </>
   );
 };
 

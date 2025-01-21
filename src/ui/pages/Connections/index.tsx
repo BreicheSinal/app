@@ -6,23 +6,20 @@ import { ProfileCardView } from "../../components/ProfileCard";
 
 import { getProfileData } from "../../../core/utils/fetchDetails";
 
-import {
-  getStoredRole,
-  UserDetails,
-  createSetters,
-} from "../../../core/utils/globalUtils";
+import { UserDetails, createSetters } from "../../../core/utils/globalUtils";
 
 import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import store, { RootState } from "../../../redux/store";
 
 import ConnectionsCard from "../../components/ConnectionCard";
 
 import "./style.css";
 import PendingConnectionCard from "../../components/PendingConnCard";
+import InitialLoader from "../../components/LoadingSpinner";
 
 const Connections = memo(() => {
-  const role = getStoredRole();
-
+  const state = store.getState();
+  const { role } = state.auth;
   createSetters(role!);
 
   const details = useSelector((state: RootState) => {
@@ -50,30 +47,33 @@ const Connections = memo(() => {
   );
 
   return (
-    <div className="feed-container">
-      <FeedLayout>
-        <div className="cards-container flex">
-          <ProfileCardView
-            width={300}
-            data={profileData}
-            showConnect={false}
-            role={role}
-            userId={details?.user_id}
-          />
+    <>
+      <InitialLoader />
+      <div className="feed-container">
+        <FeedLayout>
+          <div className="cards-container flex">
+            <ProfileCardView
+              width={300}
+              data={profileData}
+              showConnect={false}
+              role={role!}
+              userId={details?.user_id}
+            />
 
-          <div className="sub-cards-container flex">
-            <div className="flex column">
+            <div className="sub-cards-container flex">
+              <div className="flex column">
+                {details?.user_id && (
+                  <PendingConnectionCard userId={details?.user_id} />
+                )}
+              </div>
               {details?.user_id && (
-                <PendingConnectionCard userId={details?.user_id} />
+                <ConnectionsCard currentUserId={details?.user_id} width={250} />
               )}
             </div>
           </div>
-          {details?.user_id && (
-            <ConnectionsCard currentUserId={details?.user_id} width={250} />
-          )}
-        </div>
-      </FeedLayout>
-    </div>
+        </FeedLayout>
+      </div>
+    </>
   );
 });
 

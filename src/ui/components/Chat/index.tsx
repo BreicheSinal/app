@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import { Box } from "@mui/material";
-import { ChatUser, ChatMessage, useChat } from "../../../core/hooks/chatHook";
+import { ChatUser, ChatMessage, useChat } from "../../../core/hooks/useChat";
 import {
   connect,
   joinChat,

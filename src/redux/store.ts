@@ -5,6 +5,7 @@ import coachReducer from "./users/coachSlice";
 import clubReducer from "./users/clubSlice";
 import federationReducer from "./users/federationSlice";
 import tryOutsReducer from "./users/tryOutSlice";
+import authReducer from "./users/authSlice";
 
 const combinedReducers = combineReducers({
   athlete: athleteReducer,
@@ -12,6 +13,7 @@ const combinedReducers = combineReducers({
   club: clubReducer,
   federation: federationReducer,
   tryOuts: tryOutsReducer,
+  auth: authReducer,
 });
 
 export type RootState = ReturnType<typeof combinedReducers>;

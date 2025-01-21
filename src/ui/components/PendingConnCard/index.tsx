@@ -59,7 +59,7 @@ const updateConnectionStatus = async (
 };
 
 const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
-  ({ userId, width = 600 }) => {
+  ({ userId, width = 615 }) => {
     const [pendingConnections, setPendingConnections] = useState<Connection[]>(
       []
     );
@@ -108,9 +108,9 @@ const PendingConnectionCard: FC<PendingConnectionCardProps> = memo(
     return (
       <Box className="Box flex align-start">
         <Box
-          className="Card secondary-bg-color"
+          className="secondary-bg-color"
           sx={{
-            width: { xs: "90%", sm: width, md: width },
+            width: { xs: "87%", sm: width, md: width },
             minWidth: "300px",
             maxWidth: "615px",
             borderRadius: 2,
