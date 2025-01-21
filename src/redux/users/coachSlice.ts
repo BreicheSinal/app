@@ -49,19 +49,6 @@ const coachSlice = createSlice({
         );
       }
     },
-    addCoachPost: (state, action) => {
-      if (state.details) {
-        const posts = state.details.posts || [];
-        state.details.posts = [action.payload, ...posts];
-      }
-    },
-    deletePost: (state, action) => {
-      if (state.details?.posts) {
-        state.details.posts = state.details.posts.filter(
-          (post) => post.id !== action.payload
-        );
-      }
-    },
     resetCoachState: () => initialState,
   },
 });
@@ -73,8 +60,6 @@ export const {
   addExperience,
   updateExperience,
   deleteExperience,
-  addCoachPost,
-  deletePost,
   resetCoachState,
 } = coachSlice.actions;
 export default coachSlice.reducer;

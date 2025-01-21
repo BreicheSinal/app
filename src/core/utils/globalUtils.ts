@@ -4,25 +4,21 @@ import { createSelector } from "@reduxjs/toolkit";
 import { fetchUserDetails } from "./fetchDetails";
 
 import {
-  addAthletePost,
   setAthleteDetails,
   setAthleteError,
   setAthleteLoading,
 } from "../../redux/users/athleteSlice";
 import {
-  addCoachPost,
   setCoachDetails,
   setCoachError,
   setCoachLoading,
 } from "../../redux/users/coachSlice";
 import {
-  addClubPost,
   setClubDetails,
   setClubError,
   setClubLoading,
 } from "../../redux/users/clubSlice";
 import {
-  addFederationPost,
   setFederationDetails,
   setFederationError,
   setFederationLoading,
@@ -70,7 +66,6 @@ export interface AthleteDetails extends BaseUserDetails {
   weight: number | null;
   experiences: Experience[] | null;
   tryOuts: AthleteTryOut[] | null;
-  posts: Post[] | null;
   trophies: Trophy[] | null;
 }
 
@@ -80,7 +75,6 @@ export interface CoachDetails extends BaseUserDetails {
   specialty: string | null;
   experiences: Experience[] | null;
   certificates: Certificate[] | null;
-  posts: Post[] | null;
 }
 
 export interface ClubDetails extends BaseUserDetails {
@@ -89,14 +83,12 @@ export interface ClubDetails extends BaseUserDetails {
   location: string | null;
   founded_year: number | null;
   tryouts: Tryout[];
-  posts: Post[] | null;
 }
 
 export interface FederationDetails extends BaseUserDetails {
   location: string | null;
   country: string | null;
   founded_year: number | null;
-  posts: Post[] | null;
   trophies: Trophy[] | null;
 }
 
@@ -166,19 +158,16 @@ type SetterMap = {
     setDetails: (
       details: AthleteDetails
     ) => ReturnType<typeof setAthleteDetails>;
-    addPost: (post: Post) => ReturnType<typeof addAthletePost>;
   };
   Coach: {
     setLoading: typeof setCoachLoading;
     setError: typeof setCoachError;
     setDetails: (details: CoachDetails) => ReturnType<typeof setCoachDetails>;
-    addPost: (post: Post) => ReturnType<typeof addCoachPost>;
   };
   Club: {
     setLoading: typeof setClubLoading;
     setError: typeof setClubError;
     setDetails: (details: ClubDetails) => ReturnType<typeof setClubDetails>;
-    addPost: (post: Post) => ReturnType<typeof addClubPost>;
   };
   Federation: {
     setLoading: typeof setFederationLoading;
@@ -186,7 +175,6 @@ type SetterMap = {
     setDetails: (
       details: FederationDetails
     ) => ReturnType<typeof setFederationDetails>;
-    addPost: (post: Post) => ReturnType<typeof addFederationPost>;
   };
 };
 
@@ -198,25 +186,21 @@ export const createSetters = (
       setLoading: setAthleteLoading,
       setError: setAthleteError,
       setDetails: (details: AthleteDetails) => setAthleteDetails(details),
-      addPost: (post: Post) => addAthletePost(post),
     },
     Coach: {
       setLoading: setCoachLoading,
       setError: setCoachError,
       setDetails: (details: CoachDetails) => setCoachDetails(details),
-      addPost: (post: Post) => addCoachPost(post),
     },
     Club: {
       setLoading: setClubLoading,
       setError: setClubError,
       setDetails: (details: ClubDetails) => setClubDetails(details),
-      addPost: (post: Post) => addClubPost(post),
     },
     Federation: {
       setLoading: setFederationLoading,
       setError: setFederationError,
       setDetails: (details: FederationDetails) => setFederationDetails(details),
-      addPost: (post: Post) => addFederationPost(post),
     },
   };
 
