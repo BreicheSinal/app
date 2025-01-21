@@ -57,7 +57,7 @@ const updateTrophyStatus = async (trophyId: number, approved: boolean) => {
   }
 };
 
-const TrophyApprovalsCard: FC<ApprovalCardProps> = memo(({ width = 600 }) => {
+const TrophyApprovalsCard: FC<ApprovalCardProps> = memo(({ width = 615 }) => {
   const [pendingTrophies, setPendingTrophies] = useState<Trophy[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processingTrophies, setProcessingTrophies] = useState<{
@@ -110,9 +110,9 @@ const TrophyApprovalsCard: FC<ApprovalCardProps> = memo(({ width = 600 }) => {
   );
 
   return (
-    <Box className="Box flex align-start" sx={{ mr: 1.5 }}>
+    <Box className="Box flex align-start">
       <Card
-        className="Card secondary-bg-color"
+        className="secondary-bg-color"
         sx={{
           width: { xs: "90%", sm: width, md: width },
           minWidth: "300px",

@@ -83,9 +83,9 @@ export const BioCardView: FC<BioCardViewProps> = ({
   return (
     <Box className="Box flex align-start">
       <Box
-        className="Card secondary-bg-color"
+        className="secondary-bg-color"
         sx={{
-          width: { xs: "90%", sm: width, md: width },
+          width: { xs: "87%", sm: width, md: width },
           minWidth: "300px",
           maxWidth: "600px",
           height: "auto",
@@ -95,7 +95,6 @@ export const BioCardView: FC<BioCardViewProps> = ({
           pb: 2,
           pr: 2,
           pl: 2,
-          mr: 1.5,
         }}
       >
         <BioHeader />
