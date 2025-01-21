@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Box, Paper, Typography, Avatar } from "@mui/material";
-import { ChatMessage, ChatUser } from "../../../core/hooks/chatHook";
+import { ChatMessage, ChatUser } from "../../../core/hooks/useChat";
 import { formatTime } from "../../../core/utils/time";
 
 interface ChatMessageListProps {
